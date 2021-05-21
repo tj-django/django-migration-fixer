@@ -5,7 +5,7 @@ from django.utils.translation import gettext_lazy as _
 class TestModel(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     update_at = models.DateTimeField(auto_now=True)
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=500)
 
     class Meta:
         verbose_name = _("test model")

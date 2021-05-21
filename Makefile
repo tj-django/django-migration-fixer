@@ -105,6 +105,6 @@ install-deploy: clean
 
 migrations:  ## Run django make migrations without user input.
 	@echo "Generating migrations..."
-	@python manage.py makemigrations
+	@python manage.py makemigrations --fix
 
 .PHONY: clean clean-test clean-pyc clean-build docs help install-docs install-dev install install-lint install-test install-deploy migrations

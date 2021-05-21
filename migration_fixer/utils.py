@@ -43,3 +43,11 @@ def run_command(command: str, encoding="utf-8", timeout=DEFAULT_TIMEOUT) -> Tupl
     has_no_errors = exit_code == 0
 
     return has_no_errors, output, error
+
+
+def fix_numbered_migration(*, migration_path, next_, start_name, changed_files, replace_regex):
+    pass
+
+
+def fix_migration(*, migration_path, start_name, changed_files, replace_regex):
+    pass

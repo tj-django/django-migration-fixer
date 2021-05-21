@@ -1,4 +1,8 @@
 import os
+import pathlib
+import re
+from collections import defaultdict
+from itertools import count
 
 from django.apps import apps
 from django.conf import settings
@@ -9,7 +13,7 @@ from django.core.management.commands.makemigrations import Command as BaseComman
 from django.db import DEFAULT_DB_ALIAS, connections, router
 from django.db.migrations.loader import MigrationLoader
 
-from migration_fixer.utils import run_command
+from migration_fixer.utils import run_command, fix_migration, fix_numbered_migration
 
 
 class Command(BaseCommand):
@@ -32,6 +36,7 @@ class Command(BaseCommand):
         self.merge = options['merge']
         self.fix = options['fix']
         self.default_branch = options['default_branch']
+        self.conflict_names = defaultdict(set)
 
         if self.fix:
             git_setup, git_setup_output, git_setup_error = run_command('git status')
@@ -84,7 +89,8 @@ class Command(BaseCommand):
             try:
                 super().handle(*app_labels, **options)
             except CommandError as e:
-                if 'Conflicting migrations' in e:
+                [message] = e.args
+                if 'Conflicting migrations' in message:
                     # Load the current graph state. Pass in None for the connection so
                     # the loader doesn't try to resolve replaced migrations from DB.
                     loader = MigrationLoader(None, ignore_no_migrations=True)
@@ -107,12 +113,23 @@ class Command(BaseCommand):
                     # hard if there are any and they don't want to merge
                     conflicts = loader.detect_conflicts()
 
+                    app_labels = app_labels or [
+                        app_label
+                        for app_label in settings.INSTALLED_APPS
+                        if app_label in conflicts
+                    ]
+
                     for app_label in app_labels:
                         conflict = conflicts.get(app_label)
                         migration_module, _ = loader.migrations_module(app_label)
+                        migration_absolute_path = os.path.join(*migration_module.split("."))
+                        migration_path = pathlib.Path(os.path.join(settings.BASE_DIR, migration_absolute_path))
                         get_changed_files, get_changed_files_output, get_changed_files_error = run_command(
-                            f'git diff {self.default_branch} --name-only |'
-                            f' grep -E "(${migration_module.replace(".", os.pathsep)})"'
+                            f'git diff --name-only {self.default_branch}'
+                        )
+                        replace_regex = re.compile(
+                            "\('{app_name}',\s'(?P<conflict_migration>.*)'\),".format(app_name=app_label),
+                            re.I | re.M,
                         )
 
                         if not get_changed_files:
@@ -122,9 +139,57 @@ class Command(BaseCommand):
                                     f'"{get_changed_files_output or get_changed_files_error}"'
                                 )
                             )
+                        # Files different on the current branch
+                        changed_files = [
+                            fname for fname in get_changed_files_output.split("\n")
+                            if migration_absolute_path in fname
+                        ]
+                        # Local migration
+                        local_filenames = [
+                            os.path.splitext(os.path.basename(p))[0] for p in changed_files
+                        ]
+                        last_remote = [fname for fname in conflict if fname not in local_filenames]
 
-                        if conflict and not self.merge:
-                            print(get_changed_files_output)
+                        if not last_remote:
+                            raise CommandError(
+                                self.style.ERROR(f"Unable to determine the last migration on: {self.default_branch}")
+                            )
+
+                        last_remote_filename = last_remote[0]
+
+                        seed_split = last_remote_filename.split("_")
+
+                        if seed_split and len(seed_split) > 0: # 0537_auto_20200115_1632.py -> 0537
+                            seed = seed_split[0]
+                        else:
+                            raise CommandError(
+                                self.style.ERROR(f"Unable to determine the last migration name on: {self.default_branch}")
+                            )
+
+                        if str(seed).isdigit():
+                            next_ = next(count(int(seed) + 1))  # 0537 -> 538
+
+                            if not str(next_).startswith("0") and len(str(next_)) < 4:
+                                next_ = f"{next_}".rjust(4, '0')  # 0537
+                            else:
+                                next_ = str(next_)
+
+                            fix_numbered_migration(
+                                migration_path=migration_path,
+                                next_=next_,
+                                start_name=last_remote_filename,
+                                changed_files=changed_files,
+                                replace_regex=replace_regex
+                            )
+                        else:
+                            fix_migration(
+                                migration_path=migration_path,
+                                start_name=last_remote_filename,
+                                changed_files=changed_files,
+                                replace_regex=replace_regex
+                            )
+
+                        return self.handle(*app_labels, **options)
 
         else:
             return super(Command, self).handle(*app_labels, **options)

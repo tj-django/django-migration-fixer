@@ -6,6 +6,7 @@ class TestModel(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     update_at = models.DateTimeField(auto_now=True)
     name = models.CharField(max_length=500)
+    active = models.NullBooleanField()
 
     class Meta:
         verbose_name = _("test model")

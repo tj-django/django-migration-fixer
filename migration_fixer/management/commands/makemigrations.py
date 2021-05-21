@@ -125,7 +125,7 @@ class Command(BaseCommand):
                         migration_absolute_path = os.path.join(*migration_module.split("."))
                         migration_path = pathlib.Path(os.path.join(settings.BASE_DIR, migration_absolute_path))
                         get_changed_files, get_changed_files_output, get_changed_files_error = run_command(
-                            f'git diff --name-only {self.default_branch}'
+                            f'git diff --diff-filter=ACMUXTR --name-only {self.default_branch}'
                         )
                         replace_regex = re.compile(
                             "\('{app_name}',\s'(?P<conflict_migration>.*)'\),".format(app_name=app_label),

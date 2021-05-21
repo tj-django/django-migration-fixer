@@ -5,6 +5,10 @@ from typing import Tuple
 DEFAULT_TIMEOUT = 120
 
 
+def _clean_message(output: str) -> str:
+    return output.rstrip("\n\r")
+
+
 def _decode_message(output: bytes, encoding: str) -> str:
     return output.decode(encoding).strip()
 
@@ -31,6 +35,9 @@ def run_command(command: str, encoding="utf-8", timeout=DEFAULT_TIMEOUT) -> Tupl
 
     if isinstance(error, bytes):
         error = _decode_message(error, encoding)
+
+    output = _clean_message(output)
+    error = _clean_message(error)
 
     exit_code = process.poll()
     has_no_errors = exit_code == 0

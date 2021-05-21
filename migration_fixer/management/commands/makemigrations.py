@@ -44,10 +44,26 @@ class Command(BaseCommand):
                     )
                 )
 
-            # Pull the last commit
-            git_pull, git_pull_output, git_pull_error = run_command(
-                f'git fetch --depth=1 origin {self.default_branch}:{self.default_branch}',
+            get_current_branch, get_current_branch_output, get_current_branch_error = run_command(
+                'git branch --show-current'
             )
+
+            if not get_current_branch:
+                raise CommandError(
+                    self.style.ERROR(
+                        f'Unable to determine the current branch: '
+                        f'"{get_current_branch_output or get_current_branch_error}"'
+                    )
+                )
+
+            pull_command = (
+                'git pull'
+                if get_current_branch_output == self.default_branch
+                else f'git fetch --depth=1 origin {self.default_branch}:{self.default_branch}'
+            )
+
+            # Pull the last commit
+            git_pull, git_pull_output, git_pull_error = run_command(pull_command)
 
             if not git_pull:
                 raise CommandError(
@@ -62,17 +78,6 @@ class Command(BaseCommand):
                 raise CommandError(
                     self.style.ERROR(
                         f'Error determining head sha on ({self.default_branch}): "{head_sha_output or head_sha_error}"'
-                    )
-                )
-
-            get_current_branch, get_current_branch_output, get_current_branch_error = run_command(
-                'git branch | grep -e "^*" | cut -d' ' -f 2'
-            )
-
-            if not get_current_branch:
-                raise CommandError(
-                    self.style.ERROR(
-                        f'Unable to determine the current branch: "{get_current_branch_output or get_current_branch_error}"'
                     )
                 )
 

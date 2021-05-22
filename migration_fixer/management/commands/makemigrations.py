@@ -122,8 +122,6 @@ class Command(BaseCommand):
                         migration_absolute_path = os.path.join(*migration_module.split("."))
                         migration_path = pathlib.Path(os.path.join(settings.BASE_DIR, migration_absolute_path))
 
-                        module = import_module(migration_module)
-
                         with migration_path:
                             get_changed_files, get_changed_files_output, get_changed_files_error = run_command(
                                 f'git diff --diff-filter=ACMUXTR --name-only {self.default_branch}'

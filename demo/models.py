@@ -6,7 +6,7 @@ class TestModel(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     update_at = models.DateTimeField(auto_now=True)
     name = models.CharField(max_length=500)
-    age = models.PositiveIntegerField(default=20)
+    age = models.PositiveIntegerField(default=50)
     active = models.BooleanField(null=True)
 
     class Meta:

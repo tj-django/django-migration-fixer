@@ -1,6 +1,7 @@
 import os
+import os
 import pathlib
-from collections import defaultdict
+from importlib import import_module
 
 from django.apps import apps
 from django.conf import settings
@@ -34,61 +35,59 @@ class Command(BaseCommand):
         self.merge = options['merge']
         self.fix = options['fix']
         self.default_branch = options['default_branch']
-        self.conflict_names = defaultdict(set)
 
         if self.fix:
-            git_setup, git_setup_output, git_setup_error = run_command('git status')
-
-            if not git_setup:
-                raise CommandError(
-                    self.style.ERROR(
-                        f'VCS is not yet setup. '
-                        f'Please run (git init) \n"{git_setup_output or git_setup_error}"'
-                    )
-                )
-
-            get_current_branch, get_current_branch_output, get_current_branch_error = run_command(
-                'git branch --show-current'
-            )
-
-            if not get_current_branch:
-                raise CommandError(
-                    self.style.ERROR(
-                        f'Unable to determine the current branch: '
-                        f'"{get_current_branch_output or get_current_branch_error}"'
-                    )
-                )
-
-            pull_command = (
-                'git pull'
-                if get_current_branch_output == self.default_branch
-                else f'git fetch --depth=1 origin {self.default_branch}:{self.default_branch}'
-            )
-
-            # Pull the last commit
-            git_pull, git_pull_output, git_pull_error = run_command(pull_command)
-
-            if not git_pull:
-                raise CommandError(
-                    self.style.ERROR(
-                        f'Error pulling branch ({self.default_branch}) changes: "{git_pull_output or git_pull_error}"'
-                    )
-                )
-
-            head_sha, head_sha_output, head_sha_error = run_command(f'git rev-parse {self.default_branch}')
-
-            if not head_sha:
-                raise CommandError(
-                    self.style.ERROR(
-                        f'Error determining head sha on ({self.default_branch}): "{head_sha_output or head_sha_error}"'
-                    )
-                )
-
             try:
                 super().handle(*app_labels, **options)
             except CommandError as e:
                 [message] = e.args
                 if 'Conflicting migrations' in message:
+                    git_setup, git_setup_output, git_setup_error = run_command('git status')
+
+                    if not git_setup:
+                        raise CommandError(
+                            self.style.ERROR(
+                                f'VCS is not yet setup. '
+                                f'Please run (git init) \n"{git_setup_output or git_setup_error}"'
+                            )
+                        )
+
+                    get_current_branch, get_current_branch_output, get_current_branch_error = run_command(
+                        'git branch --show-current'
+                    )
+
+                    if not get_current_branch:
+                        raise CommandError(
+                            self.style.ERROR(
+                                f'Unable to determine the current branch: '
+                                f'"{get_current_branch_output or get_current_branch_error}"'
+                            )
+                        )
+
+                    pull_command = (
+                        'git pull'
+                        if get_current_branch_output == self.default_branch
+                        else f'git fetch --depth=1 origin {self.default_branch}:{self.default_branch}'
+                    )
+
+                    # Pull the last commit
+                    git_pull, git_pull_output, git_pull_error = run_command(pull_command)
+
+                    if not git_pull:
+                        raise CommandError(
+                            self.style.ERROR(
+                                f'Error pulling branch ({self.default_branch}) changes: "{git_pull_output or git_pull_error}"'
+                            )
+                        )
+
+                    head_sha, head_sha_output, head_sha_error = run_command(f'git rev-parse {self.default_branch}')
+
+                    if not head_sha:
+                        raise CommandError(
+                            self.style.ERROR(
+                                f'Error determining head sha on ({self.default_branch}): "{head_sha_output or head_sha_error}"'
+                            )
+                        )
                     # Load the current graph state. Pass in None for the connection so
                     # the loader doesn't try to resolve replaced migrations from DB.
                     loader = MigrationLoader(None, ignore_no_migrations=True)
@@ -122,61 +121,54 @@ class Command(BaseCommand):
                         migration_module, _ = loader.migrations_module(app_label)
                         migration_absolute_path = os.path.join(*migration_module.split("."))
                         migration_path = pathlib.Path(os.path.join(settings.BASE_DIR, migration_absolute_path))
-                        get_changed_files, get_changed_files_output, get_changed_files_error = run_command(
-                            f'git diff --diff-filter=ACMUXTR --name-only {self.default_branch}'
-                        )
 
-                        if not get_changed_files:
-                            raise CommandError(
-                                self.style.ERROR(
-                                    f'Error retrieving changed files on ({self.default_branch}): '
-                                    f'"{get_changed_files_output or get_changed_files_error}"'
+                        with migration_path:
+                            get_changed_files, get_changed_files_output, get_changed_files_error = run_command(
+                                f'git diff --diff-filter=ACMUXTR --name-only {self.default_branch}'
+                            )
+
+                            if not get_changed_files:
+                                raise CommandError(
+                                    self.style.ERROR(
+                                        f'Error retrieving changed files on ({self.default_branch}): '
+                                        f'"{get_changed_files_output or get_changed_files_error}"'
+                                    )
                                 )
-                            )
-                        # Files different on the current branch
-                        changed_files = [
-                            fname for fname in get_changed_files_output.split("\n")
-                            if migration_absolute_path in fname
-                        ]
-                        # Local migration
-                        local_filenames = [
-                            os.path.splitext(os.path.basename(p))[0] for p in changed_files
-                        ]
-                        last_remote = [fname for fname in conflict if fname not in local_filenames]
+                            # Files different on the current branch
+                            changed_files = [
+                                fname for fname in get_changed_files_output.split("\n")
+                                if migration_absolute_path in fname
+                            ]
+                            # Local migration
+                            local_filenames = [
+                                os.path.splitext(os.path.basename(p))[0] for p in changed_files
+                            ]
+                            last_remote = [fname for fname in conflict if fname not in local_filenames]
 
-                        if not last_remote:
-                            raise CommandError(
-                                self.style.ERROR(f"Unable to determine the last migration on: {self.default_branch}")
-                            )
+                            if not last_remote:
+                                raise CommandError(
+                                    self.style.ERROR(f"Unable to determine the last migration on: {self.default_branch}")
+                                )
 
-                        last_remote_filename = last_remote[0]
+                            last_remote_filename = last_remote[0]
 
-                        seed_split = last_remote_filename.split("_")
+                            seed_split = last_remote_filename.split("_")
 
-                        if seed_split and len(seed_split) > 0: # 0537_auto_20200115_1632.py -> 0537
-                            seed = seed_split[0]
-                        else:
-                            raise CommandError(
-                                self.style.ERROR(f"Unable to determine the last migration name on: {self.default_branch}")
-                            )
-
-                        if str(seed).isdigit():
-                            fix_numbered_migration(
-                                app_label=app_label,
-                                migration_path=migration_path,
-                                seed=int(seed),
-                                start_name=last_remote_filename,
-                                changed_files=changed_files,
-                            )
-                        else:
-                            fix_migration(
-                                app_label=app_label,
-                                migration_path=migration_path,
-                                start_name=last_remote_filename,
-                                changed_files=changed_files,
-                            )
-
-                        return self.handle(*app_labels, **options)
+                            if seed_split and len(seed_split) > 1 and str(seed_split[0]).isdigit():
+                                fix_numbered_migration(
+                                    app_label=app_label,
+                                    migration_path=migration_path,
+                                    seed=int(seed_split[0]),
+                                    start_name=last_remote_filename,
+                                    changed_files=changed_files,
+                                )
+                            else:
+                                fix_migration(
+                                    app_label=app_label,
+                                    migration_path=migration_path,
+                                    start_name=last_remote_filename,
+                                    changed_files=changed_files,
+                                )
 
         else:
             return super(Command, self).handle(*app_labels, **options)

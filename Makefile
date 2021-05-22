@@ -103,8 +103,12 @@ install-lint: clean
 install-deploy: clean
 	@pip install -e .'[deploy]'
 
-migrations:  ## Run django make migrations without user input.
+migrations:  ## Run django migrations without user input.
 	@echo "Generating migrations..."
-	@python manage.py makemigrations
+	@python manage.py makemigrations --fix --no-input
+
+migrate:  ## Run django migrate without user input
+	@echo "Applying migrations..."
+	@python manage.py migrate --no-input
 
 .PHONY: clean clean-test clean-pyc clean-build docs help install-docs install-dev install install-lint install-test install-deploy migrations

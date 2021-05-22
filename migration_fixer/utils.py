@@ -56,7 +56,6 @@ def fix_numbered_migration(
     seed: int,
     start_name: str,
     changed_files: List[str],
-    encoding="utf-8",
 ):
     seen = [start_name]
     counter = count(seed + 1)  # 0537 -> 538
@@ -112,7 +111,6 @@ def fix_migration(
     migration_path: Path,
     start_name: str,
     changed_files: List[str],
-    encoding="utf-8",
 ):
     seen = [start_name]
 

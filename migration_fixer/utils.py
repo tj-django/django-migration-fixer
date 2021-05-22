@@ -85,7 +85,7 @@ def fix_numbered_migration(
         )
 
         replace_regex = re.compile(
-            "\\('{app_label}',\\s(['\"])(?P<conflict_migration>.*)(['\"])\\),".format(app_label=app_label),
+            "\\((['\"]){app_label}(['\"]),\\s(['\"])(?P<conflict_migration>.*)(['\"])\\),".format(app_label=app_label),
             re.I | re.M,
         )
 
@@ -125,7 +125,7 @@ def fix_migration(
             )
 
             replace_regex = re.compile(
-                "\\('{app_label}',\\s(['\"])(?P<conflict_migration>.*)(['\"])\\),".format(app_label=app_label),
+                "\\((['\"]){app_label}(['\"]),\\s(['\"])(?P<conflict_migration>.*)(['\"])\\),".format(app_label=app_label),
                 re.I | re.M,
             )
 

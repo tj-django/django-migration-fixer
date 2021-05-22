@@ -7,7 +7,7 @@ class TestModel(models.Model):
     update_at = models.DateTimeField(auto_now=True)
     name = models.CharField(max_length=500)
     age = models.PositiveIntegerField(default=50)
-    active = models.NullBooleanField()
+    active = models.BooleanField(null=True)
 
     class Meta:
         verbose_name = _("test model")

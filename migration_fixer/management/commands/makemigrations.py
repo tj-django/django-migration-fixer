@@ -1,8 +1,6 @@
 import os
 import pathlib
-import re
 from collections import defaultdict
-from itertools import count
 
 from django.apps import apps
 from django.conf import settings
@@ -127,10 +125,6 @@ class Command(BaseCommand):
                         get_changed_files, get_changed_files_output, get_changed_files_error = run_command(
                             f'git diff --diff-filter=ACMUXTR --name-only {self.default_branch}'
                         )
-                        replace_regex = re.compile(
-                            "\('{app_name}',\s'(?P<conflict_migration>.*)'\),".format(app_name=app_label),
-                            re.I | re.M,
-                        )
 
                         if not get_changed_files:
                             raise CommandError(
@@ -167,26 +161,19 @@ class Command(BaseCommand):
                             )
 
                         if str(seed).isdigit():
-                            next_ = next(count(int(seed) + 1))  # 0537 -> 538
-
-                            if not str(next_).startswith("0") and len(str(next_)) < 4:
-                                next_ = f"{next_}".rjust(4, '0')  # 0537
-                            else:
-                                next_ = str(next_)
-
                             fix_numbered_migration(
+                                app_label=app_label,
                                 migration_path=migration_path,
-                                next_=next_,
+                                seed=int(seed),
                                 start_name=last_remote_filename,
                                 changed_files=changed_files,
-                                replace_regex=replace_regex
                             )
                         else:
                             fix_migration(
+                                app_label=app_label,
                                 migration_path=migration_path,
                                 start_name=last_remote_filename,
                                 changed_files=changed_files,
-                                replace_regex=replace_regex
                             )
 
                         return self.handle(*app_labels, **options)

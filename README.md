@@ -143,7 +143,7 @@ $ python manage.py makemigrations -b master --fix
 
 
 ## Features
-- Resolve migration dependencies
+- Resolves migration conflicts on both the default branch or feature/PR branches
 - Supports numbered migration files i.e (`0001_....py`)
 - Supports non-numbered migration files i.e (`custom_migration.py`)
 - Re-index all migrations using the last migration on the default branch i.e `main`

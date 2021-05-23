@@ -4,7 +4,7 @@
 
 ## Problem
 
-Maintain a linear migration history when conflicts as a result of changes made using different versions of the default branch occur.
+Maintain a linear migration history when conflicts occur as a result of changes made using different versions of the default branch.
 
 
 ### Example
@@ -105,7 +105,7 @@ migrations
 
 ```
 
-> NOTE: THis also works when there are conflicts on the default branch. i.e You can run `... makemigrations --fix` on the `main` branch. 
+> NOTE: This also works when there are conflicts detected on the default branch. i.e You can run `... makemigrations --fix` on the `main` branch. 
 
 ### Assumptions
 

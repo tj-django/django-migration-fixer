@@ -18,7 +18,7 @@ migrations
 ```
 
 
-Branch: `feature/test-a`
+**Branch:** `feature/test-a`
 
 ```text
 

@@ -82,7 +82,7 @@ To fix them run 'python manage.py makemigrations --merge'
 
 Using `django-migration-fixer` identifies changes between the default branch and your feature branch modifying the migrations to look like:
 
-Branch: `feature/test-b`
+**Branch:** `feature/test-b`
 
 ```text
 

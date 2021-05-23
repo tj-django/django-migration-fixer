@@ -105,6 +105,8 @@ migrations
 
 ```
 
+> NOTE: THis also works when there are conflicts on the default branch. i.e You can run `... makemigrations --fix` on the `main` branch. 
+
 ### Assumptions
 
 The final migration on the default branch would be used as the base for all subsequent migrations.

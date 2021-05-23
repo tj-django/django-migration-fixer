@@ -116,7 +116,7 @@ The final migration on the default branch would be used as the base for all subs
 ## Installation
 
 ```bash script
-$ pip install django-view-breadcrumbs
+$ pip install django-migration-fixer
 ```
 
 #### Add `migration_fixer` to your INSTALLED_APPS

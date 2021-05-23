@@ -11,9 +11,9 @@ Branch: `main`
 
 ```text
 
-|--- migrations
-       |---- 0001_initial.py
-       |---- 0002_auto_20210521_2328.py 
+migrations
+  ├── 0001_initial.py
+  ├── 0002_auto_20210521_2328.py 
 
 ```
 
@@ -22,10 +22,10 @@ Branch: `feature/test-a`
 
 ```text
 
-|--- migrations
-       |---- 0001_initial.py
-       |---- 0002_auto_20210521_2328.py
-       |---- 0003_auto_20210522_1128.py 
+migrations
+  ├── 0001_initial.py
+  ├── 0002_auto_20210521_2328.py
+  ├── 0003_auto_20210522_1128.py 
 
 ```
 
@@ -33,10 +33,10 @@ Branch: `feature/test-b`
 
 ```text
 
-|--- migrations
-       |---- 0001_initial.py
-       |---- 0002_auto_20210521_2328.py
-       |---- 0003_auto_20210522_1228.py 
+migrations
+  ├── 0001_initial.py
+  ├── 0002_auto_20210521_2328.py
+  ├── 0003_auto_20210522_1228.py 
 
 ```
 
@@ -50,10 +50,10 @@ Branch: `main`
 
 ```text
 
-|--- migrations
-       |---- 0001_initial.py
-       |---- 0002_auto_20210521_2328.py
-       |---- 0003_auto_20210522_1128.py 
+migrations
+  ├── 0001_initial.py
+  ├── 0002_auto_20210521_2328.py
+  ├── 0003_auto_20210522_1128.py 
 
 ```
 
@@ -61,11 +61,11 @@ Branch: `feature/test-b`
 
 ```text
 
-|--- migrations
-       |---- 0001_initial.py
-       |---- 0002_auto_20210521_2328.py
-       |---- 0003_auto_20210522_1128.py \___________________ Both dependent on 0002_auto_20210521_2328.py
-       |---- 0003_auto_20210522_1228.py /
+migrations
+  ├── 0001_initial.py
+  ├── 0002_auto_20210521_2328.py
+  ├── 0003_auto_20210522_1128.py \___________________ Both dependent on 0002_auto_20210521_2328.py
+  ├── 0003_auto_20210522_1228.py /
 
 ```
 
@@ -86,11 +86,11 @@ Branch: `feature/test-b`
 
 ```text
 
-|--- migrations
-       |---- 0001_initial.py
-       |---- 0002_auto_20210521_2328.py
-       |---- 0003_auto_20210522_1128.py
-       |---- 0004_auto_20210522_1228.py
+migrations
+  ├── 0001_initial.py
+  ├── 0002_auto_20210521_2328.py
+  ├── 0003_auto_20210522_1128.py
+  ├── 0004_auto_20210522_1228.py
 
 ```
 

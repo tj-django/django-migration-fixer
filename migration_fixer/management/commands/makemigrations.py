@@ -76,7 +76,8 @@ class Command(BaseCommand):
                     if not git_pull:
                         raise CommandError(
                             self.style.ERROR(
-                                f'Error pulling branch ({self.default_branch}) changes: "{git_pull_output or git_pull_error}"'
+                                f'Error pulling branch ({self.default_branch}) changes: '
+                                f'"{git_pull_output or git_pull_error}"'
                             )
                         )
 
@@ -85,7 +86,8 @@ class Command(BaseCommand):
                     if not head_sha:
                         raise CommandError(
                             self.style.ERROR(
-                                f'Error determining head sha on ({self.default_branch}): "{head_sha_output or head_sha_error}"'
+                                f'Error determining head sha on ({self.default_branch}): '
+                                f'"{head_sha_output or head_sha_error}"'
                             )
                         )
                     # Load the current graph state. Pass in None for the connection so
@@ -147,7 +149,9 @@ class Command(BaseCommand):
 
                             if not last_remote:
                                 raise CommandError(
-                                    self.style.ERROR(f"Unable to determine the last migration on: {self.default_branch}")
+                                    self.style.ERROR(
+                                        f"Unable to determine the last migration on: {self.default_branch}",
+                                    )
                                 )
 
                             last_remote_filename = last_remote[0]

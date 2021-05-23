@@ -105,12 +105,19 @@ migrations
 
 ```
 
-> NOTE: This also works when there are conflicts detected on the default branch. i.e You can run `... makemigrations --fix` on the `main` branch. 
+> NOTE: :warning:
+> * This also works when there are conflicts detected on the default branch. 
+> 
+>   i.e You can run `... makemigrations --fix` on the `main` branch.
+>  
+>   This relies on naively picking the first migration file
+>   e.g `(0003_auto_20210522_1128, 0003_auto_20210522_1228 in my_app)`
+>   would result in `0003_auto_20210522_1128.py` being picked as the 
+>   base migration which might not be accurate in every case and is not recommended.
 
 ### Assumptions
 
 The final migration on the default branch would be used as the base for all subsequent migrations.
-
 
 
 ## Installation
@@ -146,7 +153,8 @@ $ python manage.py makemigrations -b master --fix
 
 
 ## Features
-- Resolves migration conflicts on both the default branch or feature/PR branches
+- Resolves migration conflicts on feature/PR branches
+- Resolves migration conflicts on the default branch (NOT RECOMMENDED)
 - Supports numbered migration files i.e (`0001_....py`)
 - Supports non-numbered migration files i.e (`custom_migration.py`)
 - Re-index all migrations using the last migration on the default branch i.e `main`

@@ -107,7 +107,7 @@ $ python manage.py makemigrations --fix
 $ pip install django-view-breadcrumbs
 ```
 
-## Add `migration_fixer` to your INSTALLED_APPS
+#### Add `migration_fixer` to your INSTALLED_APPS
 
 ```python
 INSTALLED_APPS = [

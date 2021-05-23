@@ -11,7 +11,7 @@ class BaseCommandTestCase(with_metaclass(abc.ABCMeta, TestCase)):
     cmd_class = None
     cmd_name = None
     expected_output = None
-    base_kwargs = {'verbosity': 0}
+    base_kwargs = {"verbosity": 0}
 
     @classmethod
     @abc.abstractmethod
@@ -28,7 +28,7 @@ class BaseCommandTestCase(with_metaclass(abc.ABCMeta, TestCase)):
         if cmd is not None:
             out = StringIO()
 
-            kwargs['stdout'] = out
+            kwargs["stdout"] = out
             kwargs.update(cls.base_kwargs)
 
             call_command(cmd, *args, **kwargs)
@@ -37,5 +37,5 @@ class BaseCommandTestCase(with_metaclass(abc.ABCMeta, TestCase)):
 
             if cls.expected_output is not None and cls.expected_output not in output:
                 raise AssertionError(
-                    f'Expected: {repr(cls.expected_output)} != {repr(output)}',
+                    f"Expected: {repr(cls.expected_output)} != {repr(output)}",
                 )

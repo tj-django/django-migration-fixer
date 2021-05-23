@@ -82,9 +82,9 @@ setup(
     long_description_content_type="text/x-rst",
     include_package_data=False,
     keywords=[
-        "migration fixer", 
-        "django migrations", 
-        "migrations auto fix", 
+        "migration fixer",
+        "django migrations",
+        "migrations auto fix",
         "django migrations",
         "django migrations autofix",
     ],

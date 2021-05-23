@@ -7,23 +7,30 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='TestModel',
+            name="TestModel",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('update_at', models.DateTimeField(auto_now=True)),
-                ('name', models.CharField(max_length=500)),
-                ('age', models.PositiveIntegerField(default=50)),
-                ('active', models.BooleanField(null=True)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("update_at", models.DateTimeField(auto_now=True)),
+                ("name", models.CharField(max_length=500)),
+                ("age", models.PositiveIntegerField(default=50)),
+                ("active", models.BooleanField(null=True)),
             ],
             options={
-                'verbose_name': 'test model',
-                'verbose_name_plural': 'test models',
+                "verbose_name": "test model",
+                "verbose_name_plural": "test models",
             },
         ),
     ]

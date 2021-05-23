@@ -144,4 +144,4 @@ $ python manage.py makemigrations -b master --fix
 - Resolve migration dependencies
 - Supports numbered migration files i.e (`0001_....py`)
 - Supports non-numbered migration files i.e (`custom_migration.py`)
-- Re-numbers all migrations using the last migration on the default branch i.e `main`
+- Re-index all migrations using the last migration on the default branch i.e `main`

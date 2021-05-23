@@ -5,7 +5,7 @@
 Maintain a linear migration history when conflicts occur due to changes made with different versions of the default branch.
 
 
-#### Example
+### Example
 
 Branch: `main`
 

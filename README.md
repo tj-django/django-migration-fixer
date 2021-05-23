@@ -1,4 +1,4 @@
-![PyPI](https://img.shields.io/pypi/v/django-migration-fixer)
+![PyPI](https://img.shields.io/pypi/v/django-migration-fixer) ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/django-migration-fixer)
 
 # django-migration-fixer
 

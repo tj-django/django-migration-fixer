@@ -17,7 +17,9 @@ def _decode_message(output: bytes, encoding: str) -> str:
     return output.decode(encoding).strip()
 
 
-def run_command(command: str, encoding="utf-8", timeout=DEFAULT_TIMEOUT) -> Tuple[bool, str, str]:
+def run_command(
+    command: str, encoding="utf-8", timeout=DEFAULT_TIMEOUT
+) -> Tuple[bool, str, str]:
     process = subprocess.Popen(
         shlex.split(command),
         encoding=encoding,
@@ -31,8 +33,8 @@ def run_command(command: str, encoding="utf-8", timeout=DEFAULT_TIMEOUT) -> Tupl
         process.kill()
         output, error = process.communicate()
 
-    output = output or ''
-    error = error or ''
+    output = output or ""
+    error = error or ""
 
     if isinstance(output, bytes):
         output = _decode_message(output, encoding)
@@ -65,7 +67,7 @@ def fix_numbered_migration(
         next_ = next(counter)
 
         if len(str(next_)) < 4:
-            next_ = f"{next_}".rjust(4, '0')  # 0537
+            next_ = f"{next_}".rjust(4, "0")  # 0537
         else:
             next_ = str(next_)
 
@@ -85,7 +87,9 @@ def fix_numbered_migration(
         )
 
         replace_regex = re.compile(
-            "\\((['\"]){app_label}(['\"]),\\s(['\"])(?P<conflict_migration>.*)(['\"])\\),".format(app_label=app_label),
+            "\\((['\"]){app_label}(['\"]),\\s(['\"])(?P<conflict_migration>.*)(['\"])\\),".format(
+                app_label=app_label
+            ),
             re.I | re.M,
         )
 
@@ -102,7 +106,7 @@ def fix_numbered_migration(
         # Rename the migration file
         conflict_path.rename(conflict_new_path)
 
-        seen.append(new_conflict_name.strip('.py'))
+        seen.append(new_conflict_name.strip(".py"))
 
 
 def fix_migration(
@@ -125,7 +129,9 @@ def fix_migration(
             )
 
             replace_regex = re.compile(
-                "\\((['\"]){app_label}(['\"]),\\s(['\"])(?P<conflict_migration>.*)(['\"])\\),".format(app_label=app_label),
+                "\\((['\"]){app_label}(['\"]),\\s(['\"])(?P<conflict_migration>.*)(['\"])\\),".format(
+                    app_label=app_label
+                ),
                 re.I | re.M,
             )
 
@@ -139,4 +145,4 @@ def fix_migration(
             # Write to the conflict file.
             conflict_path.write_text(output)
 
-            seen.append(basename.strip('.py'))
+            seen.append(basename.strip(".py"))

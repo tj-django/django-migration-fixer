@@ -4,9 +4,9 @@
 
 from setuptools import setup, find_packages
 
-# with open("README.rst") as readme_file:
-#     readme = readme_file.read()
-#
+with open("README.md") as readme_file:
+    readme = readme_file.read()
+
 # with open("HISTORY.rst") as history_file:
 #     history = history_file.read()
 
@@ -78,13 +78,13 @@ setup(
     description="Resolve migration errors",
     install_requires=install_requires,
     license="MIT license",
-    # long_description=readme,
-    long_description_content_type="text/x-rst",
+    long_description=readme,
+    long_description_content_type="text/markdown",
     include_package_data=False,
     keywords=[
-        "migration fixer", 
-        "django migrations", 
-        "migrations auto fix", 
+        "migration fixer",
+        "django migrations",
+        "migrations auto fix",
         "django migrations",
         "django migrations autofix",
     ],

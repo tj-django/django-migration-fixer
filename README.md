@@ -1,3 +1,5 @@
+![PyPI](https://img.shields.io/pypi/v/django-migration-fixer)
+
 # django-migration-fixer
 
 ## Problem

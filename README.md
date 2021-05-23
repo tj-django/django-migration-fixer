@@ -1,6 +1,4 @@
 # django-migration-fixer
-Fix issues with django migration nodes on multiple branches
-
 
 ## Problem
 

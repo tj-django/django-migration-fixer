@@ -77,10 +77,12 @@ CommandError: Conflicting migrations detected; multiple leaf nodes in the migrat
 To fix them run 'python manage.py makemigrations --merge'
 ```
 
+Using the default `--merge` option creates a new migration file which might not be desired.
+
 
 ## Solution
 
-Using `django-migration-fixer` identifies changes between the default branch and your feature branch modifying the migrations to look like:
+Using `django-migration-fixer` identifies changes between the default branch `main` and the feature branch `feature/test-b` modifying the migrations maintaining  a linear history as shown below:
 
 **Branch:** `feature/test-b`
 

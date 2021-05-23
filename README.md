@@ -7,7 +7,7 @@ Maintain a linear migration history when conflicts occur due to changes made wit
 
 ### Example
 
-Branch: `main`
+**Branch:** `main`
 
 ```text
 
@@ -29,7 +29,7 @@ migrations
 
 ```
 
-Branch: `feature/test-b`
+**Branch:**`feature/test-b`
 
 ```text
 
@@ -46,7 +46,7 @@ Both `feature/test-a` and `feature/test-b` share the last migration on `main` (`
 
 Once `feature/test-a` is merged into `main` you run into the problem of resolving migrations on `feature/test-b` which was dependent on `0002_auto_20210521_2328.py`
 
-Branch: `main`
+**Branch:** `main`
 
 ```text
 
@@ -57,7 +57,7 @@ migrations
 
 ```
 
-Branch: `feature/test-b`
+**Branch:** `feature/test-b`
 
 ```text
 

@@ -185,8 +185,8 @@ class Command(BaseCommand):
                             if not last_remote:
                                 raise CommandError(
                                     self.style.ERROR(
-                                        f"Unable to determine the last migration on: '
-                                        f'{self.default_branch}",
+                                        f"Unable to determine the last migration on: "
+                                        f"{self.default_branch}",
                                     )
                                 )
 

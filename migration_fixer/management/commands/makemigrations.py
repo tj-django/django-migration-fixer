@@ -190,7 +190,8 @@ class Command(BaseCommand):
                                     )
                                 )
 
-                            last_remote_filename = last_remote[0]
+                            last_remote_filename, *rest = last_remote
+                            changed_files = changed_files or [f'{fname}.py' for fname in rest]
 
                             seed_split = last_remote_filename.split("_")
 

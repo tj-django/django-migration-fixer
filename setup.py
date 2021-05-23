@@ -104,6 +104,6 @@ setup(
     tests_require=test_requires,
     extras_require=extras_require,
     url="https://github.com/tj-django/django-migratiion-fixer",
-    version="0.0.1",
+    version="0.0.2",
     zip_safe=False,
 )

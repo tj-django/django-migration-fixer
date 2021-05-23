@@ -82,7 +82,7 @@ Using the default `--merge` option creates a new migration file which might not 
 
 ## Solution
 
-Using `django-migration-fixer` identifies changes between the default branch `main` and the feature branch `feature/test-b` modifying the migrations maintaining  a linear history as shown below:
+Using `django-migration-fixer` identifies changes between the default branch `main` and the feature branch `feature/test-b` modifying the migrations by maintaining  a linear dependency as shown below:
 
 **Branch:** `feature/test-b`
 
@@ -95,6 +95,11 @@ migrations
   ├── 0004_auto_20210522_1228.py
 
 ```
+
+### Assumptions
+
+The final migration on the default branch would be used as the base for all subsequent migrations.
+
 
 after running 
 
@@ -125,3 +130,18 @@ INSTALLED_APPS = [
 ```bash script
 $ python manage.py makemigrations --fix 
 ```
+
+### Specifying a different default branch name
+
+Use:
+
+```bash script
+$ python manage.py makemigrations -b master --fix 
+```
+
+
+## Features
+- Resolve migration dependencies
+- Supports numbered migration files i.e (`0001_....py`)
+- Supports non-numbered migration files i.e (`custom_migration.py`)
+- Re-numbers all migrations using the last migration on the default branch i.e `main`

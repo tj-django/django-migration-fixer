@@ -85,7 +85,7 @@ class Command(BaseCommand):
                     if not git_pull:
                         raise CommandError(
                             self.style.ERROR(
-                                f'Error pulling branch ({self.default_branch}) changes: '
+                                f"Error pulling branch ({self.default_branch}) changes: "
                                 f'"{git_pull_output or git_pull_error}"'
                             )
                         )
@@ -97,7 +97,7 @@ class Command(BaseCommand):
                     if not head_sha:
                         raise CommandError(
                             self.style.ERROR(
-                                f'Error determining head sha on ({self.default_branch}): '
+                                f"Error determining head sha on ({self.default_branch}): "
                                 f'"{head_sha_output or head_sha_error}"'
                             )
                         )

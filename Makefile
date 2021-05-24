@@ -82,8 +82,6 @@ dist: clean install-deploy  ## builds source and wheel package
 
 increase-version: guard-PART  ## Increase project version
 	@bump2version $(PART)
-	@git push
-	@git push --tags
 
 install-wheel:  ## Install wheel
 	@echo "Installing wheel..."

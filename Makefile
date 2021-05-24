@@ -87,7 +87,7 @@ increase-version: guard-PART  ## Increase project version
 
 install-wheel:  ## Install wheel
 	@echo "Installing wheel..."
-	@$(PYTHON_PIP) install wheel==0.36.2
+	@$(PYTHON_PIP) install wheel
 
 install: clean requirements.txt install-wheel  ## install the package to the active Python's site-packages
 	@pip install -r requirements.txt

@@ -108,7 +108,7 @@ $ python manage.py makemigrations --fix
 │   ├── 0001_initial.py
 │   ├── 0002_auto_20210521_2328.py
 │   ├── 0003_auto_20210522_1128.py
-│   ├── 0004_auto_20210522_1228.py
+│   ├── 0004_auto_20210522_1228.py  # Renames: '0003_auto_20210522_1228.py' → '0004_auto_20210522_1228.py'
 
 ```
 
@@ -123,7 +123,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('app', '0003_auto_20210522_1128'),  # Replaced '0002_auto_20210521_2328' ----> '0003_auto_20210522_1128'
+        ('app', '0003_auto_20210522_1128'),  # Replaced '0002_auto_20210521_2328' → '0003_auto_20210522_1128'
     ]
 
     operations = [

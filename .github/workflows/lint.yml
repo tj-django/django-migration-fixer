@@ -9,6 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     if: github.actor != 'dependabot[bot]' && github.actor != 'dependabot'
     strategy:
+      fail-fast: true
       matrix:
         python-version: [3.6, 3.7, 3.8, 3.9, '3.10.0-beta.1']
 

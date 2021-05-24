@@ -94,7 +94,6 @@ Run
 $ python manage.py makemigrations --fix
 ```
 
-
 **Branch:** `feature/test-b`
 
 ```text
@@ -118,7 +117,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('demo', '0003_auto_20210522_1128'),  ## Replaced --- ('demo', '0002_auto_20210521_2328'), ---
+        ('demo', '0003_auto_20210522_1128'),  # Replaced ----('demo', '0002_auto_20210521_2328'), ----> ('demo', '0003_auto_20210522_1128'),
     ]
 
     operations = [

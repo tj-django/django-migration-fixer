@@ -136,7 +136,7 @@ class Migration(migrations.Migration):
 > NOTE: :warning:
 > * This also works when there are conflicts detected on the default branch. 
 > 
->   i.e You can run `... makemigrations --fix` on the `main` branch.
+>   i.e You can run `python manage.py makemigrations --fix` on the `main` branch.
 >  
 >   This relies on naively picking the first migration file
 >   e.g `(0003_auto_20210522_1128, 0003_auto_20210522_1228 in app)`

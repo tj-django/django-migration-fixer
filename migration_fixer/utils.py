@@ -54,6 +54,28 @@ def run_command(
     return has_no_errors, output, error
 
 
+def _update_migration(conflict_path: Path, app_label: str, seen: List[str]) -> None:
+    replacement = "('{app_label}', '{prev_migration}'),".format(
+        app_label=app_label,
+        prev_migration=seen[-1],
+    )
+
+    replace_regex = re.compile(
+        MIGRATION_REGEX.format(app_label=app_label),
+        re.I | re.M,
+    )
+
+    # Update the migration
+    output = re.sub(
+        replace_regex,
+        replacement,
+        conflict_path.read_text(),
+    )
+
+    # Write to the conflict file.
+    conflict_path.write_text(output)
+
+
 def fix_numbered_migration(
     *,
     app_label: str,
@@ -83,31 +105,14 @@ def fix_numbered_migration(
         new_conflict_name = "_".join(conflict_parts)
 
         conflict_new_path = conflict_path.with_name(new_conflict_name)
+        
+        with conflict_path:
+            _update_migration(conflict_path, app_label, seen)
 
-        replacement = "('{app_label}', '{prev_migration}'),".format(
-            app_label=app_label,
-            prev_migration=seen[-1],
-        )
+            # Rename the migration file
+            conflict_path.rename(conflict_new_path)
 
-        replace_regex = re.compile(
-            MIGRATION_REGEX.format(app_label=app_label),
-            re.I | re.M,
-        )
-
-        # Update the migration
-        output = re.sub(
-            replace_regex,
-            replacement,
-            conflict_path.read_text(),
-        )
-
-        # Write to the conflict file.
-        conflict_path.write_text(output)
-
-        # Rename the migration file
-        conflict_path.rename(conflict_new_path)
-
-        seen.append(new_conflict_name.strip(".py"))
+            seen.append(new_conflict_name.strip(".py"))
 
 
 def fix_migration(
@@ -124,24 +129,6 @@ def fix_migration(
         conflict_path = migration_path / basename
 
         with conflict_path:
-            replacement = "('{app_label}', '{prev_migration}'),".format(
-                app_label=app_label,
-                prev_migration=seen[-1],
-            )
-
-            replace_regex = re.compile(
-                MIGRATION_REGEX.format(app_label=app_label),
-                re.I | re.M,
-            )
-
-            # Update the migration
-            output = re.sub(
-                replace_regex,
-                replacement,
-                conflict_path.read_text(),
-            )
-
-            # Write to the conflict file.
-            conflict_path.write_text(output)
+            _update_migration(conflict_path, app_label, seen)
 
             seen.append(basename.strip(".py"))

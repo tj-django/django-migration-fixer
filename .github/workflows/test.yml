@@ -34,15 +34,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-${{ matrix.platform }}-pip-${{ matrix.python-version }}-
 
-      - uses: actions/cache@v2.1.5
-        id: pytest-cache
-        with:
-          path: |
-            .pytest_cache
-          key: ${{ runner.os }}-pytest-${{ matrix.python-version }}-${{ hashFiles('requirements.txt') }}-{{ hashFiles('pytest.ini') }}
-          restore-keys: |
-            ${{ runner.os }}-pytest-${{ matrix.python-version }}-
-
       - name: Install dependencies
         run: |
           make install-test

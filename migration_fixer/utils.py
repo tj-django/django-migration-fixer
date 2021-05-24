@@ -90,7 +90,7 @@ def fix_numbered_migration(
         )
 
         replace_regex = re.compile(
-            MIGRATION_REGEX.format(app_label=app_labe),
+            MIGRATION_REGEX.format(app_label=app_label),
             re.I | re.M,
         )
 

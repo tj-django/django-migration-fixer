@@ -9,6 +9,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Get branch names
+        id: branch-name
+        uses: tj-actions/branch-names@v4.1
 
       - name: Run semver-diff
         id: semver-diff
@@ -34,6 +40,8 @@ jobs:
       - name: bumpversion
         run: |
           make increase-version PART="${{ steps.semver-diff.outputs.release_type }}"
+        env:
+          CURRENT_BRANCH: ${{ steps.branch-name.outputs.tag }}
 
       - name: Build and publish
         run: make release

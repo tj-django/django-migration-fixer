@@ -79,8 +79,11 @@ dist: clean install-deploy  ## builds source and wheel package
 	@pip install twine==3.4.1
 	@python setup.py sdist bdist_wheel
 
-increase-version: guard-PART  ## Increase project version
+increase-version: guard-PART guard-CURRENT_BRANCH  ## Increase project version
+	@git checkout main
 	@bump2version $(PART)
+	@git checkout $(CURRENT_BRANCH)
+	@git merge main
 
 install-wheel:  ## Install wheel
 	@echo "Installing wheel..."

@@ -1,5 +1,5 @@
 [run]
-source = model_clone
+source = migration_fixer
 omit =
     migration_fixer/test*,
     migration_fixer/apps*

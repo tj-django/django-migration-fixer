@@ -28,7 +28,7 @@ jobs:
       - name: Install dependencies
         run: |
           make install-dev
- 
+
       - name: Fix migrations
         run: |
           make migrations

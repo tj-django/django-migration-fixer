@@ -34,13 +34,13 @@ jobs:
           make migrations
 
       - name: Run Find changed files.
-        id: changed_files
+        id: verify-changed-files
         uses: tj-actions/verify-changed-files@v6.1
         with:
           files: demo
 
       - name: Commit oustanding changes
-        if: steps.changed_files.outputs.files_changed == 'true'
+        if: steps.verify-changed-files.outputs.files_changed == 'true'
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
@@ -48,7 +48,7 @@ jobs:
           git commit -m "Fixed migration files."
 
       - name: Push changes
-        if: steps.changed_files.outputs.files_changed == 'true'
+        if: steps.verify-changed-files.outputs.files_changed == 'true'
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.PAT_TOKEN }}

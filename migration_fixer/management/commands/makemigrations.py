@@ -15,13 +15,11 @@ from migration_fixer.utils import run_command, fix_migration, fix_numbered_migra
 
 
 class Command(BaseCommand):
-    help = "Creates new migration(s) for apps."
-
     def add_arguments(self, parser):
         parser.add_argument(
             "--fix",
             action="store_true",
-            help="Fix django migrations using a diff of the default branch.",
+            help="Fix migrations conflicts.",
         )
         parser.add_argument(
             "-b",

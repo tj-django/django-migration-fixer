@@ -139,7 +139,7 @@ class Migration(migrations.Migration):
 >   i.e You can run `... makemigrations --fix` on the `main` branch.
 >  
 >   This relies on naively picking the first migration file
->   e.g `(0003_auto_20210522_1128, 0003_auto_20210522_1228 in my_app)`
+>   e.g `(0003_auto_20210522_1128, 0003_auto_20210522_1228 in app)`
 >   would result in `0003_auto_20210522_1128.py` being picked as the 
 >   base migration which might not be accurate in every case and is not recommended.
 

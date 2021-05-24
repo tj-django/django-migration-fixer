@@ -15,8 +15,6 @@ deploy_requires = [
     "readme_renderer[md]",
     "changes",
     "git-changelog",
-    "twine",
-    "wheel",
 ]
 
 docs_requires = [

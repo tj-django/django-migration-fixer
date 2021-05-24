@@ -76,9 +76,8 @@ release: dist  ## package and upload a release
 	@twine upload dist/*
 
 dist: clean install-deploy  ## builds source and wheel package
-	@python setup.py sdist
-	@python setup.py bdist_wheel
-	@ls -l dist
+	@pip install twine==3.4.1
+	@python setup.py sdist bdist_wheel
 
 increase-version: guard-PART  ## Increase project version
 	@bump2version $(PART)

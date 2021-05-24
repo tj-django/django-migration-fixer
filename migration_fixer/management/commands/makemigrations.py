@@ -51,7 +51,7 @@ class Command(BaseCommand):
                         raise CommandError(
                             self.style.ERROR(
                                 f"VCS is not yet setup. "
-                                "Please run (git init) " 
+                                "Please run (git init) "
                                 f'\n"{git_setup_output or git_setup_error}"'
                             )
                         )

@@ -8,23 +8,40 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+      - uses: actions/checkout@v2
 
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: '3.6'
+      - name: Run semver-diff
+        id: semver-diff
+        uses: tj-actions/semver-diff@v1.1.3
 
-    - name: Install dependencies
-      run: make install-deploy
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.6.x'
 
-    - name: Setup git creds
-      run: |
-        git config --local user.email "action@github.com"
-        git config --local user.name "GitHub Action"
+      - name: Upgrade pip
+        run: |
+          pip install -U pip
 
-    - name: Build and publish
-      run: make release
-      env:
-        TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
-        TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
+      - name: Install dependencies
+        run: make install-deploy
+
+      - name: bumpversion
+        run: |
+          make increase-version PART="${{ steps.semver-diff.outputs.release_type }}"
+
+      - name: Build and publish
+        run: make release
+        env:
+          TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
+          TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v3
+        with:
+          base: "main"
+          title: "Upgraded ${{ steps.semver-diff.outputs.old_version }} → ${{ steps.semver-diff.outputs.new_version }}"
+          branch: "chore/upgrade-${{ steps.semver-diff.outputs.old_version }}-to-${{ steps.semver-diff.outputs.new_version }}"
+          commit-message: "Upgraded from ${{ steps.semver-diff.outputs.old_version }} → ${{ steps.semver-diff.outputs.new_version }}"
+          body: "View [CHANGES](https://github.com/${{ github.repository }}/compare/${{ steps.semver-diff.outputs.old_version }}...${{ steps.semver-diff.outputs.new_version }})"
+          token: ${{ secrets.PAT_TOKEN }}

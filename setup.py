@@ -93,7 +93,10 @@ setup(
     keywords=[
         "migration fixer",
         "django migrations",
+        "django migrations fixer",
         "migrations auto fix",
+        "migrations fix",
+        "migrations conflict resolver",
         "django migrations",
         "django migrations autofix",
     ],
@@ -103,7 +106,11 @@ setup(
     test_suite="tests",
     tests_require=test_requires,
     extras_require=extras_require,
-    url="https://github.com/tj-django/django-migratiion-fixer",
+    url="https://github.com/tj-django/django-migration-fixer",
+    project_urls={
+        "Source": "https://github.com/tj-django/django-migration-fixer",
+        "Documentation": "https://github.com/tj-django/django-migration-fixer",
+    },
     version="0.0.2",
     zip_safe=False,
 )

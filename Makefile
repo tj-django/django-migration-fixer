@@ -85,22 +85,26 @@ increase-version: guard-PART  ## Increase project version
 	@git push
 	@git push --tags
 
-install: clean requirements.txt  ## install the package to the active Python's site-packages
+install-wheel:  ## Install wheel
+	@echo "Installing wheel..."
+	@$(PYTHON_PIP) install wheel
+
+install: clean requirements.txt install-wheel  ## install the package to the active Python's site-packages
 	@pip install -r requirements.txt
 
-install-dev: clean requirements_dev.txt  ## Install local dev packages
+install-dev: clean requirements_dev.txt install-wheel  ## Install local dev packages
 	@pip install -e .'[development]' -r requirements_dev.txt
 
-install-docs: clean
+install-docs: clean install-wheel
 	@pip install -e .'[docs]'
 
-install-test: clean
+install-test: clean install-wheel
 	@pip install -e .'[test]'
 
-install-lint: clean
+install-lint: clean install-wheel
 	@pip install -e .'[lint]'
 
-install-deploy: clean
+install-deploy: clean install-wheel
 	@pip install -e .'[deploy]'
 
 migrations:  ## Run django migrations without user input.
@@ -111,4 +115,4 @@ migrate:  ## Run django migrate without user input
 	@echo "Applying migrations..."
 	@python manage.py migrate --no-input
 
-.PHONY: clean clean-test clean-pyc clean-build docs help install-docs install-dev install install-lint install-test install-deploy migrations
+.PHONY: clean clean-test clean-pyc clean-build docs help install-wheel install-docs install-dev install install-lint install-test install-deploy migrations

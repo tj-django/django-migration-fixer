@@ -105,7 +105,7 @@ def fix_numbered_migration(
         new_conflict_name = "_".join(conflict_parts)
 
         conflict_new_path = conflict_path.with_name(new_conflict_name)
-        
+
         with conflict_path:
             _update_migration(conflict_path, app_label, seen)
 

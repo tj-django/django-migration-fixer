@@ -51,7 +51,8 @@ class Command(BaseCommand):
                         raise CommandError(
                             self.style.ERROR(
                                 f"VCS is not yet setup. "
-                                f'Please run (git init) \n"{git_setup_output or git_setup_error}"'
+                                "Please run (git init) " 
+                                f'\n"{git_setup_output or git_setup_error}"'
                             )
                         )
 
@@ -72,7 +73,10 @@ class Command(BaseCommand):
                     pull_command = (
                         "git pull"
                         if get_current_branch_output == self.default_branch
-                        else f"git fetch --depth=1 origin {self.default_branch}:{self.default_branch}"
+                        else (
+                            "git fetch --depth=1 origin "
+                            f"{self.default_branch}:{self.default_branch}"
+                        )
                     )
 
                     # Pull the last commit
@@ -159,7 +163,8 @@ class Command(BaseCommand):
                             if not get_changed_files:
                                 raise CommandError(
                                     self.style.ERROR(
-                                        f"Error retrieving changed files on ({self.default_branch}): "
+                                        "Error retrieving changed files on "
+                                        f"({self.default_branch}): "
                                         f'"{get_changed_files_output or get_changed_files_error}"'
                                     )
                                 )

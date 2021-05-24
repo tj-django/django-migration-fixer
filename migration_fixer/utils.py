@@ -7,6 +7,9 @@ from pathlib import Path
 from typing import Tuple, List
 
 DEFAULT_TIMEOUT = 120
+MIGRATION_REGEX = (
+    "\\((['\"]){app_label}(['\"]),\\s(['\"])(?P<conflict_migration>.*)(['\"])\\),"
+)
 
 
 def _clean_message(output: str) -> str:
@@ -87,9 +90,7 @@ def fix_numbered_migration(
         )
 
         replace_regex = re.compile(
-            "\\((['\"]){app_label}(['\"]),\\s(['\"])(?P<conflict_migration>.*)(['\"])\\),".format(
-                app_label=app_label
-            ),
+            MIGRATION_REGEX.format(app_label=app_label),
             re.I | re.M,
         )
 
@@ -129,9 +130,7 @@ def fix_migration(
             )
 
             replace_regex = re.compile(
-                "\\((['\"]){app_label}(['\"]),\\s(['\"])(?P<conflict_migration>.*)(['\"])\\),".format(
-                    app_label=app_label
-                ),
+                MIGRATION_REGEX.format(app_label=app_label),
                 re.I | re.M,
             )
 

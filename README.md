@@ -73,7 +73,6 @@ Once `feature/test-a` is merged into `main` you run into the problem of resolvin
 │   ├── migrations
 │   ├── 0001_initial.py
 │   ├── 0002_auto_20210521_2328.py
-│   ├── 0002_auto_20210521_2328.py
 │   ├── 0003_auto_20210522_1128.py \___________________ Both dependent on 0002_auto_20210521_2328.py
 │   ├── 0003_auto_20210522_1228.py /
 

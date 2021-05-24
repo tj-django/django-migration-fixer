@@ -1,0 +1,55 @@
+name: Fix migrations
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  fix-migrations:
+    runs-on: ubuntu-latest
+    if: github.actor != 'dependabot[bot]' && github.actor != 'dependabot'
+
+    steps:
+      - uses: actions/checkout@v2.3.4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2.2.2
+        with:
+          python-version: '3.6.x'
+
+      - uses: actions/cache@v2.1.5
+        id: pip-cache
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ matrix.python-version }}-${{ hashFiles('requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-${{ matrix.python-version }}-
+
+      - name: Install dependencies
+        run: |
+          make install-dev
+ 
+      - name: Fix migrations
+        run: |
+          make migrations
+
+      - name: Run Find changed files.
+        id: changed_files
+        uses: tj-actions/verify-changed-files@v6.1
+        with:
+          files: demo
+
+      - name: Commit oustanding changes
+        if: steps.changed_files.outputs.files_changed == 'true'
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add demo
+          git commit -m "Fixed migration files."
+
+      - name: Push changes
+        if: steps.changed_files.outputs.files_changed == 'true'
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.PAT_TOKEN }}
+          branch: ${{ github.head_ref }}

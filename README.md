@@ -1,4 +1,4 @@
-![PyPI](https://img.shields.io/pypi/v/django-migration-fixer) ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/django-migration-fixer)
+[![PyPI](https://img.shields.io/pypi/v/django-migration-fixer)](https://pypi.python.org/pypi/django-migration-fixer) [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/django-migration-fixer)](https://pypi.python.org/pypi/django-migration-fixer)
 
 # django-migration-fixer
 
@@ -72,14 +72,14 @@ migrations
 ```
 
 
-Error running [`makemigrations`](https://docs.djangoproject.com/en/3.2/ref/django-admin/#django-admin-makemigrations)
+Running [`makemigrations`](https://docs.djangoproject.com/en/3.2/ref/django-admin/#django-admin-makemigrations) fails with the following error
 
 ```
 CommandError: Conflicting migrations detected; multiple leaf nodes in the migration graph: (0003_auto_20210522_1128, 0003_auto_20210522_1228 in my_app).
 To fix them run 'python manage.py makemigrations --merge'
 ```
 
-Using the default `--merge` option creates a new migration file which might not be desired.
+Using the `--merge` option creates a new migration file which might not be desired.
 
 
 ## Solution

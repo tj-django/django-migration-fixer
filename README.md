@@ -79,7 +79,7 @@ CommandError: Conflicting migrations detected; multiple leaf nodes in the migrat
 To fix them run 'python manage.py makemigrations --merge'
 ```
 
-Using the default `--merge` option creates a new migration file which might not be desired.
+Using the `--merge` option creates a new migration file which might not be desired.
 
 
 ## Solution

@@ -133,11 +133,11 @@ class Command(BaseCommand):
                     # hard if there are any and they don't want to merge
                     conflicts = loader.detect_conflicts()
 
-                    app_labels = app_labels or [
+                    app_labels = app_labels or tuple(
                         app_label
                         for app_label in settings.INSTALLED_APPS
                         if app_label in conflicts
-                    ]
+                    )
 
                     for app_label in app_labels:
                         conflict = conflicts.get(app_label)

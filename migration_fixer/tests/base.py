@@ -1,5 +1,6 @@
 import abc
 from io import StringIO
+from typing import Type
 
 from six import with_metaclass
 
@@ -8,9 +9,9 @@ from django.test import TestCase
 
 
 class BaseCommandTestCase(with_metaclass(abc.ABCMeta, TestCase)):
-    cmd_class = None
+    cmd_class: Type[BaseCommand]
     cmd_name = None
-    expected_output = None
+    expected_output: str
     base_kwargs = {"verbosity": 0}
 
     @classmethod

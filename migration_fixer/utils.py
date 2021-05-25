@@ -21,7 +21,7 @@ def _decode_message(output: bytes, encoding: str) -> str:
 
 
 def run_command(
-    command: str, encoding="utf-8", timeout=DEFAULT_TIMEOUT
+    command: str, encoding: str = "utf-8", timeout: int = DEFAULT_TIMEOUT
 ) -> Tuple[bool, str, str]:
     command = shlex.split(command)
     process = subprocess.Popen(

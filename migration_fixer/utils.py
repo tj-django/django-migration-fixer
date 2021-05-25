@@ -21,10 +21,11 @@ def _decode_message(output: bytes, encoding: str) -> str:
 
 
 def run_command(
-    command: str, encoding="utf-8", timeout=DEFAULT_TIMEOUT
+    command: str, encoding: str = "utf-8", timeout: int = DEFAULT_TIMEOUT
 ) -> Tuple[bool, str, str]:
+    command = shlex.split(command)
     process = subprocess.Popen(
-        shlex.split(command),
+        command,
         encoding=encoding,
         stdout=subprocess.PIPE,
         stderr=subprocess.STDOUT,
@@ -89,12 +90,10 @@ def fix_numbered_migration(
     sorted_changed_files = sorted(changed_files, key=lambda p: p.split("_")[0])
 
     for path in sorted_changed_files:
-        next_ = next(counter)
+        next_ = str(next(counter))
 
-        if len(str(next_)) < 4:
+        if len(next_) < 4:
             next_ = f"{next_}".rjust(4, "0")  # 0537
-        else:
-            next_ = str(next_)
 
         basename = os.path.basename(path)
         conflict_path = migration_path / basename

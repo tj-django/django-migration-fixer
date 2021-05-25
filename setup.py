@@ -27,8 +27,6 @@ install_requires = [
     "djangorestframework",
 ]
 
-setup_requires = ["pytest-runner"]
-
 test_requires = [
     "pytest>=3",
     "tox",
@@ -100,7 +98,6 @@ setup(
     ],
     name="django-migration-fixer",
     packages=find_packages(include=["migration_fixer", "migration_fixer.*"]),
-    setup_requires=setup_requires,
     test_suite="tests",
     tests_require=test_requires,
     extras_require=extras_require,

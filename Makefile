@@ -49,7 +49,7 @@ clean-test:  ## remove test and coverage artifacts
 lint:  ## check style with flake8
 	@flake8 restricted_fields tests
 
-tox: install-test migrations  ## Run tox test
+tox: install-test  ## Run tox test
 	@tox
 
 coverage:  ## check code coverage quickly with the default Python

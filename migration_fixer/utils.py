@@ -28,7 +28,6 @@ def run_command(
         encoding=encoding,
         stdout=subprocess.PIPE,
         stderr=subprocess.STDOUT,
-        shell=False,
     )
 
     try:

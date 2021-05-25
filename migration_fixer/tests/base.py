@@ -1,6 +1,6 @@
 import abc
 from io import StringIO
-from typing import Type, Union
+from typing import Type
 
 from six import with_metaclass
 

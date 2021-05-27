@@ -104,7 +104,7 @@ setup(
     url="https://github.com/tj-django/django-migration-fixer",
     project_urls={
         "Source": "https://github.com/tj-django/django-migration-fixer",
-        "Documentation": "https://github.com/tj-django/django-migration-fixer",
+        "Documentation": "https://tj-django.github.io/django-migration-fixer",
     },
     version="0.0.5",
     zip_safe=False,

@@ -18,8 +18,8 @@ deploy_requires = [
 ]
 
 docs_requires = [
-    "watchdog[watchmedo]",
-    "Sphinx",
+    "mkdocs",
+    "portray",
 ]
 
 install_requires = [

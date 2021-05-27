@@ -58,13 +58,8 @@ coverage:  ## check code coverage quickly with the default Python
 	@coverage html
 	@$(BROWSER) htmlcov/index.html
 
-docs: install-docs  ## generate Sphinx HTML documentation, including API docs
-	@rm -f docs/django_migration_fixer.rst
-	@rm -f docs/modules.rst
-	@sphinx-apidoc -o docs/ restricted_fields
-	@$(MAKE) -C docs clean
-	@$(MAKE) -C docs html
-	@$(BROWSER) docs/_build/html/index.html
+docs: install-docs
+	@portray
 
 servedocs: docs  ## compile the docs watching for changes
 	@watchmedo shell-command -p '*.rst' -c '$(MAKE) -C docs html' -R -D restricted_fields docs

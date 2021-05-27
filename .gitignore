@@ -112,3 +112,5 @@ ENV/
 *.db
 
 *.sqlite3
+
+site/

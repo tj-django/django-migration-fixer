@@ -1,3 +1,7 @@
+"""
+Create a new django migration with support for fixing conflicts.
+"""
+
 import os
 import pathlib
 

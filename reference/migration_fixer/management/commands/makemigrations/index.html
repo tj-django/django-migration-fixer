@@ -1,0 +1,2412 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Fix django migrations">
+      
+      
+      
+        <meta name="author" content="Tonye Jack">
+      
+      
+      <link rel="icon" href="../../../../../docs/images/logo.png">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-7.1.5">
+    
+    
+      
+        <title>Makemigrations - django-migration-fixer</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../../assets/stylesheets/main.bde7dde4.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../../../assets/stylesheets/palette.ef6f36e2.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#2094f3">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>:root{--md-text-font-family:"Roboto";--md-code-font-family:"Roboto Mono"}</style>
+      
+    
+    
+    
+    
+      
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="blue" data-md-color-accent="white">
+  
+    
+    <script>function __prefix(e){return new URL("../../../../..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#module-migration_fixermanagementcommandsmakemigrations" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../../.." title="django-migration-fixer" class="md-header__button md-logo" aria-label="django-migration-fixer" data-md-component="logo">
+      
+  <img src="../../../../../docs/images/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            django-migration-fixer
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Makemigrations
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        
+<a href="https://github.com/tj-django/django_migration_fixer/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 512"><path d="M186.1 328.7c0 20.9-10.9 55.1-36.7 55.1s-36.7-34.2-36.7-55.1 10.9-55.1 36.7-55.1 36.7 34.2 36.7 55.1zM480 278.2c0 31.9-3.2 65.7-17.5 95-37.9 76.6-142.1 74.8-216.7 74.8-75.8 0-186.2 2.7-225.6-74.8-14.6-29-20.2-63.1-20.2-95 0-41.9 13.9-81.5 41.5-113.6-5.2-15.8-7.7-32.4-7.7-48.8 0-21.5 4.9-32.3 14.6-51.8 45.3 0 74.3 9 108.8 36 29-6.9 58.8-10 88.7-10 27 0 54.2 2.9 80.4 9.2 34-26.7 63-35.2 107.8-35.2 9.8 19.5 14.6 30.3 14.6 51.8 0 16.4-2.6 32.7-7.7 48.2 27.5 32.4 39 72.3 39 114.2zm-64.3 50.5c0-43.9-26.7-82.6-73.5-82.6-18.9 0-37 3.4-56 6-14.9 2.3-29.8 3.2-45.1 3.2-15.2 0-30.1-.9-45.1-3.2-18.7-2.6-37-6-56-6-46.8 0-73.5 38.7-73.5 82.6 0 87.8 80.4 101.3 150.4 101.3h48.2c70.3 0 150.6-13.4 150.6-101.3zm-82.6-55.1c-25.8 0-36.7 34.2-36.7 55.1s10.9 55.1 36.7 55.1 36.7-34.2 36.7-55.1-10.9-55.1-36.7-55.1z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    django_migration_fixer
+  </div>
+</a>
+      </div>
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../../.." title="django-migration-fixer" class="md-nav__button md-logo" aria-label="django-migration-fixer" data-md-component="logo">
+      
+  <img src="../../../../../docs/images/logo.png" alt="logo">
+
+    </a>
+    django-migration-fixer
+  </label>
+  
+    <div class="md-nav__source">
+      
+<a href="https://github.com/tj-django/django_migration_fixer/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 512"><path d="M186.1 328.7c0 20.9-10.9 55.1-36.7 55.1s-36.7-34.2-36.7-55.1 10.9-55.1 36.7-55.1 36.7 34.2 36.7 55.1zM480 278.2c0 31.9-3.2 65.7-17.5 95-37.9 76.6-142.1 74.8-216.7 74.8-75.8 0-186.2 2.7-225.6-74.8-14.6-29-20.2-63.1-20.2-95 0-41.9 13.9-81.5 41.5-113.6-5.2-15.8-7.7-32.4-7.7-48.8 0-21.5 4.9-32.3 14.6-51.8 45.3 0 74.3 9 108.8 36 29-6.9 58.8-10 88.7-10 27 0 54.2 2.9 80.4 9.2 34-26.7 63-35.2 107.8-35.2 9.8 19.5 14.6 30.3 14.6 51.8 0 16.4-2.6 32.7-7.7 48.2 27.5 32.4 39 72.3 39 114.2zm-64.3 50.5c0-43.9-26.7-82.6-73.5-82.6-18.9 0-37 3.4-56 6-14.9 2.3-29.8 3.2-45.1 3.2-15.2 0-30.1-.9-45.1-3.2-18.7-2.6-37-6-56-6-46.8 0-73.5 38.7-73.5 82.6 0 87.8 80.4 101.3 150.4 101.3h48.2c70.3 0 150.6-13.4 150.6-101.3zm-82.6-55.1c-25.8 0-36.7 34.2-36.7 55.1s10.9 55.1 36.7 55.1 36.7-34.2 36.7-55.1-10.9-55.1-36.7-55.1z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    django_migration_fixer
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../.." class="md-nav__link">
+        Home
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" checked>
+      
+      <label class="md-nav__link" for="__nav_2">
+        Reference
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Reference" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Reference
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2_1" type="checkbox" id="__nav_2_1" checked>
+      
+      <label class="md-nav__link" for="__nav_2_1">
+        Migration Fixer
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Migration Fixer" data-md-level="2">
+        <label class="md-nav__title" for="__nav_2_1">
+          <span class="md-nav__icon md-icon"></span>
+          Migration Fixer
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2_1_1" type="checkbox" id="__nav_2_1_1" checked>
+      
+      <label class="md-nav__link" for="__nav_2_1_1">
+        Management
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Management" data-md-level="3">
+        <label class="md-nav__title" for="__nav_2_1_1">
+          <span class="md-nav__icon md-icon"></span>
+          Management
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../" class="md-nav__link">
+        Index
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2_1_1_2" type="checkbox" id="__nav_2_1_1_2" checked>
+      
+      <label class="md-nav__link" for="__nav_2_1_1_2">
+        Commands
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Commands" data-md-level="4">
+        <label class="md-nav__title" for="__nav_2_1_1_2">
+          <span class="md-nav__icon md-icon"></span>
+          Commands
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        Index
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Makemigrations
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Makemigrations
+      </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#variables" class="md-nav__link">
+    Variables
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#classes" class="md-nav__link">
+    Classes
+  </a>
+  
+    <nav class="md-nav" aria-label="Classes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#command" class="md-nav__link">
+    Command
+  </a>
+  
+    <nav class="md-nav" aria-label="Command">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ancestors-in-mro" class="md-nav__link">
+    Ancestors (in MRO)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#class-variables" class="md-nav__link">
+    Class variables
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#methods" class="md-nav__link">
+    Methods
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#add_arguments" class="md-nav__link">
+    add_arguments
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#check" class="md-nav__link">
+    check
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#check_migrations" class="md-nav__link">
+    check_migrations
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#create_parser" class="md-nav__link">
+    create_parser
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#execute" class="md-nav__link">
+    execute
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get_version" class="md-nav__link">
+    get_version
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#handle" class="md-nav__link">
+    handle
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#handle_merge" class="md-nav__link">
+    handle_merge
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#print_help" class="md-nav__link">
+    print_help
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#run_from_argv" class="md-nav__link">
+    run_from_argv
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#write_migration_files" class="md-nav__link">
+    write_migration_files
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#variables" class="md-nav__link">
+    Variables
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#classes" class="md-nav__link">
+    Classes
+  </a>
+  
+    <nav class="md-nav" aria-label="Classes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#command" class="md-nav__link">
+    Command
+  </a>
+  
+    <nav class="md-nav" aria-label="Command">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ancestors-in-mro" class="md-nav__link">
+    Ancestors (in MRO)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#class-variables" class="md-nav__link">
+    Class variables
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#methods" class="md-nav__link">
+    Methods
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#add_arguments" class="md-nav__link">
+    add_arguments
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#check" class="md-nav__link">
+    check
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#check_migrations" class="md-nav__link">
+    check_migrations
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#create_parser" class="md-nav__link">
+    create_parser
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#execute" class="md-nav__link">
+    execute
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get_version" class="md-nav__link">
+    get_version
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#handle" class="md-nav__link">
+    handle
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#handle_merge" class="md-nav__link">
+    handle_merge
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#print_help" class="md-nav__link">
+    print_help
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#run_from_argv" class="md-nav__link">
+    run_from_argv
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#write_migration_files" class="md-nav__link">
+    write_migration_files
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="https://github.com/tj-django/django_migration_fixer/edit/main/reference/migration_fixer/management/commands/makemigrations.md" title="Edit this page" class="md-content__button md-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
+                  </a>
+                
+                
+                <h1 id="module-migration_fixermanagementcommandsmakemigrations">Module migration_fixer.management.commands.makemigrations</h1>
+<p>Create a new django migration with support for fixing conflicts.</p>
+<p>None</p>
+<details class="example"><summary>View Source</summary><div class="highlight"><pre><span></span><code>&quot;&quot;&quot;
+
+Create a new django migration with support for fixing conflicts.
+
+&quot;&quot;&quot;
+
+import os
+
+import pathlib
+
+from django.apps import apps
+
+from django.conf import settings
+
+from django.core.management.base import CommandError, no_translations
+
+from django.core.management.commands.makemigrations import Command as BaseCommand
+
+from django.db import DEFAULT_DB_ALIAS, connections, router
+
+from django.db.migrations.loader import MigrationLoader
+
+from migration_fixer.utils import fix_migration, fix_numbered_migration, run_command
+
+class Command(BaseCommand):
+
+    def add_arguments(self, parser):
+
+        parser.add_argument(
+
+            &quot;--fix&quot;,
+
+            action=&quot;store_true&quot;,
+
+            help=&quot;Fix migrations conflicts.&quot;,
+
+        )
+
+        parser.add_argument(
+
+            &quot;-b&quot;,
+
+            &quot;--default-branch&quot;,
+
+            help=&quot;The name of the default branch.&quot;,
+
+            default=&quot;main&quot;,
+
+        )
+
+        super().add_arguments(parser)
+
+    @no_translations
+
+    def handle(self, *app_labels, **options):
+
+        self.merge = options[&quot;merge&quot;]
+
+        self.fix = options[&quot;fix&quot;]
+
+        self.default_branch = options[&quot;default_branch&quot;]
+
+        if self.fix:
+
+            try:
+
+                super().handle(*app_labels, **options)
+
+            except CommandError as e:
+
+                [message] = e.args
+
+                if &quot;Conflicting migrations&quot; in message:
+
+                    git_setup, git_setup_output, git_setup_error = run_command(
+
+                        &quot;git status&quot;
+
+                    )
+
+                    if not git_setup:
+
+                        raise CommandError(
+
+                            self.style.ERROR(
+
+                                f&quot;VCS is not yet setup. &quot;
+
+                                &quot;Please run (git init) &quot;
+
+                                f&#39;\n&quot;{git_setup_output or git_setup_error}&quot;&#39;
+
+                            )
+
+                        )
+
+                    (
+
+                        get_current_branch,
+
+                        get_current_branch_output,
+
+                        get_current_branch_error,
+
+                    ) = run_command(&quot;git branch --show-current&quot;)
+
+                    if not get_current_branch:
+
+                        raise CommandError(
+
+                            self.style.ERROR(
+
+                                f&quot;Unable to determine the current branch: &quot;
+
+                                f&#39;&quot;{get_current_branch_output or get_current_branch_error}&quot;&#39;
+
+                            )
+
+                        )
+
+                    pull_command = (
+
+                        &quot;git pull&quot;
+
+                        if get_current_branch_output == self.default_branch
+
+                        else (
+
+                            &quot;git fetch --depth=1 origin &quot;
+
+                            f&quot;{self.default_branch}:{self.default_branch}&quot;
+
+                        )
+
+                    )
+
+                    # Pull the last commit
+
+                    git_pull, git_pull_output, git_pull_error = run_command(
+
+                        pull_command
+
+                    )
+
+                    if not git_pull:
+
+                        raise CommandError(
+
+                            self.style.ERROR(
+
+                                f&quot;Error pulling branch ({self.default_branch}) changes: &quot;
+
+                                f&#39;&quot;{git_pull_output or git_pull_error}&quot;&#39;
+
+                            )
+
+                        )
+
+                    head_sha, head_sha_output, head_sha_error = run_command(
+
+                        f&quot;git rev-parse {self.default_branch}&quot;
+
+                    )
+
+                    if not head_sha:
+
+                        raise CommandError(
+
+                            self.style.ERROR(
+
+                                f&quot;Error determining head sha on ({self.default_branch}): &quot;
+
+                                f&#39;&quot;{head_sha_output or head_sha_error}&quot;&#39;
+
+                            )
+
+                        )
+
+                    # Load the current graph state. Pass in None for the connection so
+
+                    # the loader doesn&#39;t try to resolve replaced migrations from DB.
+
+                    loader = MigrationLoader(None, ignore_no_migrations=True)
+
+                    # Raise an error if any migrations are applied before their dependencies.
+
+                    consistency_check_labels = {
+
+                        config.label for config in apps.get_app_configs()
+
+                    }
+
+                    # Non-default databases are only checked if database routers used.
+
+                    aliases_to_check = (
+
+                        connections if settings.DATABASE_ROUTERS else [DEFAULT_DB_ALIAS]
+
+                    )
+
+                    for alias in sorted(aliases_to_check):
+
+                        connection = connections[alias]
+
+                        if connection.settings_dict[
+
+                            &quot;ENGINE&quot;
+
+                        ] != &quot;django.db.backends.dummy&quot; and any(
+
+                            # At least one model must be migrated to the database.
+
+                            router.allow_migrate(
+
+                                connection.alias,
+
+                                app_label,
+
+                                model_name=model._meta.object_name,
+
+                            )
+
+                            for app_label in consistency_check_labels
+
+                            for model in apps.get_app_config(app_label).get_models()
+
+                        ):
+
+                            loader.check_consistent_history(connection)
+
+                    # Before anything else, see if there&#39;s conflicting apps and drop out
+
+                    # hard if there are any and they don&#39;t want to merge
+
+                    conflicts = loader.detect_conflicts()
+
+                    app_labels = app_labels or tuple(
+
+                        app_label
+
+                        for app_label in settings.INSTALLED_APPS
+
+                        if app_label in conflicts
+
+                    )
+
+                    for app_label in app_labels:
+
+                        conflict = conflicts.get(app_label)
+
+                        migration_module, _ = loader.migrations_module(app_label)
+
+                        migration_absolute_path = os.path.join(
+
+                            *migration_module.split(&quot;.&quot;)
+
+                        )
+
+                        migration_path = pathlib.Path(
+
+                            os.path.join(settings.BASE_DIR, migration_absolute_path)
+
+                        )
+
+                        with migration_path:
+
+                            (
+
+                                get_changed_files,
+
+                                get_changed_files_output,
+
+                                get_changed_files_error,
+
+                            ) = run_command(
+
+                                f&quot;git diff --diff-filter=ACMUXTR --name-only {self.default_branch}&quot;
+
+                            )
+
+                            if not get_changed_files:
+
+                                raise CommandError(
+
+                                    self.style.ERROR(
+
+                                        &quot;Error retrieving changed files on &quot;
+
+                                        f&quot;({self.default_branch}): &quot;
+
+                                        f&#39;&quot;{get_changed_files_output or get_changed_files_error}&quot;&#39;
+
+                                    )
+
+                                )
+
+                            # Files different on the current branch
+
+                            changed_files = [
+
+                                fname
+
+                                for fname in get_changed_files_output.split(&quot;\n&quot;)
+
+                                if migration_absolute_path in fname
+
+                            ]
+
+                            # Local migration
+
+                            local_filenames = [
+
+                                os.path.splitext(os.path.basename(p))[0]
+
+                                for p in changed_files
+
+                            ]
+
+                            last_remote = [
+
+                                fname
+
+                                for fname in conflict
+
+                                if fname not in local_filenames
+
+                            ]
+
+                            if not last_remote:
+
+                                raise CommandError(
+
+                                    self.style.ERROR(
+
+                                        f&quot;Unable to determine the last migration on: &quot;
+
+                                        f&quot;{self.default_branch}&quot;,
+
+                                    )
+
+                                )
+
+                            last_remote_filename, *rest = last_remote
+
+                            changed_files = changed_files or [
+
+                                f&quot;{fname}.py&quot; for fname in rest
+
+                            ]
+
+                            seed_split = last_remote_filename.split(&quot;_&quot;)
+
+                            if (
+
+                                seed_split
+
+                                and len(seed_split) &gt; 1
+
+                                and str(seed_split[0]).isdigit()
+
+                            ):
+
+                                fix_numbered_migration(
+
+                                    app_label=app_label,
+
+                                    migration_path=migration_path,
+
+                                    seed=int(seed_split[0]),
+
+                                    start_name=last_remote_filename,
+
+                                    changed_files=changed_files,
+
+                                )
+
+                            else:
+
+                                fix_migration(
+
+                                    app_label=app_label,
+
+                                    migration_path=migration_path,
+
+                                    start_name=last_remote_filename,
+
+                                    changed_files=changed_files,
+
+                                )
+
+        else:
+
+            return super(Command, self).handle(*app_labels, **options)
+</code></pre></div>
+</details>
+<h2 id="variables">Variables</h2>
+<div class="highlight"><pre><span></span><code><span class="n">DEFAULT_DB_ALIAS</span>
+</code></pre></div>
+<h2 id="classes">Classes</h2>
+<h3 id="command">Command</h3>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Command</span><span class="p">(</span>
+    <span class="n">stdout</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">stderr</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">no_color</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">force_color</span><span class="o">=</span><span class="kc">False</span>
+<span class="p">)</span>
+</code></pre></div>
+<details class="example"><summary>View Source</summary><div class="highlight"><pre><span></span><code>class Command(BaseCommand):
+
+    def add_arguments(self, parser):
+
+        parser.add_argument(
+
+            &quot;--fix&quot;,
+
+            action=&quot;store_true&quot;,
+
+            help=&quot;Fix migrations conflicts.&quot;,
+
+        )
+
+        parser.add_argument(
+
+            &quot;-b&quot;,
+
+            &quot;--default-branch&quot;,
+
+            help=&quot;The name of the default branch.&quot;,
+
+            default=&quot;main&quot;,
+
+        )
+
+        super().add_arguments(parser)
+
+    @no_translations
+
+    def handle(self, *app_labels, **options):
+
+        self.merge = options[&quot;merge&quot;]
+
+        self.fix = options[&quot;fix&quot;]
+
+        self.default_branch = options[&quot;default_branch&quot;]
+
+        if self.fix:
+
+            try:
+
+                super().handle(*app_labels, **options)
+
+            except CommandError as e:
+
+                [message] = e.args
+
+                if &quot;Conflicting migrations&quot; in message:
+
+                    git_setup, git_setup_output, git_setup_error = run_command(
+
+                        &quot;git status&quot;
+
+                    )
+
+                    if not git_setup:
+
+                        raise CommandError(
+
+                            self.style.ERROR(
+
+                                f&quot;VCS is not yet setup. &quot;
+
+                                &quot;Please run (git init) &quot;
+
+                                f&#39;\n&quot;{git_setup_output or git_setup_error}&quot;&#39;
+
+                            )
+
+                        )
+
+                    (
+
+                        get_current_branch,
+
+                        get_current_branch_output,
+
+                        get_current_branch_error,
+
+                    ) = run_command(&quot;git branch --show-current&quot;)
+
+                    if not get_current_branch:
+
+                        raise CommandError(
+
+                            self.style.ERROR(
+
+                                f&quot;Unable to determine the current branch: &quot;
+
+                                f&#39;&quot;{get_current_branch_output or get_current_branch_error}&quot;&#39;
+
+                            )
+
+                        )
+
+                    pull_command = (
+
+                        &quot;git pull&quot;
+
+                        if get_current_branch_output == self.default_branch
+
+                        else (
+
+                            &quot;git fetch --depth=1 origin &quot;
+
+                            f&quot;{self.default_branch}:{self.default_branch}&quot;
+
+                        )
+
+                    )
+
+                    # Pull the last commit
+
+                    git_pull, git_pull_output, git_pull_error = run_command(
+
+                        pull_command
+
+                    )
+
+                    if not git_pull:
+
+                        raise CommandError(
+
+                            self.style.ERROR(
+
+                                f&quot;Error pulling branch ({self.default_branch}) changes: &quot;
+
+                                f&#39;&quot;{git_pull_output or git_pull_error}&quot;&#39;
+
+                            )
+
+                        )
+
+                    head_sha, head_sha_output, head_sha_error = run_command(
+
+                        f&quot;git rev-parse {self.default_branch}&quot;
+
+                    )
+
+                    if not head_sha:
+
+                        raise CommandError(
+
+                            self.style.ERROR(
+
+                                f&quot;Error determining head sha on ({self.default_branch}): &quot;
+
+                                f&#39;&quot;{head_sha_output or head_sha_error}&quot;&#39;
+
+                            )
+
+                        )
+
+                    # Load the current graph state. Pass in None for the connection so
+
+                    # the loader doesn&#39;t try to resolve replaced migrations from DB.
+
+                    loader = MigrationLoader(None, ignore_no_migrations=True)
+
+                    # Raise an error if any migrations are applied before their dependencies.
+
+                    consistency_check_labels = {
+
+                        config.label for config in apps.get_app_configs()
+
+                    }
+
+                    # Non-default databases are only checked if database routers used.
+
+                    aliases_to_check = (
+
+                        connections if settings.DATABASE_ROUTERS else [DEFAULT_DB_ALIAS]
+
+                    )
+
+                    for alias in sorted(aliases_to_check):
+
+                        connection = connections[alias]
+
+                        if connection.settings_dict[
+
+                            &quot;ENGINE&quot;
+
+                        ] != &quot;django.db.backends.dummy&quot; and any(
+
+                            # At least one model must be migrated to the database.
+
+                            router.allow_migrate(
+
+                                connection.alias,
+
+                                app_label,
+
+                                model_name=model._meta.object_name,
+
+                            )
+
+                            for app_label in consistency_check_labels
+
+                            for model in apps.get_app_config(app_label).get_models()
+
+                        ):
+
+                            loader.check_consistent_history(connection)
+
+                    # Before anything else, see if there&#39;s conflicting apps and drop out
+
+                    # hard if there are any and they don&#39;t want to merge
+
+                    conflicts = loader.detect_conflicts()
+
+                    app_labels = app_labels or tuple(
+
+                        app_label
+
+                        for app_label in settings.INSTALLED_APPS
+
+                        if app_label in conflicts
+
+                    )
+
+                    for app_label in app_labels:
+
+                        conflict = conflicts.get(app_label)
+
+                        migration_module, _ = loader.migrations_module(app_label)
+
+                        migration_absolute_path = os.path.join(
+
+                            *migration_module.split(&quot;.&quot;)
+
+                        )
+
+                        migration_path = pathlib.Path(
+
+                            os.path.join(settings.BASE_DIR, migration_absolute_path)
+
+                        )
+
+                        with migration_path:
+
+                            (
+
+                                get_changed_files,
+
+                                get_changed_files_output,
+
+                                get_changed_files_error,
+
+                            ) = run_command(
+
+                                f&quot;git diff --diff-filter=ACMUXTR --name-only {self.default_branch}&quot;
+
+                            )
+
+                            if not get_changed_files:
+
+                                raise CommandError(
+
+                                    self.style.ERROR(
+
+                                        &quot;Error retrieving changed files on &quot;
+
+                                        f&quot;({self.default_branch}): &quot;
+
+                                        f&#39;&quot;{get_changed_files_output or get_changed_files_error}&quot;&#39;
+
+                                    )
+
+                                )
+
+                            # Files different on the current branch
+
+                            changed_files = [
+
+                                fname
+
+                                for fname in get_changed_files_output.split(&quot;\n&quot;)
+
+                                if migration_absolute_path in fname
+
+                            ]
+
+                            # Local migration
+
+                            local_filenames = [
+
+                                os.path.splitext(os.path.basename(p))[0]
+
+                                for p in changed_files
+
+                            ]
+
+                            last_remote = [
+
+                                fname
+
+                                for fname in conflict
+
+                                if fname not in local_filenames
+
+                            ]
+
+                            if not last_remote:
+
+                                raise CommandError(
+
+                                    self.style.ERROR(
+
+                                        f&quot;Unable to determine the last migration on: &quot;
+
+                                        f&quot;{self.default_branch}&quot;,
+
+                                    )
+
+                                )
+
+                            last_remote_filename, *rest = last_remote
+
+                            changed_files = changed_files or [
+
+                                f&quot;{fname}.py&quot; for fname in rest
+
+                            ]
+
+                            seed_split = last_remote_filename.split(&quot;_&quot;)
+
+                            if (
+
+                                seed_split
+
+                                and len(seed_split) &gt; 1
+
+                                and str(seed_split[0]).isdigit()
+
+                            ):
+
+                                fix_numbered_migration(
+
+                                    app_label=app_label,
+
+                                    migration_path=migration_path,
+
+                                    seed=int(seed_split[0]),
+
+                                    start_name=last_remote_filename,
+
+                                    changed_files=changed_files,
+
+                                )
+
+                            else:
+
+                                fix_migration(
+
+                                    app_label=app_label,
+
+                                    migration_path=migration_path,
+
+                                    start_name=last_remote_filename,
+
+                                    changed_files=changed_files,
+
+                                )
+
+        else:
+
+            return super(Command, self).handle(*app_labels, **options)
+</code></pre></div>
+</details>
+<hr />
+<h4 id="ancestors-in-mro">Ancestors (in MRO)</h4>
+<ul>
+<li>django.core.management.commands.makemigrations.Command</li>
+<li>django.core.management.base.BaseCommand</li>
+</ul>
+<h4 id="class-variables">Class variables</h4>
+<div class="highlight"><pre><span></span><code><span class="n">base_stealth_options</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="n">help</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="n">output_transaction</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="n">requires_migrations_checks</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="n">requires_system_checks</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="n">stealth_options</span>
+</code></pre></div>
+<h4 id="methods">Methods</h4>
+<h4 id="add_arguments">add_arguments</h4>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">add_arguments</span><span class="p">(</span>
+    <span class="bp">self</span><span class="p">,</span>
+    <span class="n">parser</span>
+<span class="p">)</span>
+</code></pre></div>
+<p>Entry point for subclassed commands to add custom arguments.</p>
+<details class="example"><summary>View Source</summary><div class="highlight"><pre><span></span><code>    def add_arguments(self, parser):
+
+        parser.add_argument(
+
+            &quot;--fix&quot;,
+
+            action=&quot;store_true&quot;,
+
+            help=&quot;Fix migrations conflicts.&quot;,
+
+        )
+
+        parser.add_argument(
+
+            &quot;-b&quot;,
+
+            &quot;--default-branch&quot;,
+
+            help=&quot;The name of the default branch.&quot;,
+
+            default=&quot;main&quot;,
+
+        )
+
+        super().add_arguments(parser)
+</code></pre></div>
+</details>
+<h4 id="check">check</h4>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">check</span><span class="p">(</span>
+    <span class="bp">self</span><span class="p">,</span>
+    <span class="n">app_configs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">tags</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">display_num_errors</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">include_deployment_checks</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">fail_level</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span>
+    <span class="n">databases</span><span class="o">=</span><span class="kc">None</span>
+<span class="p">)</span>
+</code></pre></div>
+<p>Use the system check framework to validate entire Django project.</p>
+<p>Raise CommandError for any serious message (error or critical errors).
+If there are only light messages (like warnings), print them to stderr
+and don't raise an exception.</p>
+<details class="example"><summary>View Source</summary><div class="highlight"><pre><span></span><code>    def check(self, app_configs=None, tags=None, display_num_errors=False,
+
+              include_deployment_checks=False, fail_level=checks.ERROR,
+
+              databases=None):
+
+        &quot;&quot;&quot;
+
+        Use the system check framework to validate entire Django project.
+
+        Raise CommandError for any serious message (error or critical errors).
+
+        If there are only light messages (like warnings), print them to stderr
+
+        and don&#39;t raise an exception.
+
+        &quot;&quot;&quot;
+
+        all_issues = checks.run_checks(
+
+            app_configs=app_configs,
+
+            tags=tags,
+
+            include_deployment_checks=include_deployment_checks,
+
+            databases=databases,
+
+        )
+
+        header, body, footer = &quot;&quot;, &quot;&quot;, &quot;&quot;
+
+        visible_issue_count = 0  # excludes silenced warnings
+
+        if all_issues:
+
+            debugs = [e for e in all_issues if e.level &lt; checks.INFO and not e.is_silenced()]
+
+            infos = [e for e in all_issues if checks.INFO &lt;= e.level &lt; checks.WARNING and not e.is_silenced()]
+
+            warnings = [e for e in all_issues if checks.WARNING &lt;= e.level &lt; checks.ERROR and not e.is_silenced()]
+
+            errors = [e for e in all_issues if checks.ERROR &lt;= e.level &lt; checks.CRITICAL and not e.is_silenced()]
+
+            criticals = [e for e in all_issues if checks.CRITICAL &lt;= e.level and not e.is_silenced()]
+
+            sorted_issues = [
+
+                (criticals, &#39;CRITICALS&#39;),
+
+                (errors, &#39;ERRORS&#39;),
+
+                (warnings, &#39;WARNINGS&#39;),
+
+                (infos, &#39;INFOS&#39;),
+
+                (debugs, &#39;DEBUGS&#39;),
+
+            ]
+
+            for issues, group_name in sorted_issues:
+
+                if issues:
+
+                    visible_issue_count += len(issues)
+
+                    formatted = (
+
+                        self.style.ERROR(str(e))
+
+                        if e.is_serious()
+
+                        else self.style.WARNING(str(e))
+
+                        for e in issues)
+
+                    formatted = &quot;\n&quot;.join(sorted(formatted))
+
+                    body += &#39;\n%s:\n%s\n&#39; % (group_name, formatted)
+
+        if visible_issue_count:
+
+            header = &quot;System check identified some issues:\n&quot;
+
+        if display_num_errors:
+
+            if visible_issue_count:
+
+                footer += &#39;\n&#39;
+
+            footer += &quot;System check identified %s (%s silenced).&quot; % (
+
+                &quot;no issues&quot; if visible_issue_count == 0 else
+
+                &quot;1 issue&quot; if visible_issue_count == 1 else
+
+                &quot;%s issues&quot; % visible_issue_count,
+
+                len(all_issues) - visible_issue_count,
+
+            )
+
+        if any(e.is_serious(fail_level) and not e.is_silenced() for e in all_issues):
+
+            msg = self.style.ERROR(&quot;SystemCheckError: %s&quot; % header) + body + footer
+
+            raise SystemCheckError(msg)
+
+        else:
+
+            msg = header + body + footer
+
+        if msg:
+
+            if visible_issue_count:
+
+                self.stderr.write(msg, lambda x: x)
+
+            else:
+
+                self.stdout.write(msg)
+</code></pre></div>
+</details>
+<h4 id="check_migrations">check_migrations</h4>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">check_migrations</span><span class="p">(</span>
+    <span class="bp">self</span>
+<span class="p">)</span>
+</code></pre></div>
+<p>Print a warning if the set of migrations on disk don't match the</p>
+<p>migrations in the database.</p>
+<details class="example"><summary>View Source</summary><div class="highlight"><pre><span></span><code>    def check_migrations(self):
+
+        &quot;&quot;&quot;
+
+        Print a warning if the set of migrations on disk don&#39;t match the
+
+        migrations in the database.
+
+        &quot;&quot;&quot;
+
+        from django.db.migrations.executor import MigrationExecutor
+
+        try:
+
+            executor = MigrationExecutor(connections[DEFAULT_DB_ALIAS])
+
+        except ImproperlyConfigured:
+
+            # No databases are configured (or the dummy one)
+
+            return
+
+        plan = executor.migration_plan(executor.loader.graph.leaf_nodes())
+
+        if plan:
+
+            apps_waiting_migration = sorted({migration.app_label for migration, backwards in plan})
+
+            self.stdout.write(
+
+                self.style.NOTICE(
+
+                    &quot;\nYou have %(unapplied_migration_count)s unapplied migration(s). &quot;
+
+                    &quot;Your project may not work properly until you apply the &quot;
+
+                    &quot;migrations for app(s): %(apps_waiting_migration)s.&quot; % {
+
+                        &quot;unapplied_migration_count&quot;: len(plan),
+
+                        &quot;apps_waiting_migration&quot;: &quot;, &quot;.join(apps_waiting_migration),
+
+                    }
+
+                )
+
+            )
+
+            self.stdout.write(self.style.NOTICE(&quot;Run &#39;python manage.py migrate&#39; to apply them.&quot;))
+</code></pre></div>
+</details>
+<h4 id="create_parser">create_parser</h4>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">create_parser</span><span class="p">(</span>
+    <span class="bp">self</span><span class="p">,</span>
+    <span class="n">prog_name</span><span class="p">,</span>
+    <span class="n">subcommand</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">kwargs</span>
+<span class="p">)</span>
+</code></pre></div>
+<p>Create and return the <code>ArgumentParser</code> which will be used to</p>
+<p>parse the arguments to this command.</p>
+<details class="example"><summary>View Source</summary><div class="highlight"><pre><span></span><code>    def create_parser(self, prog_name, subcommand, **kwargs):
+
+        &quot;&quot;&quot;
+
+        Create and return the ``ArgumentParser`` which will be used to
+
+        parse the arguments to this command.
+
+        &quot;&quot;&quot;
+
+        parser = CommandParser(
+
+            prog=&#39;%s %s&#39; % (os.path.basename(prog_name), subcommand),
+
+            description=self.help or None,
+
+            formatter_class=DjangoHelpFormatter,
+
+            missing_args_message=getattr(self, &#39;missing_args_message&#39;, None),
+
+            called_from_command_line=getattr(self, &#39;_called_from_command_line&#39;, None),
+
+            **kwargs
+
+        )
+
+        parser.add_argument(&#39;--version&#39;, action=&#39;version&#39;, version=self.get_version())
+
+        parser.add_argument(
+
+            &#39;-v&#39;, &#39;--verbosity&#39;, default=1,
+
+            type=int, choices=[0, 1, 2, 3],
+
+            help=&#39;Verbosity level; 0=minimal output, 1=normal output, 2=verbose output, 3=very verbose output&#39;,
+
+        )
+
+        parser.add_argument(
+
+            &#39;--settings&#39;,
+
+            help=(
+
+                &#39;The Python path to a settings module, e.g. &#39;
+
+                &#39;&quot;myproject.settings.main&quot;. If this isn\&#39;t provided, the &#39;
+
+                &#39;DJANGO_SETTINGS_MODULE environment variable will be used.&#39;
+
+            ),
+
+        )
+
+        parser.add_argument(
+
+            &#39;--pythonpath&#39;,
+
+            help=&#39;A directory to add to the Python path, e.g. &quot;/home/djangoprojects/myproject&quot;.&#39;,
+
+        )
+
+        parser.add_argument(&#39;--traceback&#39;, action=&#39;store_true&#39;, help=&#39;Raise on CommandError exceptions&#39;)
+
+        parser.add_argument(
+
+            &#39;--no-color&#39;, action=&#39;store_true&#39;,
+
+            help=&quot;Don&#39;t colorize the command output.&quot;,
+
+        )
+
+        parser.add_argument(
+
+            &#39;--force-color&#39;, action=&#39;store_true&#39;,
+
+            help=&#39;Force colorization of the command output.&#39;,
+
+        )
+
+        if self.requires_system_checks:
+
+            parser.add_argument(
+
+                &#39;--skip-checks&#39;, action=&#39;store_true&#39;,
+
+                help=&#39;Skip system checks.&#39;,
+
+            )
+
+        self.add_arguments(parser)
+
+        return parser
+</code></pre></div>
+</details>
+<h4 id="execute">execute</h4>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">execute</span><span class="p">(</span>
+    <span class="bp">self</span><span class="p">,</span>
+    <span class="o">*</span><span class="n">args</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">options</span>
+<span class="p">)</span>
+</code></pre></div>
+<p>Try to execute this command, performing system checks if needed (as</p>
+<p>controlled by the <code>requires_system_checks</code> attribute, except if
+force-skipped).</p>
+<details class="example"><summary>View Source</summary><div class="highlight"><pre><span></span><code>    def execute(self, *args, **options):
+
+        &quot;&quot;&quot;
+
+        Try to execute this command, performing system checks if needed (as
+
+        controlled by the ``requires_system_checks`` attribute, except if
+
+        force-skipped).
+
+        &quot;&quot;&quot;
+
+        if options[&#39;force_color&#39;] and options[&#39;no_color&#39;]:
+
+            raise CommandError(&quot;The --no-color and --force-color options can&#39;t be used together.&quot;)
+
+        if options[&#39;force_color&#39;]:
+
+            self.style = color_style(force_color=True)
+
+        elif options[&#39;no_color&#39;]:
+
+            self.style = no_style()
+
+            self.stderr.style_func = None
+
+        if options.get(&#39;stdout&#39;):
+
+            self.stdout = OutputWrapper(options[&#39;stdout&#39;])
+
+        if options.get(&#39;stderr&#39;):
+
+            self.stderr = OutputWrapper(options[&#39;stderr&#39;])
+
+        if self.requires_system_checks and not options[&#39;skip_checks&#39;]:
+
+            if self.requires_system_checks == ALL_CHECKS:
+
+                self.check()
+
+            else:
+
+                self.check(tags=self.requires_system_checks)
+
+        if self.requires_migrations_checks:
+
+            self.check_migrations()
+
+        output = self.handle(*args, **options)
+
+        if output:
+
+            if self.output_transaction:
+
+                connection = connections[options.get(&#39;database&#39;, DEFAULT_DB_ALIAS)]
+
+                output = &#39;%s\n%s\n%s&#39; % (
+
+                    self.style.SQL_KEYWORD(connection.ops.start_transaction_sql()),
+
+                    output,
+
+                    self.style.SQL_KEYWORD(connection.ops.end_transaction_sql()),
+
+                )
+
+            self.stdout.write(output)
+
+        return output
+</code></pre></div>
+</details>
+<h4 id="get_version">get_version</h4>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">get_version</span><span class="p">(</span>
+    <span class="bp">self</span>
+<span class="p">)</span>
+</code></pre></div>
+<p>Return the Django version, which should be correct for all built-in</p>
+<p>Django commands. User-supplied commands can override this method to
+return their own version.</p>
+<details class="example"><summary>View Source</summary><div class="highlight"><pre><span></span><code>    def get_version(self):
+
+        &quot;&quot;&quot;
+
+        Return the Django version, which should be correct for all built-in
+
+        Django commands. User-supplied commands can override this method to
+
+        return their own version.
+
+        &quot;&quot;&quot;
+
+        return django.get_version()
+</code></pre></div>
+</details>
+<h4 id="handle">handle</h4>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">handle</span><span class="p">(</span>
+    <span class="o">*</span><span class="n">args</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">kwargs</span>
+<span class="p">)</span>
+</code></pre></div>
+<details class="example"><summary>View Source</summary><div class="highlight"><pre><span></span><code>    def wrapped(*args, **kwargs):
+
+        from django.utils import translation
+
+        saved_locale = translation.get_language()
+
+        translation.deactivate_all()
+
+        try:
+
+            res = handle_func(*args, **kwargs)
+
+        finally:
+
+            if saved_locale is not None:
+
+                translation.activate(saved_locale)
+
+        return res
+</code></pre></div>
+</details>
+<h4 id="handle_merge">handle_merge</h4>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">handle_merge</span><span class="p">(</span>
+    <span class="bp">self</span><span class="p">,</span>
+    <span class="n">loader</span><span class="p">,</span>
+    <span class="n">conflicts</span>
+<span class="p">)</span>
+</code></pre></div>
+<p>Handles merging together conflicted migrations interactively,</p>
+<p>if it's safe; otherwise, advises on how to fix it.</p>
+<details class="example"><summary>View Source</summary><div class="highlight"><pre><span></span><code>    def handle_merge(self, loader, conflicts):
+
+        &quot;&quot;&quot;
+
+        Handles merging together conflicted migrations interactively,
+
+        if it&#39;s safe; otherwise, advises on how to fix it.
+
+        &quot;&quot;&quot;
+
+        if self.interactive:
+
+            questioner = InteractiveMigrationQuestioner()
+
+        else:
+
+            questioner = MigrationQuestioner(defaults={&#39;ask_merge&#39;: True})
+
+        for app_label, migration_names in conflicts.items():
+
+            # Grab out the migrations in question, and work out their
+
+            # common ancestor.
+
+            merge_migrations = []
+
+            for migration_name in migration_names:
+
+                migration = loader.get_migration(app_label, migration_name)
+
+                migration.ancestry = [
+
+                    mig for mig in loader.graph.forwards_plan((app_label, migration_name))
+
+                    if mig[0] == migration.app_label
+
+                ]
+
+                merge_migrations.append(migration)
+
+            def all_items_equal(seq):
+
+                return all(item == seq[0] for item in seq[1:])
+
+            merge_migrations_generations = zip(*(m.ancestry for m in merge_migrations))
+
+            common_ancestor_count = sum(1 for common_ancestor_generation
+
+                                        in takewhile(all_items_equal, merge_migrations_generations))
+
+            if not common_ancestor_count:
+
+                raise ValueError(&quot;Could not find common ancestor of %s&quot; % migration_names)
+
+            # Now work out the operations along each divergent branch
+
+            for migration in merge_migrations:
+
+                migration.branch = migration.ancestry[common_ancestor_count:]
+
+                migrations_ops = (loader.get_migration(node_app, node_name).operations
+
+                                  for node_app, node_name in migration.branch)
+
+                migration.merged_operations = sum(migrations_ops, [])
+
+            # In future, this could use some of the Optimizer code
+
+            # (can_optimize_through) to automatically see if they&#39;re
+
+            # mergeable. For now, we always just prompt the user.
+
+            if self.verbosity &gt; 0:
+
+                self.stdout.write(self.style.MIGRATE_HEADING(&quot;Merging %s&quot; % app_label))
+
+                for migration in merge_migrations:
+
+                    self.stdout.write(self.style.MIGRATE_LABEL(&quot;  Branch %s&quot; % migration.name))
+
+                    for operation in migration.merged_operations:
+
+                        self.stdout.write(&#39;    - %s&#39; % operation.describe())
+
+            if questioner.ask_merge(app_label):
+
+                # If they still want to merge it, then write out an empty
+
+                # file depending on the migrations needing merging.
+
+                numbers = [
+
+                    MigrationAutodetector.parse_number(migration.name)
+
+                    for migration in merge_migrations
+
+                ]
+
+                try:
+
+                    biggest_number = max(x for x in numbers if x is not None)
+
+                except ValueError:
+
+                    biggest_number = 1
+
+                subclass = type(&quot;Migration&quot;, (Migration,), {
+
+                    &quot;dependencies&quot;: [(app_label, migration.name) for migration in merge_migrations],
+
+                })
+
+                parts = [&#39;%04i&#39; % (biggest_number + 1)]
+
+                if self.migration_name:
+
+                    parts.append(self.migration_name)
+
+                else:
+
+                    parts.append(&#39;merge&#39;)
+
+                    leaf_names = &#39;_&#39;.join(sorted(migration.name for migration in merge_migrations))
+
+                    if len(leaf_names) &gt; 47:
+
+                        parts.append(get_migration_name_timestamp())
+
+                    else:
+
+                        parts.append(leaf_names)
+
+                migration_name = &#39;_&#39;.join(parts)
+
+                new_migration = subclass(migration_name, app_label)
+
+                writer = MigrationWriter(new_migration, self.include_header)
+
+                if not self.dry_run:
+
+                    # Write the merge migrations file to the disk
+
+                    with open(writer.path, &quot;w&quot;, encoding=&#39;utf-8&#39;) as fh:
+
+                        fh.write(writer.as_string())
+
+                    if self.verbosity &gt; 0:
+
+                        self.stdout.write(&quot;\nCreated new merge migration %s&quot; % writer.path)
+
+                elif self.verbosity == 3:
+
+                    # Alternatively, makemigrations --merge --dry-run --verbosity 3
+
+                    # will output the merge migrations to stdout rather than saving
+
+                    # the file to the disk.
+
+                    self.stdout.write(self.style.MIGRATE_HEADING(
+
+                        &quot;Full merge migrations file &#39;%s&#39;:&quot; % writer.filename
+
+                    ))
+
+                    self.stdout.write(writer.as_string())
+</code></pre></div>
+</details>
+<h4 id="print_help">print_help</h4>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">print_help</span><span class="p">(</span>
+    <span class="bp">self</span><span class="p">,</span>
+    <span class="n">prog_name</span><span class="p">,</span>
+    <span class="n">subcommand</span>
+<span class="p">)</span>
+</code></pre></div>
+<p>Print the help message for this command, derived from</p>
+<p><code>self.usage()</code>.</p>
+<details class="example"><summary>View Source</summary><div class="highlight"><pre><span></span><code>    def print_help(self, prog_name, subcommand):
+
+        &quot;&quot;&quot;
+
+        Print the help message for this command, derived from
+
+        ``self.usage()``.
+
+        &quot;&quot;&quot;
+
+        parser = self.create_parser(prog_name, subcommand)
+
+        parser.print_help()
+</code></pre></div>
+</details>
+<h4 id="run_from_argv">run_from_argv</h4>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">run_from_argv</span><span class="p">(</span>
+    <span class="bp">self</span><span class="p">,</span>
+    <span class="n">argv</span>
+<span class="p">)</span>
+</code></pre></div>
+<p>Set up any environment changes requested (e.g., Python path</p>
+<p>and Django settings), then run this command. If the
+command raises a <code>CommandError</code>, intercept it and print it sensibly
+to stderr. If the <code>--traceback</code> option is present or the raised
+<code>Exception</code> is not <code>CommandError</code>, raise it.</p>
+<details class="example"><summary>View Source</summary><div class="highlight"><pre><span></span><code>    def run_from_argv(self, argv):
+
+        &quot;&quot;&quot;
+
+        Set up any environment changes requested (e.g., Python path
+
+        and Django settings), then run this command. If the
+
+        command raises a ``CommandError``, intercept it and print it sensibly
+
+        to stderr. If the ``--traceback`` option is present or the raised
+
+        ``Exception`` is not ``CommandError``, raise it.
+
+        &quot;&quot;&quot;
+
+        self._called_from_command_line = True
+
+        parser = self.create_parser(argv[0], argv[1])
+
+        options = parser.parse_args(argv[2:])
+
+        cmd_options = vars(options)
+
+        # Move positional args out of options to mimic legacy optparse
+
+        args = cmd_options.pop(&#39;args&#39;, ())
+
+        handle_default_options(options)
+
+        try:
+
+            self.execute(*args, **cmd_options)
+
+        except CommandError as e:
+
+            if options.traceback:
+
+                raise
+
+            # SystemCheckError takes care of its own formatting.
+
+            if isinstance(e, SystemCheckError):
+
+                self.stderr.write(str(e), lambda x: x)
+
+            else:
+
+                self.stderr.write(&#39;%s: %s&#39; % (e.__class__.__name__, e))
+
+            sys.exit(e.returncode)
+
+        finally:
+
+            try:
+
+                connections.close_all()
+
+            except ImproperlyConfigured:
+
+                # Ignore if connections aren&#39;t setup at this point (e.g. no
+
+                # configured settings).
+
+                pass
+</code></pre></div>
+</details>
+<h4 id="write_migration_files">write_migration_files</h4>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">write_migration_files</span><span class="p">(</span>
+    <span class="bp">self</span><span class="p">,</span>
+    <span class="n">changes</span>
+<span class="p">)</span>
+</code></pre></div>
+<p>Take a changes dict and write them out as migration files.</p>
+<details class="example"><summary>View Source</summary><div class="highlight"><pre><span></span><code>    def write_migration_files(self, changes):
+
+        &quot;&quot;&quot;
+
+        Take a changes dict and write them out as migration files.
+
+        &quot;&quot;&quot;
+
+        directory_created = {}
+
+        for app_label, app_migrations in changes.items():
+
+            if self.verbosity &gt;= 1:
+
+                self.stdout.write(self.style.MIGRATE_HEADING(&quot;Migrations for &#39;%s&#39;:&quot; % app_label))
+
+            for migration in app_migrations:
+
+                # Describe the migration
+
+                writer = MigrationWriter(migration, self.include_header)
+
+                if self.verbosity &gt;= 1:
+
+                    # Display a relative path if it&#39;s below the current working
+
+                    # directory, or an absolute path otherwise.
+
+                    try:
+
+                        migration_string = os.path.relpath(writer.path)
+
+                    except ValueError:
+
+                        migration_string = writer.path
+
+                    if migration_string.startswith(&#39;..&#39;):
+
+                        migration_string = writer.path
+
+                    self.stdout.write(&#39;  %s\n&#39; % self.style.MIGRATE_LABEL(migration_string))
+
+                    for operation in migration.operations:
+
+                        self.stdout.write(&#39;    - %s&#39; % operation.describe())
+
+                if not self.dry_run:
+
+                    # Write the migrations file to the disk.
+
+                    migrations_directory = os.path.dirname(writer.path)
+
+                    if not directory_created.get(app_label):
+
+                        os.makedirs(migrations_directory, exist_ok=True)
+
+                        init_path = os.path.join(migrations_directory, &quot;__init__.py&quot;)
+
+                        if not os.path.isfile(init_path):
+
+                            open(init_path, &quot;w&quot;).close()
+
+                        # We just do this once per app
+
+                        directory_created[app_label] = True
+
+                    migration_string = writer.as_string()
+
+                    with open(writer.path, &quot;w&quot;, encoding=&#39;utf-8&#39;) as fh:
+
+                        fh.write(migration_string)
+
+                elif self.verbosity == 3:
+
+                    # Alternatively, makemigrations --dry-run --verbosity 3
+
+                    # will output the migrations to stdout rather than saving
+
+                    # the file to the disk.
+
+                    self.stdout.write(self.style.MIGRATE_HEADING(
+
+                        &quot;Full migrations file &#39;%s&#39;:&quot; % writer.filename
+
+                    ))
+
+                    self.stdout.write(writer.as_string())
+</code></pre></div>
+</details>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid">
+        
+          <a href="../" title="Index" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
+            </div>
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                Index
+              </span>
+            </div>
+          </a>
+        
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            &copy; 2021 Tonye Jack
+          </div>
+        
+        Powered by
+        <a href="http://timothycrosley.github.io/portray">portray.</a>
+        You too can
+        <a href="http://timothycrosley.github.io/portray">
+          portray</a>
+        your Python project well using automatic documentation.
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "../../../../..", "features": [], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}, "search": "../../../../../assets/javascripts/workers/search.d351de03.min.js", "version": null}</script>
+    
+    
+      <script src="../../../../../assets/javascripts/bundle.a1609d9a.min.js"></script>
+      
+    
+  </body>
+</html>

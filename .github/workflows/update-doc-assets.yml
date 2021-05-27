@@ -39,3 +39,19 @@ jobs:
           commit-message: "Updated README.md"
           body: "Updated README.md"
           token: ${{ secrets.PAT_TOKEN }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.6.x'
+
+      - name: Upgrade pip
+        run: |
+          pip install -U pip
+
+      - name: Install dependencies
+        run: make install-docs
+
+      - name: Deploy to github pages
+        run: |
+          make github-pages

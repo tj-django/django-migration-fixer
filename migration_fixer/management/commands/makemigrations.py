@@ -3,15 +3,12 @@ import pathlib
 
 from django.apps import apps
 from django.conf import settings
-from django.core.management.base import (
-    CommandError,
-    no_translations,
-)
+from django.core.management.base import CommandError, no_translations
 from django.core.management.commands.makemigrations import Command as BaseCommand
 from django.db import DEFAULT_DB_ALIAS, connections, router
 from django.db.migrations.loader import MigrationLoader
 
-from migration_fixer.utils import run_command, fix_migration, fix_numbered_migration
+from migration_fixer.utils import fix_migration, fix_numbered_migration, run_command
 
 
 class Command(BaseCommand):

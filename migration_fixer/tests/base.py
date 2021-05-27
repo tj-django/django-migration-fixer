@@ -2,10 +2,9 @@ import abc
 from io import StringIO
 from typing import Type
 
-from six import with_metaclass
-
 from django.core.management import BaseCommand, call_command
 from django.test import TestCase
+from six import with_metaclass
 
 
 class BaseCommandTestCase(with_metaclass(abc.ABCMeta, TestCase)):

@@ -1,0 +1,24 @@
+site_name: django-migration-fixer
+site_author: Tonye Jack
+site_description: Fix django migrations
+copyright: "&copy; 2021 Tonye Jack"
+repo_url: https://github.com/tj-django/django-migration-fixer
+theme:
+  name: material
+  language: en
+  favicon: docs/images/logo.png
+  logo: docs/images/logo.png
+  palette:
+    primary: blue
+    accent: white
+  icon:
+    repo: fontawesome/brands/github-alt
+markdown_extensions:
+  - pymdownx.highlight
+  - pymdownx.superfences
+  - pymdownx.inlinehilite
+  - pymdownx.highlight:
+      linenums: true
+nav:
+  - Home: README.md
+#  - ChangeLog: CHANGELOG.md

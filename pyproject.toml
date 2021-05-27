@@ -1,0 +1,28 @@
+[tool.portray]
+modules = ["migration_fixer.management"]
+
+[tool.portray.mkdocs]
+site_name = "django-migration-fixer"
+site_author = "Tonye Jack"
+site_description = "Fix django migrations"
+copyright = "&copy; 2021 Tonye Jack"
+markdown_extensions = [
+    "admonition",
+    "pymdownx.details",
+    "pymdownx.highlight",
+    "pymdownx.superfences",
+    "pymdownx.inlinehilite",
+]
+
+[tool.portray.mkdocs.theme]
+name = "material"
+favicon = "docs/images/logo.png"
+logo = "docs/images/logo.png"
+palette = {primary = "blue", accent = "white"}
+icon = {repo = "fontawesome/brands/github-alt"}
+
+[[tool.portray.mkdocs.nav]]
+Home = "README.md"
+
+#[[tool.portray.mkdocs.nav]]
+#Changelog = "CHANGELOG.md"

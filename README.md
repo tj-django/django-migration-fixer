@@ -89,12 +89,6 @@ Using the `--merge` option creates a new migration file which might not be desir
 
 `django-migration-fixer` identifies changes between the default branch `main`, and the feature branch `feature/test-b` and maintains a linear dependency history as shown below:
 
-Run
-
-```bash
-$ python manage.py makemigrations --fix
-```
-
 **Branch:** `feature/test-b`
 
 ```bash

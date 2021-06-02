@@ -24,7 +24,6 @@ docs_requires = [
 
 install_requires = [
     "django",
-    "djangorestframework",
 ]
 
 test_requires = [

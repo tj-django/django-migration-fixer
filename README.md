@@ -87,7 +87,7 @@ Using the `--merge` option creates a new migration file which might not be desir
 
 ## Solution
 
-`django-migration-fixer` identifies changes between the default branch `main`, and the feature branch `feature/test-b` and maintains a linear dependency history as shown below:
+`django-migration-fixer` identifies changes between the default branch `main`, and the feature branch `feature/test-b` and maintains a consistent dependency history as shown below:
 
 **Branch:** `feature/test-b`
 

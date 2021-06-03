@@ -10,7 +10,7 @@
 
 ## Problem
 
-Maintain a linear migration history when conflicts occur as a result of changes made using different versions of the default branch.
+Maintain a consistent migration history when conflicts occur as a result of changes made using different versions of the default branch.
 
 ### Example
 

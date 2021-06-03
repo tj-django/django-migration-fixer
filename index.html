@@ -655,7 +655,7 @@ To fix them run &#39;python manage.py makemigrations --merge&#39;
 </code></pre></div>
 <p>Using the <code>--merge</code> option creates a new migration file which might not be desired.</p>
 <h2 id="solution">Solution</h2>
-<p><code>django-migration-fixer</code> identifies changes between the default branch <code>main</code>, and the feature branch <code>feature/test-b</code> and maintains a linear dependency history as shown below:</p>
+<p><code>django-migration-fixer</code> identifies changes between the default branch <code>main</code>, and the feature branch <code>feature/test-b</code> and maintains a consistent dependency history as shown below:</p>
 <p><strong>Branch:</strong> <code>feature/test-b</code></p>
 <div class="highlight"><pre><span></span><code>├── app
 │   ├── migrations

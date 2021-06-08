@@ -18,8 +18,8 @@ deploy_requires = [
 ]
 
 docs_requires = [
-    "mkdocs",
-    "portray",
+    "mkdocs==1.2",
+    "portray==1.6.0",
 ]
 
 install_requires = [

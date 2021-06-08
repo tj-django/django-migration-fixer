@@ -60,7 +60,7 @@ setup(
     author_email="jtonye@ymail.com",
     python_requires=">=3.6",
     classifiers=[
-        "Development Status :: 3 - Alpha",
+        "Development Status :: 4 - Beta",
         "Intended Audience :: Developers",
         "License :: OSI Approved :: MIT License",
         "Natural Language :: English",

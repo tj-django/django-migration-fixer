@@ -164,7 +164,7 @@ $ python manage.py makemigrations --fix
 Use:
 
 ```bash
-$ python manage.py makemigrations -b master --fix
+$ python manage.py makemigrations -b [ master | develop ] --fix
 ```
 
 ## Features

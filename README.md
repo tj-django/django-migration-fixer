@@ -8,11 +8,18 @@
 
 # django-migration-fixer
 
-## Problem
-
 Maintain a consistent migration history when conflicts occur as a result of changes made using different versions of the default branch.
 
-### Example
+## Features
+
+*   Resolves migration conflicts on feature/PR branches
+*   Resolves migration conflicts on the default branch **(NOT RECOMMENDED)**
+*   Supports numbered migration modules i.e (`0001_....py`)
+*   Supports named migration modules i.e (`custom_migration.py`)
+*   Re-index all migrations using the last migration on the default branch i.e `main` or `develop`
+
+
+## Example
 
 **Branch:** `main`
 
@@ -166,11 +173,3 @@ Use:
 ```bash
 $ python manage.py makemigrations -b [ master | develop ] --fix
 ```
-
-## Features
-
-*   Resolves migration conflicts on feature/PR branches
-*   Resolves migration conflicts on the default branch **(NOT RECOMMENDED)**
-*   Supports numbered migration modules i.e (`0001_....py`)
-*   Supports named migration modules i.e (`custom_migration.py`)
-*   Re-index all migrations using the last migration on the default branch i.e `main`

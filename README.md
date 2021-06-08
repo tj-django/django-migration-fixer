@@ -18,7 +18,6 @@ Maintain a consistent migration history when conflicts occur as a result of chan
 *   Supports named migration modules i.e (`custom_migration.py`)
 *   Re-index all migrations using the last migration on the default branch i.e `main` or `develop`
 
-
 ## Example
 
 **Branch:** `main`

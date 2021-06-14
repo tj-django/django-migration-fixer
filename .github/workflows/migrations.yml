@@ -17,7 +17,7 @@ jobs:
         with:
           python-version: '3.6.x'
 
-      - uses: actions/cache@v2.1.5
+      - uses: actions/cache@v2.1.6
         id: pip-cache
         with:
           path: ~/.cache/pip

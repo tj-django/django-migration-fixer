@@ -170,5 +170,5 @@ $ python manage.py makemigrations --fix
 Use:
 
 ```bash
-$ python manage.py makemigrations -b [ master | develop ] --fix
+$ python manage.py makemigrations -b [ default branch name ] --fix
 ```

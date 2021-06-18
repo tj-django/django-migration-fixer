@@ -45,7 +45,6 @@ INSTALLED_APPS = [
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "migration_fixer",
-    "demo",
 ]
 
 # Database

@@ -1,20 +1,22 @@
 """Tests for `migration_fixer` package."""
 
-# import pytest
-# import requests
-#
-#
-# @pytest.fixture
-# def response():
-#     """Sample pytest fixture.
-#
-#     See more at: http://doc.pytest.org/en/latest/fixture.html
-#     """
-#     return requests.get('https://github.com/audreyr/cookiecutter-pypackage')
+from django.test import override_settings
+
+from migration_fixer.tests.base import BaseCommandTestCase
 
 
-def test_content():
-    """Sample pytest test function with the pytest fixture as an argument."""
-    # from bs4 import BeautifulSoup
-    assert 1 in [2, 3, 1]
-    # assert 'GitHub' in BeautifulSoup(response.content).title.string
+@override_settings(
+    INSTALLED_APPS=[
+        "django.contrib.auth",
+        "django.contrib.contenttypes",
+        "migration_fixer",
+        "migration_fixer.tests.demo",
+    ]
+)
+class MigrationFixerTestCase(BaseCommandTestCase):
+    @classmethod
+    def setup_command_data(cls, *arg, **kwargs):
+        pass
+
+    def test_equal(self):
+        self.assertEqual(1, 1)

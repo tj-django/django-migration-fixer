@@ -75,34 +75,29 @@ increase-version: guard-PART  ## Increase project version
 	@bump2version $(PART)
 	@git switch -c main
 
-install-wheel:  ## Install wheel
+install-wheel: clean  ## Install wheel
 	@echo "Installing wheel..."
 	@pip install wheel
 
-install: clean requirements.txt install-wheel  ## install the package to the active Python's site-packages
+install: requirements.txt install-wheel  ## install the package to the active Python's site-packages
 	@pip install -r requirements.txt
 
-install-dev: clean requirements_dev.txt install-wheel  ## Install local dev packages
+install-dev: requirements_dev.txt install-wheel  ## Install local dev packages
 	@pip install -e .'[development]' -r requirements_dev.txt
 
-install-docs: clean install-wheel
+install-docs: install-wheel
 	@pip install -e .'[docs]'
 
-install-test: clean install-wheel
+install-test: install-wheel
 	@pip install -e .'[test]'
 
-install-lint: clean install-wheel
+install-lint: install-wheel
 	@pip install -e .'[lint]'
 
-install-deploy: clean install-wheel
+install-deploy: install-wheel
 	@pip install -e .'[deploy]'
 
-migrations:  ## Run django migrations without user input.
-	@echo "Generating migrations..."
-	@python manage.py makemigrations --fix --no-input
-
-migrate:  ## Run django migrate without user input
-	@echo "Applying migrations..."
-	@python manage.py migrate --no-input
+test: install-test
+	@pytest --basetemp={envtmpdir}
 
 .PHONY: clean clean-test clean-pyc clean-build docs help install-wheel install-docs install-dev install install-lint install-test install-deploy migrations

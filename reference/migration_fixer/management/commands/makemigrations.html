@@ -719,7 +719,7 @@ from django.apps import apps
 
 from django.conf import settings
 
-from django.core.management.base import CommandError, no_translations
+from django.core.management.base import CommandError
 
 from django.core.management.commands.makemigrations import Command as BaseCommand
 
@@ -727,9 +727,21 @@ from django.db import DEFAULT_DB_ALIAS, connections, router
 
 from django.db.migrations.loader import MigrationLoader
 
-from migration_fixer.utils import fix_migration, fix_numbered_migration, run_command
+from migration_fixer.utils import (
+
+    fix_migration,
+
+    fix_numbered_migration,
+
+    no_translations,
+
+    run_command,
+
+)
 
 class Command(BaseCommand):
+
+    success_msg = &quot;Successfully fixed migrations.&quot;
 
     def add_arguments(self, parser):
 
@@ -1057,43 +1069,53 @@ class Command(BaseCommand):
 
                             seed_split = last_remote_filename.split(&quot;_&quot;)
 
-                            if (
+                            try:
 
-                                seed_split
+                                if (
 
-                                and len(seed_split) &gt; 1
+                                    seed_split
 
-                                and str(seed_split[0]).isdigit()
+                                    and len(seed_split) &gt; 1
 
-                            ):
+                                    and str(seed_split[0]).isdigit()
 
-                                fix_numbered_migration(
+                                ):
 
-                                    app_label=app_label,
+                                    fix_numbered_migration(
 
-                                    migration_path=migration_path,
+                                        app_label=app_label,
 
-                                    seed=int(seed_split[0]),
+                                        migration_path=migration_path,
 
-                                    start_name=last_remote_filename,
+                                        seed=int(seed_split[0]),
 
-                                    changed_files=changed_files,
+                                        start_name=last_remote_filename,
 
-                                )
+                                        changed_files=changed_files,
+
+                                    )
+
+                                else:
+
+                                    fix_migration(
+
+                                        app_label=app_label,
+
+                                        migration_path=migration_path,
+
+                                        start_name=last_remote_filename,
+
+                                        changed_files=changed_files,
+
+                                    )
+
+                            except (ValueError, IndexError, TypeError) as e:
+
+                                self.stderr.write(f&quot;Error: {e}&quot;)
 
                             else:
 
-                                fix_migration(
-
-                                    app_label=app_label,
-
-                                    migration_path=migration_path,
-
-                                    start_name=last_remote_filename,
-
-                                    changed_files=changed_files,
-
-                                )
+                                self.stdout.write(self.success_msg)
 
         else:
 
@@ -1114,6 +1136,8 @@ class Command(BaseCommand):
 </code></pre></div>
 <details class="example"><summary>View Source</summary><div class="highlight"><pre><span></span><code>class Command(BaseCommand):
 
+    success_msg = &quot;Successfully fixed migrations.&quot;
+
     def add_arguments(self, parser):
 
         parser.add_argument(
@@ -1440,43 +1464,53 @@ class Command(BaseCommand):
 
                             seed_split = last_remote_filename.split(&quot;_&quot;)
 
-                            if (
+                            try:
 
-                                seed_split
+                                if (
 
-                                and len(seed_split) &gt; 1
+                                    seed_split
 
-                                and str(seed_split[0]).isdigit()
+                                    and len(seed_split) &gt; 1
 
-                            ):
+                                    and str(seed_split[0]).isdigit()
 
-                                fix_numbered_migration(
+                                ):
 
-                                    app_label=app_label,
+                                    fix_numbered_migration(
 
-                                    migration_path=migration_path,
+                                        app_label=app_label,
 
-                                    seed=int(seed_split[0]),
+                                        migration_path=migration_path,
 
-                                    start_name=last_remote_filename,
+                                        seed=int(seed_split[0]),
 
-                                    changed_files=changed_files,
+                                        start_name=last_remote_filename,
 
-                                )
+                                        changed_files=changed_files,
+
+                                    )
+
+                                else:
+
+                                    fix_migration(
+
+                                        app_label=app_label,
+
+                                        migration_path=migration_path,
+
+                                        start_name=last_remote_filename,
+
+                                        changed_files=changed_files,
+
+                                    )
+
+                            except (ValueError, IndexError, TypeError) as e:
+
+                                self.stderr.write(f&quot;Error: {e}&quot;)
 
                             else:
 
-                                fix_migration(
-
-                                    app_label=app_label,
-
-                                    migration_path=migration_path,
-
-                                    start_name=last_remote_filename,
-
-                                    changed_files=changed_files,
-
-                                )
+                                self.stdout.write(self.success_msg)
 
         else:
 
@@ -1501,6 +1535,8 @@ class Command(BaseCommand):
 <div class="highlight"><pre><span></span><code><span class="n">requires_system_checks</span>
 </code></pre></div>
 <div class="highlight"><pre><span></span><code><span class="n">stealth_options</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="n">success_msg</span>
 </code></pre></div>
 <h4 id="methods">Methods</h4>
 <h4 id="add_arguments">add_arguments</h4>

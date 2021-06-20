@@ -12,7 +12,12 @@ from django.core.management.commands.makemigrations import Command as BaseComman
 from django.db import DEFAULT_DB_ALIAS, connections, router
 from django.db.migrations.loader import MigrationLoader
 
-from migration_fixer.utils import fix_migration, fix_numbered_migration, run_command, no_translations
+from migration_fixer.utils import (
+    fix_migration,
+    fix_numbered_migration,
+    no_translations,
+    run_command,
+)
 
 
 class Command(BaseCommand):

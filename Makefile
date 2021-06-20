@@ -100,4 +100,7 @@ install-deploy: install-wheel
 test: install-test
 	@pytest --basetemp={envtmpdir}
 
+migrations:
+	@python manage.py makemigrations
+
 .PHONY: clean clean-test clean-pyc clean-build docs help install-wheel install-docs install-dev install install-lint install-test install-deploy migrations

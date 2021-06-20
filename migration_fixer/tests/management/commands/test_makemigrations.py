@@ -2,6 +2,7 @@
 
 from django.test import override_settings
 
+from migration_fixer.management.commands.makemigrations import Command
 from migration_fixer.tests.base import BaseCommandTestCase
 
 
@@ -14,9 +15,8 @@ from migration_fixer.tests.base import BaseCommandTestCase
     ]
 )
 class MigrationFixerTestCase(BaseCommandTestCase):
-    @classmethod
-    def setup_command_data(cls, *arg, **kwargs):
-        pass
+    cmd_class = Command
+    expected_output = Command.success_msg
 
     def test_equal(self):
         self.assertEqual(1, 1)

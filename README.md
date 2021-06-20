@@ -14,11 +14,11 @@ Maintain a consistent migration history when conflicts occur as a result of chan
 
 ## Features
 
-*   Resolves migration conflicts on feature/PR branches
-*   Resolves migration conflicts on the default branch **(NOT RECOMMENDED)**
-*   Supports numbered migration modules i.e (`0001_....py`)
+*   Resolve migration conflicts on PR branches
+*   Resolve migration conflicts on the default branch **(NOT RECOMMENDED)**
+*   Supports default migration modules i.e (`0001_....py`)
 *   Supports named migration modules i.e (`custom_migration.py`)
-*   Re-index all migrations using the last migration on the default branch i.e `main` or `develop`
+*   Re-nummber all migrations using the last migration on the default branch i.e `main` or `develop`
 
 ## Example
 

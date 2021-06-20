@@ -1,4 +1,3 @@
-from django.conf import settings
 from django.utils import translation
 
 from migration_fixer.utils import _clean_message, _decode_message, no_translations
@@ -15,7 +14,7 @@ def test__clean_message():
 
 def test__decode_message():
     encoding = "utf-8"
-    message = b'\xe2\x86\x92'
+    message = b"\xe2\x86\x92"
     expected_output = "→"
 
     current_output = _decode_message(message, encoding)
@@ -29,5 +28,3 @@ def test_no_translations():
         assert translation.get_language() is None
 
     do_not_translate()
-
-

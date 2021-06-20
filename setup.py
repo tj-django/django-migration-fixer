@@ -25,6 +25,7 @@ install_requires = [
 
 test_requires = [
     "pytest>=3",
+    "pytest-django",
     "tox",
     "tox-gh-actions",
     "coverage",

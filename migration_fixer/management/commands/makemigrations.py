@@ -7,15 +7,22 @@ import pathlib
 
 from django.apps import apps
 from django.conf import settings
-from django.core.management.base import CommandError, no_translations
+from django.core.management.base import CommandError
 from django.core.management.commands.makemigrations import Command as BaseCommand
 from django.db import DEFAULT_DB_ALIAS, connections, router
 from django.db.migrations.loader import MigrationLoader
 
-from migration_fixer.utils import fix_migration, fix_numbered_migration, run_command
+from migration_fixer.utils import (
+    fix_migration,
+    fix_numbered_migration,
+    no_translations,
+    run_command,
+)
 
 
 class Command(BaseCommand):
+    success_msg = "Successfully fixed migrations."
+
     def add_arguments(self, parser):
         parser.add_argument(
             "--fix",
@@ -199,25 +206,30 @@ class Command(BaseCommand):
 
                             seed_split = last_remote_filename.split("_")
 
-                            if (
-                                seed_split
-                                and len(seed_split) > 1
-                                and str(seed_split[0]).isdigit()
-                            ):
-                                fix_numbered_migration(
-                                    app_label=app_label,
-                                    migration_path=migration_path,
-                                    seed=int(seed_split[0]),
-                                    start_name=last_remote_filename,
-                                    changed_files=changed_files,
-                                )
+                            try:
+                                if (
+                                    seed_split
+                                    and len(seed_split) > 1
+                                    and str(seed_split[0]).isdigit()
+                                ):
+                                    fix_numbered_migration(
+                                        app_label=app_label,
+                                        migration_path=migration_path,
+                                        seed=int(seed_split[0]),
+                                        start_name=last_remote_filename,
+                                        changed_files=changed_files,
+                                    )
+                                else:
+                                    fix_migration(
+                                        app_label=app_label,
+                                        migration_path=migration_path,
+                                        start_name=last_remote_filename,
+                                        changed_files=changed_files,
+                                    )
+                            except (ValueError, IndexError, TypeError) as e:
+                                self.stderr.write(f"Error: {e}")
                             else:
-                                fix_migration(
-                                    app_label=app_label,
-                                    migration_path=migration_path,
-                                    start_name=last_remote_filename,
-                                    changed_files=changed_files,
-                                )
+                                self.stdout.write(self.success_msg)
 
         else:
             return super(Command, self).handle(*app_labels, **options)

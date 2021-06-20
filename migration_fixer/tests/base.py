@@ -9,33 +9,23 @@ from six import with_metaclass
 
 class BaseCommandTestCase(with_metaclass(abc.ABCMeta, TestCase)):
     cmd_class: Type[BaseCommand]
-    cmd_name = None
     expected_output: str
     base_kwargs = {"verbosity": 0}
 
     @classmethod
-    @abc.abstractmethod
-    def setup_command_data(cls, *arg, **kwargs):
-        pass
-
-    @classmethod
     def setup_command(cls, *args, **kwargs):
-        cmd = cls.cmd_name
+        cmd = cls.cmd_class()
 
-        if cls.cmd_class is not None and issubclass(cls.cmd_class, BaseCommand):
-            cmd = cls.cmd_class()
+        out = StringIO()
 
-        if cmd is not None:
-            out = StringIO()
+        kwargs["stdout"] = out
+        kwargs.update(cls.base_kwargs)
 
-            kwargs["stdout"] = out
-            kwargs.update(cls.base_kwargs)
+        call_command(cmd, *args, **kwargs)
 
-            call_command(cmd, *args, **kwargs)
+        output = out.getvalue()
 
-            output = out.getvalue()
-
-            if cls.expected_output is not None and cls.expected_output not in output:
-                raise AssertionError(
-                    f"Expected: {repr(cls.expected_output)} != {repr(output)}",
-                )
+        if cls.expected_output is not None and cls.expected_output not in output:
+            raise AssertionError(
+                f"Expected: {repr(cls.expected_output)} != {repr(output)}",
+            )

@@ -1,6 +1,6 @@
 import abc
 from io import StringIO
-from typing import Type, Union
+from typing import Type
 
 from django.core.management import BaseCommand, call_command
 from django.test import TestCase

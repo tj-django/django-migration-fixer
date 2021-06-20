@@ -170,7 +170,7 @@ $ python manage.py makemigrations --fix
 
 ### Specifying a different default branch name
 
-Use:
+Run:
 
 ```bash
 $ python manage.py makemigrations -b [ default branch name ] --fix

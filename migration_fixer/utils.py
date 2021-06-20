@@ -131,3 +131,18 @@ def fix_migration(
             _update_migration(conflict_path, app_label, seen)
 
             seen.append(basename.strip(".py"))
+
+
+def no_translations(handle_func):
+    """Decorator that forces a command to run with translations deactivated."""
+    def wrapped(*args, **kwargs):
+        from django.utils import translation
+        saved_locale = translation.get_language()
+        translation.deactivate_all()
+        try:
+            res = handle_func(*args, **kwargs)
+        finally:
+            if saved_locale is not None:
+                translation.activate(saved_locale)
+        return res
+    return wrapped

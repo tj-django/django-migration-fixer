@@ -16,7 +16,7 @@ from migration_fixer.utils import fix_migration, fix_numbered_migration, run_com
 
 
 class Command(BaseCommand):
-    success_msg = 'Successfully fixed migrations.'
+    success_msg = "Successfully fixed migrations."
 
     def add_arguments(self, parser):
         parser.add_argument(
@@ -222,7 +222,7 @@ class Command(BaseCommand):
                                         changed_files=changed_files,
                                     )
                             except (ValueError, IndexError, TypeError) as e:
-                                self.stderr.write(f'Error: {e}')
+                                self.stderr.write(f"Error: {e}")
                             else:
                                 self.stdout.write(self.success_msg)
 

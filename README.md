@@ -38,7 +38,7 @@ $ python manage.py makemigrations --fix
 
 By default this uses `main` as the default branch
 
-### For specifying a different default branch name
+### For specifying a different default branch
 
 Run:
 

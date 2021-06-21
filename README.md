@@ -12,6 +12,41 @@
 
 Maintain a consistent migration history when conflicts occur as a result of changes made using different versions of the default branch.
 
+## Installation
+
+```bash
+$ pip install django-migration-fixer
+```
+
+#### Add `migration_fixer` to your INSTALLED_APPS
+
+```python
+
+INSTALLED_APPS = [
+    ...,
+    "migration_fixer",
+    ...,
+]
+
+```
+
+## Usage
+
+```bash
+$ python manage.py makemigrations --fix
+```
+
+By default this uses `main` as the default branch
+
+### For specifying a different default branch name
+
+Run:
+
+```bash
+$ python manage.py makemigrations -b master --fix
+```
+
+
 ## Features
 
 *   Resolve migration conflicts on PR branches
@@ -142,35 +177,3 @@ class Migration(migrations.Migration):
 ### Assumptions
 
 The final migration on the default branch would be used as the base for all subsequent migrations.
-
-## Installation
-
-```bash
-$ pip install django-migration-fixer
-```
-
-#### Add `migration_fixer` to your INSTALLED_APPS
-
-```python
-
-INSTALLED_APPS = [
-    ...,
-    "migration_fixer",
-    ...,
-]
-
-```
-
-## Usage
-
-```bash
-$ python manage.py makemigrations --fix
-```
-
-### Specifying a different default branch name
-
-Run:
-
-```bash
-$ python manage.py makemigrations -b [ default branch name ] --fix
-```

@@ -21,4 +21,4 @@ markdown_extensions:
       linenums: true
 nav:
   - Home: README.md
-#  - ChangeLog: CHANGELOG.md
+  - ChangeLog: CHANGELOG.md

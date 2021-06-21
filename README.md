@@ -177,7 +177,6 @@ class Migration(migrations.Migration):
 
 The final migration on the default branch would be used as the base for all subsequent migrations.
 
-
 ## Found a Bug?
 
 To file a bug or submit a patch, please head over to [django-migration-fixer on github](https://github.com/tj-django/django-migration-fixer/issues).

@@ -17,6 +17,10 @@ markdown_extensions:
   - pymdownx.highlight
   - pymdownx.superfences
   - pymdownx.inlinehilite
+  - admonition
+  - codehilite:
+      css_class: highlight
+  - mkautodoc
   - pymdownx.highlight:
       linenums: true
 nav:

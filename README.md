@@ -176,3 +176,16 @@ class Migration(migrations.Migration):
 ### Assumptions
 
 The final migration on the default branch would be used as the base for all subsequent migrations.
+
+
+## Found a Bug?
+
+To file a bug or submit a patch, please head over to [django-migration-fixer on github](https://github.com/tj-django/django-migration-fixer/issues).
+
+If you feel generous and want to show some extra appreciation:
+
+[![Buy me a coffee][buymeacoffee-shield]][buymeacoffee]
+
+[buymeacoffee]: https://www.buymeacoffee.com/jackton1
+
+[buymeacoffee-shield]: https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png

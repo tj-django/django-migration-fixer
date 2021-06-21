@@ -46,7 +46,6 @@ Run:
 $ python manage.py makemigrations -b master --fix
 ```
 
-
 ## Features
 
 *   Resolve migration conflicts on PR branches

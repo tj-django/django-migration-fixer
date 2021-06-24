@@ -26,4 +26,6 @@ icon = {repo = "fontawesome/brands/github-alt"}
 
 [[tool.portray.mkdocs.nav]]
 Home = "README.md"
+
+[[tool.portray.mkdocs.nav]]
 ChangeLog = "CHANGELOG.md"

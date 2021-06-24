@@ -219,7 +219,7 @@
   
     <li class="md-nav__item">
       <a href="../../../../CHANGELOG.html" class="md-nav__link">
-        Changelog
+        ChangeLog
       </a>
     </li>
   
@@ -720,422 +720,423 @@
                 <h1 id="module-migration_fixermanagementcommandsmakemigrations">Module migration_fixer.management.commands.makemigrations</h1>
 <p>Create a new django migration with support for fixing conflicts.</p>
 <p>None</p>
-<details class="example"><summary>View Source</summary><div class="highlight"><pre><span></span><code>&quot;&quot;&quot;
+<details class="example"><summary>View Source</summary><div class="codehilite"><pre><span></span><code><span class="sd">&quot;&quot;&quot;</span>
 
-Create a new django migration with support for fixing conflicts.
+<span class="sd">Create a new django migration with support for fixing conflicts.</span>
 
-&quot;&quot;&quot;
+<span class="sd">&quot;&quot;&quot;</span>
 
-import os
+<span class="kn">import</span> <span class="nn">os</span>
 
-import pathlib
+<span class="kn">import</span> <span class="nn">pathlib</span>
 
-from django.apps import apps
+<span class="kn">from</span> <span class="nn">django.apps</span> <span class="kn">import</span> <span class="n">apps</span>
 
-from django.conf import settings
+<span class="kn">from</span> <span class="nn">django.conf</span> <span class="kn">import</span> <span class="n">settings</span>
 
-from django.core.management.base import CommandError
+<span class="kn">from</span> <span class="nn">django.core.management.base</span> <span class="kn">import</span> <span class="n">CommandError</span>
 
-from django.core.management.commands.makemigrations import Command as BaseCommand
+<span class="kn">from</span> <span class="nn">django.core.management.commands.makemigrations</span> <span class="kn">import</span> <span class="n">Command</span> <span class="k">as</span> <span class="n">BaseCommand</span>
 
-from django.db import DEFAULT_DB_ALIAS, connections, router
+<span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">DEFAULT_DB_ALIAS</span><span class="p">,</span> <span class="n">connections</span><span class="p">,</span> <span class="n">router</span>
 
-from django.db.migrations.loader import MigrationLoader
+<span class="kn">from</span> <span class="nn">django.db.migrations.loader</span> <span class="kn">import</span> <span class="n">MigrationLoader</span>
 
-from migration_fixer.utils import (
+<span class="kn">from</span> <span class="nn">migration_fixer.utils</span> <span class="kn">import</span> <span class="p">(</span>
 
-    fix_migration,
+    <span class="n">fix_migration</span><span class="p">,</span>
 
-    fix_numbered_migration,
+    <span class="n">fix_numbered_migration</span><span class="p">,</span>
 
-    no_translations,
+    <span class="n">no_translations</span><span class="p">,</span>
 
-    run_command,
+    <span class="n">run_command</span><span class="p">,</span>
 
-)
+<span class="p">)</span>
 
-class Command(BaseCommand):
+<span class="k">class</span> <span class="nc">Command</span><span class="p">(</span><span class="n">BaseCommand</span><span class="p">):</span>
 
-    success_msg = &quot;Successfully fixed migrations.&quot;
+    <span class="n">success_msg</span> <span class="o">=</span> <span class="s2">&quot;Successfully fixed migrations.&quot;</span>
 
-    def add_arguments(self, parser):
+    <span class="k">def</span> <span class="nf">add_arguments</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parser</span><span class="p">):</span>
 
-        parser.add_argument(
+        <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
 
-            &quot;--fix&quot;,
+            <span class="s2">&quot;--fix&quot;</span><span class="p">,</span>
 
-            action=&quot;store_true&quot;,
+            <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
 
-            help=&quot;Fix migrations conflicts.&quot;,
+            <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Fix migrations conflicts.&quot;</span><span class="p">,</span>
 
-        )
+        <span class="p">)</span>
 
-        parser.add_argument(
+        <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
 
-            &quot;-b&quot;,
+            <span class="s2">&quot;-b&quot;</span><span class="p">,</span>
 
-            &quot;--default-branch&quot;,
+            <span class="s2">&quot;--default-branch&quot;</span><span class="p">,</span>
 
-            help=&quot;The name of the default branch.&quot;,
+            <span class="n">help</span><span class="o">=</span><span class="s2">&quot;The name of the default branch.&quot;</span><span class="p">,</span>
 
-            default=&quot;main&quot;,
+            <span class="n">default</span><span class="o">=</span><span class="s2">&quot;main&quot;</span><span class="p">,</span>
 
-        )
+        <span class="p">)</span>
 
-        super().add_arguments(parser)
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">add_arguments</span><span class="p">(</span><span class="n">parser</span><span class="p">)</span>
 
-    @no_translations
+    <span class="nd">@no_translations</span>
 
-    def handle(self, *app_labels, **options):
+    <span class="k">def</span> <span class="nf">handle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">app_labels</span><span class="p">,</span> <span class="o">**</span><span class="n">options</span><span class="p">):</span>
 
-        self.merge = options[&quot;merge&quot;]
+        <span class="bp">self</span><span class="o">.</span><span class="n">merge</span> <span class="o">=</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;merge&quot;</span><span class="p">]</span>
 
-        self.fix = options[&quot;fix&quot;]
+        <span class="bp">self</span><span class="o">.</span><span class="n">fix</span> <span class="o">=</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;fix&quot;</span><span class="p">]</span>
 
-        self.default_branch = options[&quot;default_branch&quot;]
+        <span class="bp">self</span><span class="o">.</span><span class="n">default_branch</span> <span class="o">=</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;default_branch&quot;</span><span class="p">]</span>
 
-        if self.fix:
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">fix</span><span class="p">:</span>
 
-            try:
+            <span class="k">try</span><span class="p">:</span>
 
-                super().handle(*app_labels, **options)
+                <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">handle</span><span class="p">(</span><span class="o">*</span><span class="n">app_labels</span><span class="p">,</span> <span class="o">**</span><span class="n">options</span><span class="p">)</span>
 
-            except CommandError as e:
+            <span class="k">except</span> <span class="n">CommandError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
 
-                [message] = e.args
+                <span class="p">[</span><span class="n">message</span><span class="p">]</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="n">args</span>
 
-                if &quot;Conflicting migrations&quot; in message:
+                <span class="k">if</span> <span class="s2">&quot;Conflicting migrations&quot;</span> <span class="ow">in</span> <span class="n">message</span><span class="p">:</span>
 
-                    git_setup, git_setup_output, git_setup_error = run_command(
+                    <span class="n">git_setup</span><span class="p">,</span> <span class="n">git_setup_output</span><span class="p">,</span> <span class="n">git_setup_error</span> <span class="o">=</span> <span class="n">run_command</span><span class="p">(</span>
 
-                        &quot;git status&quot;
+                        <span class="s2">&quot;git status&quot;</span>
 
-                    )
+                    <span class="p">)</span>
 
-                    if not git_setup:
+                    <span class="k">if</span> <span class="ow">not</span> <span class="n">git_setup</span><span class="p">:</span>
 
-                        raise CommandError(
+                        <span class="k">raise</span> <span class="n">CommandError</span><span class="p">(</span>
 
-                            self.style.ERROR(
+                            <span class="bp">self</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">ERROR</span><span class="p">(</span>
 
-                                f&quot;VCS is not yet setup. &quot;
+                                <span class="sa">f</span><span class="s2">&quot;VCS is not yet setup. &quot;</span>
 
-                                &quot;Please run (git init) &quot;
+                                <span class="s2">&quot;Please run (git init) &quot;</span>
 
-                                f&#39;\n&quot;{git_setup_output or git_setup_error}&quot;&#39;
+                                <span class="sa">f</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&quot;</span><span class="si">{</span><span class="n">git_setup_output</span> <span class="ow">or</span> <span class="n">git_setup_error</span><span class="si">}</span><span class="s1">&quot;&#39;</span>
 
-                            )
+                            <span class="p">)</span>
 
-                        )
+                        <span class="p">)</span>
 
-                    (
+                    <span class="p">(</span>
 
-                        get_current_branch,
+                        <span class="n">get_current_branch</span><span class="p">,</span>
 
-                        get_current_branch_output,
+                        <span class="n">get_current_branch_output</span><span class="p">,</span>
 
-                        get_current_branch_error,
+                        <span class="n">get_current_branch_error</span><span class="p">,</span>
 
-                    ) = run_command(&quot;git branch --show-current&quot;)
+                    <span class="p">)</span> <span class="o">=</span> <span class="n">run_command</span><span class="p">(</span><span class="s2">&quot;git branch --show-current&quot;</span><span class="p">)</span>
 
-                    if not get_current_branch:
+                    <span class="k">if</span> <span class="ow">not</span> <span class="n">get_current_branch</span><span class="p">:</span>
 
-                        raise CommandError(
+                        <span class="k">raise</span> <span class="n">CommandError</span><span class="p">(</span>
 
-                            self.style.ERROR(
+                            <span class="bp">self</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">ERROR</span><span class="p">(</span>
 
-                                f&quot;Unable to determine the current branch: &quot;
+                                <span class="sa">f</span><span class="s2">&quot;Unable to determine the current branch: &quot;</span>
 
-                                f&#39;&quot;{get_current_branch_output or get_current_branch_error}&quot;&#39;
+                                <span class="sa">f</span><span class="s1">&#39;&quot;</span><span class="si">{</span><span class="n">get_current_branch_output</span> <span class="ow">or</span> <span class="n">get_current_branch_error</span><span class="si">}</span><span class="s1">&quot;&#39;</span>
 
-                            )
+                            <span class="p">)</span>
 
-                        )
+                        <span class="p">)</span>
 
-                    pull_command = (
+                    <span class="n">pull_command</span> <span class="o">=</span> <span class="p">(</span>
 
-                        &quot;git pull&quot;
+                        <span class="s2">&quot;git pull&quot;</span>
 
-                        if get_current_branch_output == self.default_branch
+                        <span class="k">if</span> <span class="n">get_current_branch_output</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">default_branch</span>
 
-                        else (
+                        <span class="k">else</span> <span class="p">(</span>
 
-                            &quot;git fetch --depth=1 origin &quot;
+                            <span class="s2">&quot;git fetch --depth=1 origin &quot;</span>
 
-                            f&quot;{self.default_branch}:{self.default_branch}&quot;
+                            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">default_branch</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">default_branch</span><span class="si">}</span><span class="s2">&quot;</span>
 
-                        )
+                        <span class="p">)</span>
 
-                    )
+                    <span class="p">)</span>
 
-                    # Pull the last commit
+                    <span class="c1"># Pull the last commit</span>
 
-                    git_pull, git_pull_output, git_pull_error = run_command(
+                    <span class="n">git_pull</span><span class="p">,</span> <span class="n">git_pull_output</span><span class="p">,</span> <span class="n">git_pull_error</span> <span class="o">=</span> <span class="n">run_command</span><span class="p">(</span>
 
-                        pull_command
+                        <span class="n">pull_command</span>
 
-                    )
+                    <span class="p">)</span>
 
-                    if not git_pull:
+                    <span class="k">if</span> <span class="ow">not</span> <span class="n">git_pull</span><span class="p">:</span>
 
-                        raise CommandError(
+                        <span class="k">raise</span> <span class="n">CommandError</span><span class="p">(</span>
 
-                            self.style.ERROR(
+                            <span class="bp">self</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">ERROR</span><span class="p">(</span>
 
-                                f&quot;Error pulling branch ({self.default_branch}) changes: &quot;
+                                <span class="sa">f</span><span class="s2">&quot;Error pulling branch (</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">default_branch</span><span class="si">}</span><span class="s2">) changes: &quot;</span>
 
-                                f&#39;&quot;{git_pull_output or git_pull_error}&quot;&#39;
+                                <span class="sa">f</span><span class="s1">&#39;&quot;</span><span class="si">{</span><span class="n">git_pull_output</span> <span class="ow">or</span> <span class="n">git_pull_error</span><span class="si">}</span><span class="s1">&quot;&#39;</span>
 
-                            )
+                            <span class="p">)</span>
 
-                        )
+                        <span class="p">)</span>
 
-                    head_sha, head_sha_output, head_sha_error = run_command(
+                    <span class="n">head_sha</span><span class="p">,</span> <span class="n">head_sha_output</span><span class="p">,</span> <span class="n">head_sha_error</span> <span class="o">=</span> <span class="n">run_command</span><span class="p">(</span>
 
-                        f&quot;git rev-parse {self.default_branch}&quot;
+                        <span class="sa">f</span><span class="s2">&quot;git rev-parse </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">default_branch</span><span class="si">}</span><span class="s2">&quot;</span>
 
-                    )
+                    <span class="p">)</span>
 
-                    if not head_sha:
+                    <span class="k">if</span> <span class="ow">not</span> <span class="n">head_sha</span><span class="p">:</span>
 
-                        raise CommandError(
+                        <span class="k">raise</span> <span class="n">CommandError</span><span class="p">(</span>
 
-                            self.style.ERROR(
+                            <span class="bp">self</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">ERROR</span><span class="p">(</span>
 
-                                f&quot;Error determining head sha on ({self.default_branch}): &quot;
+                                <span class="sa">f</span><span class="s2">&quot;Error determining head sha on (</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">default_branch</span><span class="si">}</span><span class="s2">): &quot;</span>
 
-                                f&#39;&quot;{head_sha_output or head_sha_error}&quot;&#39;
+                                <span class="sa">f</span><span class="s1">&#39;&quot;</span><span class="si">{</span><span class="n">head_sha_output</span> <span class="ow">or</span> <span class="n">head_sha_error</span><span class="si">}</span><span class="s1">&quot;&#39;</span>
 
-                            )
+                            <span class="p">)</span>
 
-                        )
+                        <span class="p">)</span>
 
-                    # Load the current graph state. Pass in None for the connection so
+                    <span class="c1"># Load the current graph state. Pass in None for the connection so</span>
 
-                    # the loader doesn&#39;t try to resolve replaced migrations from DB.
+                    <span class="c1"># the loader doesn&#39;t try to resolve replaced migrations from DB.</span>
 
-                    loader = MigrationLoader(None, ignore_no_migrations=True)
+                    <span class="n">loader</span> <span class="o">=</span> <span class="n">MigrationLoader</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">ignore_no_migrations</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-                    # Raise an error if any migrations are applied before their dependencies.
+                    <span class="c1"># Raise an error if any migrations are applied before their dependencies.</span>
 
-                    consistency_check_labels = {
+                    <span class="n">consistency_check_labels</span> <span class="o">=</span> <span class="p">{</span>
 
-                        config.label for config in apps.get_app_configs()
+                        <span class="n">config</span><span class="o">.</span><span class="n">label</span> <span class="k">for</span> <span class="n">config</span> <span class="ow">in</span> <span class="n">apps</span><span class="o">.</span><span class="n">get_app_configs</span><span class="p">()</span>
 
-                    }
+                    <span class="p">}</span>
 
-                    # Non-default databases are only checked if database routers used.
+                    <span class="c1"># Non-default databases are only checked if database routers used.</span>
 
-                    aliases_to_check = (
+                    <span class="n">aliases_to_check</span> <span class="o">=</span> <span class="p">(</span>
 
-                        connections if settings.DATABASE_ROUTERS else [DEFAULT_DB_ALIAS]
+                        <span class="n">connections</span> <span class="k">if</span> <span class="n">settings</span><span class="o">.</span><span class="n">DATABASE_ROUTERS</span> <span class="k">else</span> <span class="p">[</span><span class="n">DEFAULT_DB_ALIAS</span><span class="p">]</span>
 
-                    )
+                    <span class="p">)</span>
 
-                    for alias in sorted(aliases_to_check):
+                    <span class="k">for</span> <span class="n">alias</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">aliases_to_check</span><span class="p">):</span>
 
-                        connection = connections[alias]
+                        <span class="n">connection</span> <span class="o">=</span> <span class="n">connections</span><span class="p">[</span><span class="n">alias</span><span class="p">]</span>
 
-                        if connection.settings_dict[
+                        <span class="k">if</span> <span class="n">connection</span><span class="o">.</span><span class="n">settings_dict</span><span class="p">[</span>
 
-                            &quot;ENGINE&quot;
+                            <span class="s2">&quot;ENGINE&quot;</span>
 
-                        ] != &quot;django.db.backends.dummy&quot; and any(
+                        <span class="p">]</span> <span class="o">!=</span> <span class="s2">&quot;django.db.backends.dummy&quot;</span> <span class="ow">and</span> <span class="nb">any</span><span class="p">(</span>
 
-                            # At least one model must be migrated to the database.
+                            <span class="c1"># At least one model must be migrated to the database.</span>
 
-                            router.allow_migrate(
+                            <span class="n">router</span><span class="o">.</span><span class="n">allow_migrate</span><span class="p">(</span>
 
-                                connection.alias,
+                                <span class="n">connection</span><span class="o">.</span><span class="n">alias</span><span class="p">,</span>
 
-                                app_label,
+                                <span class="n">app_label</span><span class="p">,</span>
 
-                                model_name=model._meta.object_name,
+                                <span class="n">model_name</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">_meta</span><span class="o">.</span><span class="n">object_name</span><span class="p">,</span>
 
-                            )
+                            <span class="p">)</span>
 
-                            for app_label in consistency_check_labels
+                            <span class="k">for</span> <span class="n">app_label</span> <span class="ow">in</span> <span class="n">consistency_check_labels</span>
 
-                            for model in apps.get_app_config(app_label).get_models()
+                            <span class="k">for</span> <span class="n">model</span> <span class="ow">in</span> <span class="n">apps</span><span class="o">.</span><span class="n">get_app_config</span><span class="p">(</span><span class="n">app_label</span><span class="p">)</span><span class="o">.</span><span class="n">get_models</span><span class="p">()</span>
 
-                        ):
+                        <span class="p">):</span>
 
-                            loader.check_consistent_history(connection)
+                            <span class="n">loader</span><span class="o">.</span><span class="n">check_consistent_history</span><span class="p">(</span><span class="n">connection</span><span class="p">)</span>
 
-                    # Before anything else, see if there&#39;s conflicting apps and drop out
+                    <span class="c1"># Before anything else, see if there&#39;s conflicting apps and drop out</span>
 
-                    # hard if there are any and they don&#39;t want to merge
+                    <span class="c1"># hard if there are any and they don&#39;t want to merge</span>
 
-                    conflicts = loader.detect_conflicts()
+                    <span class="n">conflicts</span> <span class="o">=</span> <span class="n">loader</span><span class="o">.</span><span class="n">detect_conflicts</span><span class="p">()</span>
 
-                    app_labels = app_labels or tuple(
+                    <span class="n">app_labels</span> <span class="o">=</span> <span class="n">app_labels</span> <span class="ow">or</span> <span class="nb">tuple</span><span class="p">(</span>
 
-                        app_label
+                        <span class="n">app_label</span>
 
-                        for app_label in settings.INSTALLED_APPS
+                        <span class="k">for</span> <span class="n">app_label</span> <span class="ow">in</span> <span class="n">settings</span><span class="o">.</span><span class="n">INSTALLED_APPS</span>
 
-                        if app_label in conflicts
+                        <span class="k">if</span> <span class="n">app_label</span> <span class="ow">in</span> <span class="n">conflicts</span>
 
-                    )
+                    <span class="p">)</span>
 
-                    for app_label in app_labels:
+                    <span class="k">for</span> <span class="n">app_label</span> <span class="ow">in</span> <span class="n">app_labels</span><span class="p">:</span>
 
-                        conflict = conflicts.get(app_label)
+                        <span class="n">conflict</span> <span class="o">=</span> <span class="n">conflicts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">app_label</span><span class="p">)</span>
 
-                        migration_module, _ = loader.migrations_module(app_label)
+                        <span class="n">migration_module</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">loader</span><span class="o">.</span><span class="n">migrations_module</span><span class="p">(</span><span class="n">app_label</span><span class="p">)</span>
 
-                        migration_absolute_path = os.path.join(
+                        <span class="n">migration_absolute_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
 
-                            *migration_module.split(&quot;.&quot;)
+                            <span class="o">*</span><span class="n">migration_module</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span>
 
-                        )
+                        <span class="p">)</span>
 
-                        migration_path = pathlib.Path(
+                        <span class="n">migration_path</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span>
 
-                            os.path.join(settings.BASE_DIR, migration_absolute_path)
+                            <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">BASE_DIR</span><span class="p">,</span> <span class="n">migration_absolute_path</span><span class="p">)</span>
 
-                        )
+                        <span class="p">)</span>
 
-                        with migration_path:
+                        <span class="k">with</span> <span class="n">migration_path</span><span class="p">:</span>
 
-                            (
+                            <span class="p">(</span>
 
-                                get_changed_files,
+                                <span class="n">get_changed_files</span><span class="p">,</span>
 
-                                get_changed_files_output,
+                                <span class="n">get_changed_files_output</span><span class="p">,</span>
 
-                                get_changed_files_error,
+                                <span class="n">get_changed_files_error</span><span class="p">,</span>
 
-                            ) = run_command(
+                            <span class="p">)</span> <span class="o">=</span> <span class="n">run_command</span><span class="p">(</span>
 
-                                f&quot;git diff --diff-filter=ACMUXTR --name-only {self.default_branch}&quot;
+                                <span class="sa">f</span><span class="s2">&quot;git diff --diff-filter=ACMUXTR --name-only </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">default_branch</span><span class="si">}</span><span class="s2">&quot;</span>
 
-                            )
+                            <span class="p">)</span>
 
-                            if not get_changed_files:
+                            <span class="k">if</span> <span class="ow">not</span> <span class="n">get_changed_files</span><span class="p">:</span>
 
-                                raise CommandError(
+                                <span class="k">raise</span> <span class="n">CommandError</span><span class="p">(</span>
 
-                                    self.style.ERROR(
+                                    <span class="bp">self</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">ERROR</span><span class="p">(</span>
 
-                                        &quot;Error retrieving changed files on &quot;
+                                        <span class="s2">&quot;Error retrieving changed files on &quot;</span>
 
-                                        f&quot;({self.default_branch}): &quot;
+                                        <span class="sa">f</span><span class="s2">&quot;(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">default_branch</span><span class="si">}</span><span class="s2">): &quot;</span>
 
-                                        f&#39;&quot;{get_changed_files_output or get_changed_files_error}&quot;&#39;
+                                        <span class="sa">f</span><span class="s1">&#39;&quot;</span><span class="si">{</span><span class="n">get_changed_files_output</span> <span class="ow">or</span> <span class="n">get_changed_files_error</span><span class="si">}</span><span class="s1">&quot;&#39;</span>
 
-                                    )
+                                    <span class="p">)</span>
 
-                                )
+                                <span class="p">)</span>
 
-                            # Files different on the current branch
+                            <span class="c1"># Files different on the current branch</span>
 
-                            changed_files = [
+                            <span class="n">changed_files</span> <span class="o">=</span> <span class="p">[</span>
 
-                                fname
+                                <span class="n">fname</span>
 
-                                for fname in get_changed_files_output.split(&quot;\n&quot;)
+                                <span class="k">for</span> <span class="n">fname</span> <span class="ow">in</span> <span class="n">get_changed_files_output</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
 
-                                if migration_absolute_path in fname
+                                <span class="k">if</span> <span class="n">migration_absolute_path</span> <span class="ow">in</span> <span class="n">fname</span>
 
-                            ]
+                            <span class="p">]</span>
 
-                            # Local migration
+                            <span class="c1"># Local migration</span>
 
-                            local_filenames = [
+                            <span class="n">local_filenames</span> <span class="o">=</span> <span class="p">[</span>
 
-                                os.path.splitext(os.path.basename(p))[0]
+                                <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">p</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
 
-                                for p in changed_files
+                                <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">changed_files</span>
 
-                            ]
+                            <span class="p">]</span>
 
-                            last_remote = [
+                            <span class="n">last_remote</span> <span class="o">=</span> <span class="p">[</span>
 
-                                fname
+                                <span class="n">fname</span>
 
-                                for fname in conflict
+                                <span class="k">for</span> <span class="n">fname</span> <span class="ow">in</span> <span class="n">conflict</span>
 
-                                if fname not in local_filenames
+                                <span class="k">if</span> <span class="n">fname</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">local_filenames</span>
 
-                            ]
+                            <span class="p">]</span>
 
-                            if not last_remote:
+                            <span class="k">if</span> <span class="ow">not</span> <span class="n">last_remote</span><span class="p">:</span>
 
-                                raise CommandError(
+                                <span class="k">raise</span> <span class="n">CommandError</span><span class="p">(</span>
 
-                                    self.style.ERROR(
+                                    <span class="bp">self</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">ERROR</span><span class="p">(</span>
 
-                                        f&quot;Unable to determine the last migration on: &quot;
+                                        <span class="sa">f</span><span class="s2">&quot;Unable to determine the last migration on: &quot;</span>
 
-                                        f&quot;{self.default_branch}&quot;,
+                                        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">default_branch</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
 
-                                    )
+                                    <span class="p">)</span>
 
-                                )
+                                <span class="p">)</span>
 
-                            last_remote_filename, *rest = last_remote
+                            <span class="n">last_remote_filename</span><span class="p">,</span> <span class="o">*</span><span class="n">rest</span> <span class="o">=</span> <span class="n">last_remote</span>
 
-                            changed_files = changed_files or [
+                            <span class="n">changed_files</span> <span class="o">=</span> <span class="n">changed_files</span> <span class="ow">or</span> <span class="p">[</span>
 
-                                f&quot;{fname}.py&quot; for fname in rest
+                                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">fname</span><span class="si">}</span><span class="s2">.py&quot;</span> <span class="k">for</span> <span class="n">fname</span> <span class="ow">in</span> <span class="n">rest</span>
 
-                            ]
+                            <span class="p">]</span>
 
-                            seed_split = last_remote_filename.split(&quot;_&quot;)
+                            <span class="n">seed_split</span> <span class="o">=</span> <span class="n">last_remote_filename</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)</span>
 
-                            try:
+                            <span class="k">try</span><span class="p">:</span>
 
-                                if (
+                                <span class="k">if</span> <span class="p">(</span>
 
-                                    seed_split
+                                    <span class="n">seed_split</span>
 
-                                    and len(seed_split) &gt; 1
+                                    <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">seed_split</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span>
 
-                                    and str(seed_split[0]).isdigit()
+                                    <span class="ow">and</span> <span class="nb">str</span><span class="p">(</span><span class="n">seed_split</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">isdigit</span><span class="p">()</span>
 
-                                ):
+                                <span class="p">):</span>
 
-                                    fix_numbered_migration(
+                                    <span class="n">fix_numbered_migration</span><span class="p">(</span>
 
-                                        app_label=app_label,
+                                        <span class="n">app_label</span><span class="o">=</span><span class="n">app_label</span><span class="p">,</span>
 
-                                        migration_path=migration_path,
+                                        <span class="n">migration_path</span><span class="o">=</span><span class="n">migration_path</span><span class="p">,</span>
 
-                                        seed=int(seed_split[0]),
+                                        <span class="n">seed</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">seed_split</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span>
 
-                                        start_name=last_remote_filename,
+                                        <span class="n">start_name</span><span class="o">=</span><span class="n">last_remote_filename</span><span class="p">,</span>
 
-                                        changed_files=changed_files,
+                                        <span class="n">changed_files</span><span class="o">=</span><span class="n">changed_files</span><span class="p">,</span>
 
-                                    )
+                                    <span class="p">)</span>
 
-                                else:
+                                <span class="k">else</span><span class="p">:</span>
 
-                                    fix_migration(
+                                    <span class="n">fix_migration</span><span class="p">(</span>
 
-                                        app_label=app_label,
+                                        <span class="n">app_label</span><span class="o">=</span><span class="n">app_label</span><span class="p">,</span>
 
-                                        migration_path=migration_path,
+                                        <span class="n">migration_path</span><span class="o">=</span><span class="n">migration_path</span><span class="p">,</span>
 
-                                        start_name=last_remote_filename,
+                                        <span class="n">start_name</span><span class="o">=</span><span class="n">last_remote_filename</span><span class="p">,</span>
 
-                                        changed_files=changed_files,
+                                        <span class="n">changed_files</span><span class="o">=</span><span class="n">changed_files</span><span class="p">,</span>
 
-                                    )
+                                    <span class="p">)</span>
 
-                            except (ValueError, IndexError, TypeError) as e:
+                            <span class="k">except</span> <span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="ne">IndexError</span><span class="p">,</span> <span class="ne">TypeError</span><span class="p">)</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
 
-                                self.stderr.write(f&quot;Error: {e}&quot;)
+                                <span class="bp">self</span><span class="o">.</span><span class="n">stderr</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
-                            else:
+                            <span class="k">else</span><span class="p">:</span>
 
-                                self.stdout.write(self.success_msg)
+                                <span class="bp">self</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">success_msg</span><span class="p">)</span>
 
-        else:
+        <span class="k">else</span><span class="p">:</span>
 
-            return super(Command, self).handle(*app_labels, **options)
+            <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">Command</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">handle</span><span class="p">(</span><span class="o">*</span><span class="n">app_labels</span><span class="p">,</span> <span class="o">**</span><span class="n">options</span><span class="p">)</span>
 </code></pre></div>
+
 </details>
 <h2 id="variables">Variables</h2>
 <div class="highlight"><pre><span></span><code><span class="n">DEFAULT_DB_ALIAS</span>
@@ -1149,388 +1150,389 @@ class Command(BaseCommand):
     <span class="n">force_color</span><span class="o">=</span><span class="kc">False</span>
 <span class="p">)</span>
 </code></pre></div>
-<details class="example"><summary>View Source</summary><div class="highlight"><pre><span></span><code>class Command(BaseCommand):
+<details class="example"><summary>View Source</summary><div class="codehilite"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="n">Command</span><span class="p">(</span><span class="n">BaseCommand</span><span class="p">)</span><span class="err">:</span><span class="w"></span>
 
-    success_msg = &quot;Successfully fixed migrations.&quot;
+<span class="w">    </span><span class="n">success_msg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ss">&quot;Successfully fixed migrations.&quot;</span><span class="w"></span>
 
-    def add_arguments(self, parser):
+<span class="w">    </span><span class="n">def</span><span class="w"> </span><span class="n">add_arguments</span><span class="p">(</span><span class="n">self</span><span class="p">,</span><span class="w"> </span><span class="n">parser</span><span class="p">)</span><span class="err">:</span><span class="w"></span>
 
-        parser.add_argument(
+<span class="w">        </span><span class="n">parser</span><span class="p">.</span><span class="n">add_argument</span><span class="p">(</span><span class="w"></span>
 
-            &quot;--fix&quot;,
+<span class="w">            </span><span class="ss">&quot;--fix&quot;</span><span class="p">,</span><span class="w"></span>
 
-            action=&quot;store_true&quot;,
+<span class="w">            </span><span class="k">action</span><span class="o">=</span><span class="ss">&quot;store_true&quot;</span><span class="p">,</span><span class="w"></span>
 
-            help=&quot;Fix migrations conflicts.&quot;,
+<span class="w">            </span><span class="n">help</span><span class="o">=</span><span class="ss">&quot;Fix migrations conflicts.&quot;</span><span class="p">,</span><span class="w"></span>
 
-        )
+<span class="w">        </span><span class="p">)</span><span class="w"></span>
 
-        parser.add_argument(
+<span class="w">        </span><span class="n">parser</span><span class="p">.</span><span class="n">add_argument</span><span class="p">(</span><span class="w"></span>
 
-            &quot;-b&quot;,
+<span class="w">            </span><span class="ss">&quot;-b&quot;</span><span class="p">,</span><span class="w"></span>
 
-            &quot;--default-branch&quot;,
+<span class="w">            </span><span class="ss">&quot;--default-branch&quot;</span><span class="p">,</span><span class="w"></span>
 
-            help=&quot;The name of the default branch.&quot;,
+<span class="w">            </span><span class="n">help</span><span class="o">=</span><span class="ss">&quot;The name of the default branch.&quot;</span><span class="p">,</span><span class="w"></span>
 
-            default=&quot;main&quot;,
+<span class="w">            </span><span class="k">default</span><span class="o">=</span><span class="ss">&quot;main&quot;</span><span class="p">,</span><span class="w"></span>
 
-        )
+<span class="w">        </span><span class="p">)</span><span class="w"></span>
 
-        super().add_arguments(parser)
+<span class="w">        </span><span class="n">super</span><span class="p">().</span><span class="n">add_arguments</span><span class="p">(</span><span class="n">parser</span><span class="p">)</span><span class="w"></span>
 
-    @no_translations
+<span class="w">    </span><span class="nv">@no_translations</span><span class="w"></span>
 
-    def handle(self, *app_labels, **options):
+<span class="w">    </span><span class="n">def</span><span class="w"> </span><span class="n">handle</span><span class="p">(</span><span class="n">self</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="n">app_labels</span><span class="p">,</span><span class="w"> </span><span class="o">**</span><span class="n">options</span><span class="p">)</span><span class="err">:</span><span class="w"></span>
 
-        self.merge = options[&quot;merge&quot;]
+<span class="w">        </span><span class="n">self</span><span class="p">.</span><span class="k">merge</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">options</span><span class="o">[</span><span class="n">&quot;merge&quot;</span><span class="o">]</span><span class="w"></span>
 
-        self.fix = options[&quot;fix&quot;]
+<span class="w">        </span><span class="n">self</span><span class="p">.</span><span class="n">fix</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">options</span><span class="o">[</span><span class="n">&quot;fix&quot;</span><span class="o">]</span><span class="w"></span>
 
-        self.default_branch = options[&quot;default_branch&quot;]
+<span class="w">        </span><span class="n">self</span><span class="p">.</span><span class="n">default_branch</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">options</span><span class="o">[</span><span class="n">&quot;default_branch&quot;</span><span class="o">]</span><span class="w"></span>
 
-        if self.fix:
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">self</span><span class="p">.</span><span class="nl">fix</span><span class="p">:</span><span class="w"></span>
 
-            try:
+<span class="w">            </span><span class="k">try</span><span class="err">:</span><span class="w"></span>
 
-                super().handle(*app_labels, **options)
+<span class="w">                </span><span class="n">super</span><span class="p">().</span><span class="n">handle</span><span class="p">(</span><span class="o">*</span><span class="n">app_labels</span><span class="p">,</span><span class="w"> </span><span class="o">**</span><span class="n">options</span><span class="p">)</span><span class="w"></span>
 
-            except CommandError as e:
+<span class="w">            </span><span class="ow">except</span><span class="w"> </span><span class="n">CommandError</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nl">e</span><span class="p">:</span><span class="w"></span>
 
-                [message] = e.args
+<span class="w">                </span><span class="o">[</span><span class="n">message</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">e</span><span class="p">.</span><span class="n">args</span><span class="w"></span>
 
-                if &quot;Conflicting migrations&quot; in message:
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="ss">&quot;Conflicting migrations&quot;</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="nl">message</span><span class="p">:</span><span class="w"></span>
 
-                    git_setup, git_setup_output, git_setup_error = run_command(
+<span class="w">                    </span><span class="n">git_setup</span><span class="p">,</span><span class="w"> </span><span class="n">git_setup_output</span><span class="p">,</span><span class="w"> </span><span class="n">git_setup_error</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">run_command</span><span class="p">(</span><span class="w"></span>
 
-                        &quot;git status&quot;
+<span class="w">                        </span><span class="ss">&quot;git status&quot;</span><span class="w"></span>
 
-                    )
+<span class="w">                    </span><span class="p">)</span><span class="w"></span>
 
-                    if not git_setup:
+<span class="w">                    </span><span class="k">if</span><span class="w"> </span><span class="ow">not</span><span class="w"> </span><span class="nl">git_setup</span><span class="p">:</span><span class="w"></span>
 
-                        raise CommandError(
+<span class="w">                        </span><span class="n">raise</span><span class="w"> </span><span class="n">CommandError</span><span class="p">(</span><span class="w"></span>
 
-                            self.style.ERROR(
+<span class="w">                            </span><span class="n">self</span><span class="p">.</span><span class="n">style</span><span class="p">.</span><span class="n">ERROR</span><span class="p">(</span><span class="w"></span>
 
-                                f&quot;VCS is not yet setup. &quot;
+<span class="w">                                </span><span class="n">f</span><span class="ss">&quot;VCS is not yet setup. &quot;</span><span class="w"></span>
 
-                                &quot;Please run (git init) &quot;
+<span class="w">                                </span><span class="ss">&quot;Please run (git init) &quot;</span><span class="w"></span>
 
-                                f&#39;\n&quot;{git_setup_output or git_setup_error}&quot;&#39;
+<span class="w">                                </span><span class="n">f</span><span class="s1">&#39;\n&quot;{git_setup_output or git_setup_error}&quot;&#39;</span><span class="w"></span>
 
-                            )
+<span class="w">                            </span><span class="p">)</span><span class="w"></span>
 
-                        )
+<span class="w">                        </span><span class="p">)</span><span class="w"></span>
 
-                    (
+<span class="w">                    </span><span class="p">(</span><span class="w"></span>
 
-                        get_current_branch,
+<span class="w">                        </span><span class="n">get_current_branch</span><span class="p">,</span><span class="w"></span>
 
-                        get_current_branch_output,
+<span class="w">                        </span><span class="n">get_current_branch_output</span><span class="p">,</span><span class="w"></span>
 
-                        get_current_branch_error,
+<span class="w">                        </span><span class="n">get_current_branch_error</span><span class="p">,</span><span class="w"></span>
 
-                    ) = run_command(&quot;git branch --show-current&quot;)
+<span class="w">                    </span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">run_command</span><span class="p">(</span><span class="ss">&quot;git branch --show-current&quot;</span><span class="p">)</span><span class="w"></span>
 
-                    if not get_current_branch:
+<span class="w">                    </span><span class="k">if</span><span class="w"> </span><span class="ow">not</span><span class="w"> </span><span class="nl">get_current_branch</span><span class="p">:</span><span class="w"></span>
 
-                        raise CommandError(
+<span class="w">                        </span><span class="n">raise</span><span class="w"> </span><span class="n">CommandError</span><span class="p">(</span><span class="w"></span>
 
-                            self.style.ERROR(
+<span class="w">                            </span><span class="n">self</span><span class="p">.</span><span class="n">style</span><span class="p">.</span><span class="n">ERROR</span><span class="p">(</span><span class="w"></span>
 
-                                f&quot;Unable to determine the current branch: &quot;
+<span class="w">                                </span><span class="n">f</span><span class="ss">&quot;Unable to determine the current branch: &quot;</span><span class="w"></span>
 
-                                f&#39;&quot;{get_current_branch_output or get_current_branch_error}&quot;&#39;
+<span class="w">                                </span><span class="n">f</span><span class="s1">&#39;&quot;{get_current_branch_output or get_current_branch_error}&quot;&#39;</span><span class="w"></span>
 
-                            )
+<span class="w">                            </span><span class="p">)</span><span class="w"></span>
 
-                        )
+<span class="w">                        </span><span class="p">)</span><span class="w"></span>
 
-                    pull_command = (
+<span class="w">                    </span><span class="n">pull_command</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="w"></span>
 
-                        &quot;git pull&quot;
+<span class="w">                        </span><span class="ss">&quot;git pull&quot;</span><span class="w"></span>
 
-                        if get_current_branch_output == self.default_branch
+<span class="w">                        </span><span class="k">if</span><span class="w"> </span><span class="n">get_current_branch_output</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">self</span><span class="p">.</span><span class="n">default_branch</span><span class="w"></span>
 
-                        else (
+<span class="w">                        </span><span class="k">else</span><span class="w"> </span><span class="p">(</span><span class="w"></span>
 
-                            &quot;git fetch --depth=1 origin &quot;
+<span class="w">                            </span><span class="ss">&quot;git fetch --depth=1 origin &quot;</span><span class="w"></span>
 
-                            f&quot;{self.default_branch}:{self.default_branch}&quot;
+<span class="w">                            </span><span class="n">f</span><span class="ss">&quot;{self.default_branch}:{self.default_branch}&quot;</span><span class="w"></span>
 
-                        )
+<span class="w">                        </span><span class="p">)</span><span class="w"></span>
 
-                    )
+<span class="w">                    </span><span class="p">)</span><span class="w"></span>
 
-                    # Pull the last commit
+<span class="w">                    </span><span class="err">#</span><span class="w"> </span><span class="n">Pull</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="k">last</span><span class="w"> </span><span class="k">commit</span><span class="w"></span>
 
-                    git_pull, git_pull_output, git_pull_error = run_command(
+<span class="w">                    </span><span class="n">git_pull</span><span class="p">,</span><span class="w"> </span><span class="n">git_pull_output</span><span class="p">,</span><span class="w"> </span><span class="n">git_pull_error</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">run_command</span><span class="p">(</span><span class="w"></span>
 
-                        pull_command
+<span class="w">                        </span><span class="n">pull_command</span><span class="w"></span>
 
-                    )
+<span class="w">                    </span><span class="p">)</span><span class="w"></span>
 
-                    if not git_pull:
+<span class="w">                    </span><span class="k">if</span><span class="w"> </span><span class="ow">not</span><span class="w"> </span><span class="nl">git_pull</span><span class="p">:</span><span class="w"></span>
 
-                        raise CommandError(
+<span class="w">                        </span><span class="n">raise</span><span class="w"> </span><span class="n">CommandError</span><span class="p">(</span><span class="w"></span>
 
-                            self.style.ERROR(
+<span class="w">                            </span><span class="n">self</span><span class="p">.</span><span class="n">style</span><span class="p">.</span><span class="n">ERROR</span><span class="p">(</span><span class="w"></span>
 
-                                f&quot;Error pulling branch ({self.default_branch}) changes: &quot;
+<span class="w">                                </span><span class="n">f</span><span class="ss">&quot;Error pulling branch ({self.default_branch}) changes: &quot;</span><span class="w"></span>
 
-                                f&#39;&quot;{git_pull_output or git_pull_error}&quot;&#39;
+<span class="w">                                </span><span class="n">f</span><span class="s1">&#39;&quot;{git_pull_output or git_pull_error}&quot;&#39;</span><span class="w"></span>
 
-                            )
+<span class="w">                            </span><span class="p">)</span><span class="w"></span>
 
-                        )
+<span class="w">                        </span><span class="p">)</span><span class="w"></span>
 
-                    head_sha, head_sha_output, head_sha_error = run_command(
+<span class="w">                    </span><span class="n">head_sha</span><span class="p">,</span><span class="w"> </span><span class="n">head_sha_output</span><span class="p">,</span><span class="w"> </span><span class="n">head_sha_error</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">run_command</span><span class="p">(</span><span class="w"></span>
 
-                        f&quot;git rev-parse {self.default_branch}&quot;
+<span class="w">                        </span><span class="n">f</span><span class="ss">&quot;git rev-parse {self.default_branch}&quot;</span><span class="w"></span>
 
-                    )
+<span class="w">                    </span><span class="p">)</span><span class="w"></span>
 
-                    if not head_sha:
+<span class="w">                    </span><span class="k">if</span><span class="w"> </span><span class="ow">not</span><span class="w"> </span><span class="nl">head_sha</span><span class="p">:</span><span class="w"></span>
 
-                        raise CommandError(
+<span class="w">                        </span><span class="n">raise</span><span class="w"> </span><span class="n">CommandError</span><span class="p">(</span><span class="w"></span>
 
-                            self.style.ERROR(
+<span class="w">                            </span><span class="n">self</span><span class="p">.</span><span class="n">style</span><span class="p">.</span><span class="n">ERROR</span><span class="p">(</span><span class="w"></span>
 
-                                f&quot;Error determining head sha on ({self.default_branch}): &quot;
+<span class="w">                                </span><span class="n">f</span><span class="ss">&quot;Error determining head sha on ({self.default_branch}): &quot;</span><span class="w"></span>
 
-                                f&#39;&quot;{head_sha_output or head_sha_error}&quot;&#39;
+<span class="w">                                </span><span class="n">f</span><span class="s1">&#39;&quot;{head_sha_output or head_sha_error}&quot;&#39;</span><span class="w"></span>
 
-                            )
+<span class="w">                            </span><span class="p">)</span><span class="w"></span>
 
-                        )
+<span class="w">                        </span><span class="p">)</span><span class="w"></span>
 
-                    # Load the current graph state. Pass in None for the connection so
+<span class="w">                    </span><span class="err">#</span><span class="w"> </span><span class="k">Load</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="k">current</span><span class="w"> </span><span class="n">graph</span><span class="w"> </span><span class="k">state</span><span class="p">.</span><span class="w"> </span><span class="n">Pass</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="k">None</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="k">connection</span><span class="w"> </span><span class="n">so</span><span class="w"></span>
 
-                    # the loader doesn&#39;t try to resolve replaced migrations from DB.
+<span class="w">                    </span><span class="err">#</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">loader</span><span class="w"> </span><span class="n">doesn</span><span class="s1">&#39;t try to resolve replaced migrations from DB.</span>
 
-                    loader = MigrationLoader(None, ignore_no_migrations=True)
+<span class="s1">                    loader = MigrationLoader(None, ignore_no_migrations=True)</span>
 
-                    # Raise an error if any migrations are applied before their dependencies.
+<span class="s1">                    # Raise an error if any migrations are applied before their dependencies.</span>
 
-                    consistency_check_labels = {
+<span class="s1">                    consistency_check_labels = {</span>
 
-                        config.label for config in apps.get_app_configs()
+<span class="s1">                        config.label for config in apps.get_app_configs()</span>
 
-                    }
+<span class="s1">                    }</span>
 
-                    # Non-default databases are only checked if database routers used.
+<span class="s1">                    # Non-default databases are only checked if database routers used.</span>
 
-                    aliases_to_check = (
+<span class="s1">                    aliases_to_check = (</span>
 
-                        connections if settings.DATABASE_ROUTERS else [DEFAULT_DB_ALIAS]
+<span class="s1">                        connections if settings.DATABASE_ROUTERS else [DEFAULT_DB_ALIAS]</span>
 
-                    )
+<span class="s1">                    )</span>
 
-                    for alias in sorted(aliases_to_check):
+<span class="s1">                    for alias in sorted(aliases_to_check):</span>
 
-                        connection = connections[alias]
+<span class="s1">                        connection = connections[alias]</span>
 
-                        if connection.settings_dict[
+<span class="s1">                        if connection.settings_dict[</span>
 
-                            &quot;ENGINE&quot;
+<span class="s1">                            &quot;ENGINE&quot;</span>
 
-                        ] != &quot;django.db.backends.dummy&quot; and any(
+<span class="s1">                        ] != &quot;django.db.backends.dummy&quot; and any(</span>
 
-                            # At least one model must be migrated to the database.
+<span class="s1">                            # At least one model must be migrated to the database.</span>
 
-                            router.allow_migrate(
+<span class="s1">                            router.allow_migrate(</span>
 
-                                connection.alias,
+<span class="s1">                                connection.alias,</span>
 
-                                app_label,
+<span class="s1">                                app_label,</span>
 
-                                model_name=model._meta.object_name,
+<span class="s1">                                model_name=model._meta.object_name,</span>
 
-                            )
+<span class="s1">                            )</span>
 
-                            for app_label in consistency_check_labels
+<span class="s1">                            for app_label in consistency_check_labels</span>
 
-                            for model in apps.get_app_config(app_label).get_models()
+<span class="s1">                            for model in apps.get_app_config(app_label).get_models()</span>
 
-                        ):
+<span class="s1">                        ):</span>
 
-                            loader.check_consistent_history(connection)
+<span class="s1">                            loader.check_consistent_history(connection)</span>
 
-                    # Before anything else, see if there&#39;s conflicting apps and drop out
+<span class="s1">                    # Before anything else, see if there&#39;</span><span class="n">s</span><span class="w"> </span><span class="n">conflicting</span><span class="w"> </span><span class="n">apps</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="k">drop</span><span class="w"> </span><span class="k">out</span><span class="w"></span>
 
-                    # hard if there are any and they don&#39;t want to merge
+<span class="w">                    </span><span class="err">#</span><span class="w"> </span><span class="n">hard</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">there</span><span class="w"> </span><span class="k">are</span><span class="w"> </span><span class="ow">any</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="n">they</span><span class="w"> </span><span class="n">don</span><span class="s1">&#39;t want to merge</span>
 
-                    conflicts = loader.detect_conflicts()
+<span class="s1">                    conflicts = loader.detect_conflicts()</span>
 
-                    app_labels = app_labels or tuple(
+<span class="s1">                    app_labels = app_labels or tuple(</span>
 
-                        app_label
+<span class="s1">                        app_label</span>
 
-                        for app_label in settings.INSTALLED_APPS
+<span class="s1">                        for app_label in settings.INSTALLED_APPS</span>
 
-                        if app_label in conflicts
+<span class="s1">                        if app_label in conflicts</span>
 
-                    )
+<span class="s1">                    )</span>
 
-                    for app_label in app_labels:
+<span class="s1">                    for app_label in app_labels:</span>
 
-                        conflict = conflicts.get(app_label)
+<span class="s1">                        conflict = conflicts.get(app_label)</span>
 
-                        migration_module, _ = loader.migrations_module(app_label)
+<span class="s1">                        migration_module, _ = loader.migrations_module(app_label)</span>
 
-                        migration_absolute_path = os.path.join(
+<span class="s1">                        migration_absolute_path = os.path.join(</span>
 
-                            *migration_module.split(&quot;.&quot;)
+<span class="s1">                            *migration_module.split(&quot;.&quot;)</span>
 
-                        )
+<span class="s1">                        )</span>
 
-                        migration_path = pathlib.Path(
+<span class="s1">                        migration_path = pathlib.Path(</span>
 
-                            os.path.join(settings.BASE_DIR, migration_absolute_path)
+<span class="s1">                            os.path.join(settings.BASE_DIR, migration_absolute_path)</span>
 
-                        )
+<span class="s1">                        )</span>
 
-                        with migration_path:
+<span class="s1">                        with migration_path:</span>
 
-                            (
+<span class="s1">                            (</span>
 
-                                get_changed_files,
+<span class="s1">                                get_changed_files,</span>
 
-                                get_changed_files_output,
+<span class="s1">                                get_changed_files_output,</span>
 
-                                get_changed_files_error,
+<span class="s1">                                get_changed_files_error,</span>
 
-                            ) = run_command(
+<span class="s1">                            ) = run_command(</span>
 
-                                f&quot;git diff --diff-filter=ACMUXTR --name-only {self.default_branch}&quot;
+<span class="s1">                                f&quot;git diff --diff-filter=ACMUXTR --name-only {self.default_branch}&quot;</span>
 
-                            )
+<span class="s1">                            )</span>
 
-                            if not get_changed_files:
+<span class="s1">                            if not get_changed_files:</span>
 
-                                raise CommandError(
+<span class="s1">                                raise CommandError(</span>
 
-                                    self.style.ERROR(
+<span class="s1">                                    self.style.ERROR(</span>
 
-                                        &quot;Error retrieving changed files on &quot;
+<span class="s1">                                        &quot;Error retrieving changed files on &quot;</span>
 
-                                        f&quot;({self.default_branch}): &quot;
+<span class="s1">                                        f&quot;({self.default_branch}): &quot;</span>
 
-                                        f&#39;&quot;{get_changed_files_output or get_changed_files_error}&quot;&#39;
+<span class="s1">                                        f&#39;</span><span class="ss">&quot;{get_changed_files_output or get_changed_files_error}&quot;</span><span class="err">&#39;</span><span class="w"></span>
 
-                                    )
+<span class="w">                                    </span><span class="p">)</span><span class="w"></span>
 
-                                )
+<span class="w">                                </span><span class="p">)</span><span class="w"></span>
 
-                            # Files different on the current branch
+<span class="w">                            </span><span class="err">#</span><span class="w"> </span><span class="n">Files</span><span class="w"> </span><span class="n">different</span><span class="w"> </span><span class="k">on</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="k">current</span><span class="w"> </span><span class="n">branch</span><span class="w"></span>
 
-                            changed_files = [
+<span class="w">                            </span><span class="n">changed_files</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">[</span><span class="n"></span>
 
-                                fname
+<span class="n">                                fname</span>
 
-                                for fname in get_changed_files_output.split(&quot;\n&quot;)
+<span class="n">                                for fname in get_changed_files_output.split(&quot;\n&quot;)</span>
 
-                                if migration_absolute_path in fname
+<span class="n">                                if migration_absolute_path in fname</span>
 
-                            ]
+<span class="n">                            </span><span class="o">]</span><span class="w"></span>
 
-                            # Local migration
+<span class="w">                            </span><span class="err">#</span><span class="w"> </span><span class="k">Local</span><span class="w"> </span><span class="n">migration</span><span class="w"></span>
 
-                            local_filenames = [
+<span class="w">                            </span><span class="n">local_filenames</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">[</span><span class="n"></span>
 
-                                os.path.splitext(os.path.basename(p))[0]
+<span class="n">                                os.path.splitext(os.path.basename(p))[0</span><span class="o">]</span><span class="w"></span>
 
-                                for p in changed_files
+<span class="w">                                </span><span class="k">for</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">changed_files</span><span class="w"></span>
 
-                            ]
+<span class="w">                            </span><span class="err">]</span><span class="w"></span>
 
-                            last_remote = [
+<span class="w">                            </span><span class="n">last_remote</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">[</span><span class="n"></span>
 
-                                fname
+<span class="n">                                fname</span>
 
-                                for fname in conflict
+<span class="n">                                for fname in conflict</span>
 
-                                if fname not in local_filenames
+<span class="n">                                if fname not in local_filenames</span>
 
-                            ]
+<span class="n">                            </span><span class="o">]</span><span class="w"></span>
 
-                            if not last_remote:
+<span class="w">                            </span><span class="k">if</span><span class="w"> </span><span class="ow">not</span><span class="w"> </span><span class="nl">last_remote</span><span class="p">:</span><span class="w"></span>
 
-                                raise CommandError(
+<span class="w">                                </span><span class="n">raise</span><span class="w"> </span><span class="n">CommandError</span><span class="p">(</span><span class="w"></span>
 
-                                    self.style.ERROR(
+<span class="w">                                    </span><span class="n">self</span><span class="p">.</span><span class="n">style</span><span class="p">.</span><span class="n">ERROR</span><span class="p">(</span><span class="w"></span>
 
-                                        f&quot;Unable to determine the last migration on: &quot;
+<span class="w">                                        </span><span class="n">f</span><span class="ss">&quot;Unable to determine the last migration on: &quot;</span><span class="w"></span>
 
-                                        f&quot;{self.default_branch}&quot;,
+<span class="w">                                        </span><span class="n">f</span><span class="ss">&quot;{self.default_branch}&quot;</span><span class="p">,</span><span class="w"></span>
 
-                                    )
+<span class="w">                                    </span><span class="p">)</span><span class="w"></span>
 
-                                )
+<span class="w">                                </span><span class="p">)</span><span class="w"></span>
 
-                            last_remote_filename, *rest = last_remote
+<span class="w">                            </span><span class="n">last_remote_filename</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="n">rest</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">last_remote</span><span class="w"></span>
 
-                            changed_files = changed_files or [
+<span class="w">                            </span><span class="n">changed_files</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">changed_files</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="o">[</span><span class="n"></span>
 
-                                f&quot;{fname}.py&quot; for fname in rest
+<span class="n">                                f&quot;{fname}.py&quot; for fname in rest</span>
 
-                            ]
+<span class="n">                            </span><span class="o">]</span><span class="w"></span>
 
-                            seed_split = last_remote_filename.split(&quot;_&quot;)
+<span class="w">                            </span><span class="n">seed_split</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">last_remote_filename</span><span class="p">.</span><span class="n">split</span><span class="p">(</span><span class="ss">&quot;_&quot;</span><span class="p">)</span><span class="w"></span>
 
-                            try:
+<span class="w">                            </span><span class="k">try</span><span class="err">:</span><span class="w"></span>
 
-                                if (
+<span class="w">                                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"></span>
 
-                                    seed_split
+<span class="w">                                    </span><span class="n">seed_split</span><span class="w"></span>
 
-                                    and len(seed_split) &gt; 1
+<span class="w">                                    </span><span class="ow">and</span><span class="w"> </span><span class="nf">len</span><span class="p">(</span><span class="n">seed_split</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
 
-                                    and str(seed_split[0]).isdigit()
+<span class="w">                                    </span><span class="ow">and</span><span class="w"> </span><span class="nf">str</span><span class="p">(</span><span class="n">seed_split</span><span class="o">[</span><span class="n">0</span><span class="o">]</span><span class="p">).</span><span class="n">isdigit</span><span class="p">()</span><span class="w"></span>
 
-                                ):
+<span class="w">                                </span><span class="p">)</span><span class="err">:</span><span class="w"></span>
 
-                                    fix_numbered_migration(
+<span class="w">                                    </span><span class="n">fix_numbered_migration</span><span class="p">(</span><span class="w"></span>
 
-                                        app_label=app_label,
+<span class="w">                                        </span><span class="n">app_label</span><span class="o">=</span><span class="n">app_label</span><span class="p">,</span><span class="w"></span>
 
-                                        migration_path=migration_path,
+<span class="w">                                        </span><span class="n">migration_path</span><span class="o">=</span><span class="n">migration_path</span><span class="p">,</span><span class="w"></span>
 
-                                        seed=int(seed_split[0]),
+<span class="w">                                        </span><span class="n">seed</span><span class="o">=</span><span class="nc">int</span><span class="p">(</span><span class="n">seed_split</span><span class="o">[</span><span class="n">0</span><span class="o">]</span><span class="p">),</span><span class="w"></span>
 
-                                        start_name=last_remote_filename,
+<span class="w">                                        </span><span class="n">start_name</span><span class="o">=</span><span class="n">last_remote_filename</span><span class="p">,</span><span class="w"></span>
 
-                                        changed_files=changed_files,
+<span class="w">                                        </span><span class="n">changed_files</span><span class="o">=</span><span class="n">changed_files</span><span class="p">,</span><span class="w"></span>
 
-                                    )
+<span class="w">                                    </span><span class="p">)</span><span class="w"></span>
 
-                                else:
+<span class="w">                                </span><span class="k">else</span><span class="err">:</span><span class="w"></span>
 
-                                    fix_migration(
+<span class="w">                                    </span><span class="n">fix_migration</span><span class="p">(</span><span class="w"></span>
 
-                                        app_label=app_label,
+<span class="w">                                        </span><span class="n">app_label</span><span class="o">=</span><span class="n">app_label</span><span class="p">,</span><span class="w"></span>
 
-                                        migration_path=migration_path,
+<span class="w">                                        </span><span class="n">migration_path</span><span class="o">=</span><span class="n">migration_path</span><span class="p">,</span><span class="w"></span>
 
-                                        start_name=last_remote_filename,
+<span class="w">                                        </span><span class="n">start_name</span><span class="o">=</span><span class="n">last_remote_filename</span><span class="p">,</span><span class="w"></span>
 
-                                        changed_files=changed_files,
+<span class="w">                                        </span><span class="n">changed_files</span><span class="o">=</span><span class="n">changed_files</span><span class="p">,</span><span class="w"></span>
 
-                                    )
+<span class="w">                                    </span><span class="p">)</span><span class="w"></span>
 
-                            except (ValueError, IndexError, TypeError) as e:
+<span class="w">                            </span><span class="ow">except</span><span class="w"> </span><span class="p">(</span><span class="n">ValueError</span><span class="p">,</span><span class="w"> </span><span class="n">IndexError</span><span class="p">,</span><span class="w"> </span><span class="n">TypeError</span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nl">e</span><span class="p">:</span><span class="w"></span>
 
-                                self.stderr.write(f&quot;Error: {e}&quot;)
+<span class="w">                                </span><span class="n">self</span><span class="p">.</span><span class="n">stderr</span><span class="p">.</span><span class="k">write</span><span class="p">(</span><span class="n">f</span><span class="ss">&quot;Error: {e}&quot;</span><span class="p">)</span><span class="w"></span>
 
-                            else:
+<span class="w">                            </span><span class="k">else</span><span class="err">:</span><span class="w"></span>
 
-                                self.stdout.write(self.success_msg)
+<span class="w">                                </span><span class="n">self</span><span class="p">.</span><span class="n">stdout</span><span class="p">.</span><span class="k">write</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">success_msg</span><span class="p">)</span><span class="w"></span>
 
-        else:
+<span class="w">        </span><span class="k">else</span><span class="err">:</span><span class="w"></span>
 
-            return super(Command, self).handle(*app_labels, **options)
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="n">super</span><span class="p">(</span><span class="n">Command</span><span class="p">,</span><span class="w"> </span><span class="n">self</span><span class="p">).</span><span class="n">handle</span><span class="p">(</span><span class="o">*</span><span class="n">app_labels</span><span class="p">,</span><span class="w"> </span><span class="o">**</span><span class="n">options</span><span class="p">)</span><span class="w"></span>
 </code></pre></div>
+
 </details>
 <hr />
 <h4 id="ancestors-in-mro">Ancestors (in MRO)</h4>
@@ -1561,7 +1563,7 @@ class Command(BaseCommand):
 <span class="p">)</span>
 </code></pre></div>
 <p>Entry point for subclassed commands to add custom arguments.</p>
-<details class="example"><summary>View Source</summary><div class="highlight"><pre><span></span><code>    def add_arguments(self, parser):
+<details class="example"><summary>View Source</summary><div class="codehilite"><pre><span></span><code>    def add_arguments(self, parser):
 
         parser.add_argument(
 
@@ -1587,6 +1589,7 @@ class Command(BaseCommand):
 
         super().add_arguments(parser)
 </code></pre></div>
+
 </details>
 <h4 id="check">check</h4>
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">check</span><span class="p">(</span>
@@ -1603,128 +1606,129 @@ class Command(BaseCommand):
 <p>Raise CommandError for any serious message (error or critical errors).
 If there are only light messages (like warnings), print them to stderr
 and don't raise an exception.</p>
-<details class="example"><summary>View Source</summary><div class="highlight"><pre><span></span><code>    def check(self, app_configs=None, tags=None, display_num_errors=False,
+<details class="example"><summary>View Source</summary><div class="codehilite"><pre><span></span><code>    <span class="nv">def</span> <span class="nv">check</span><span class="ss">(</span><span class="nv">self</span>, <span class="nv">app_configs</span><span class="o">=</span><span class="nv">None</span>, <span class="nv">tags</span><span class="o">=</span><span class="nv">None</span>, <span class="nv">display_num_errors</span><span class="o">=</span><span class="nv">False</span>,
 
-              include_deployment_checks=False, fail_level=checks.ERROR,
+              <span class="nv">include_deployment_checks</span><span class="o">=</span><span class="nv">False</span>, <span class="nv">fail_level</span><span class="o">=</span><span class="nv">checks</span>.<span class="nv">ERROR</span>,
 
-              databases=None):
+              <span class="nv">databases</span><span class="o">=</span><span class="nv">None</span><span class="ss">)</span>:
 
-        &quot;&quot;&quot;
+        <span class="s2">&quot;&quot;&quot;</span>
 
-        Use the system check framework to validate entire Django project.
+        <span class="nv">Use</span> <span class="nv">the</span> <span class="nv">system</span> <span class="nv">check</span> <span class="nv">framework</span> <span class="nv">to</span> <span class="nv">validate</span> <span class="nv">entire</span> <span class="nv">Django</span> <span class="nv">project</span>.
 
-        Raise CommandError for any serious message (error or critical errors).
+        <span class="nv">Raise</span> <span class="nv">CommandError</span> <span class="k">for</span> <span class="nv">any</span> <span class="nv">serious</span> <span class="nv">message</span> <span class="ss">(</span><span class="nv">error</span> <span class="nv">or</span> <span class="nv">critical</span> <span class="nv">errors</span><span class="ss">)</span>.
 
-        If there are only light messages (like warnings), print them to stderr
+        <span class="k">If</span> <span class="nv">there</span> <span class="nv">are</span> <span class="nv">only</span> <span class="nv">light</span> <span class="nv">messages</span> <span class="ss">(</span><span class="nv">like</span> <span class="nv">warnings</span><span class="ss">)</span>, <span class="nv">print</span> <span class="nv">them</span> <span class="nv">to</span> <span class="nv">stderr</span>
 
-        and don&#39;t raise an exception.
+        <span class="nv">and</span> <span class="nv">don</span><span class="s1">&#39;</span><span class="s">t raise an exception.</span>
 
-        &quot;&quot;&quot;
+        <span class="s2">&quot;&quot;&quot;</span>
 
-        all_issues = checks.run_checks(
+        <span class="nv">all_issues</span> <span class="o">=</span> <span class="nv">checks</span>.<span class="nv">run_checks</span><span class="ss">(</span>
 
-            app_configs=app_configs,
+            <span class="nv">app_configs</span><span class="o">=</span><span class="nv">app_configs</span>,
 
-            tags=tags,
+            <span class="nv">tags</span><span class="o">=</span><span class="nv">tags</span>,
 
-            include_deployment_checks=include_deployment_checks,
+            <span class="nv">include_deployment_checks</span><span class="o">=</span><span class="nv">include_deployment_checks</span>,
 
-            databases=databases,
+            <span class="nv">databases</span><span class="o">=</span><span class="nv">databases</span>,
 
-        )
+        <span class="ss">)</span>
 
-        header, body, footer = &quot;&quot;, &quot;&quot;, &quot;&quot;
+        <span class="nv">header</span>, <span class="nv">body</span>, <span class="nv">footer</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>, <span class="s2">&quot;&quot;</span>, <span class="s2">&quot;&quot;</span>
 
-        visible_issue_count = 0  # excludes silenced warnings
+        <span class="nv">visible_issue_count</span> <span class="o">=</span> <span class="mi">0</span>  # <span class="nv">excludes</span> <span class="nv">silenced</span> <span class="nv">warnings</span>
 
-        if all_issues:
+        <span class="k">if</span> <span class="nv">all_issues</span>:
 
-            debugs = [e for e in all_issues if e.level &lt; checks.INFO and not e.is_silenced()]
+            <span class="nv">debugs</span> <span class="o">=</span> [<span class="nv">e</span> <span class="k">for</span> <span class="nv">e</span> <span class="nv">in</span> <span class="nv">all_issues</span> <span class="k">if</span> <span class="nv">e</span>.<span class="nv">level</span> <span class="o">&lt;</span> <span class="nv">checks</span>.<span class="nv">INFO</span> <span class="nv">and</span> <span class="nv">not</span> <span class="nv">e</span>.<span class="nv">is_silenced</span><span class="ss">()</span>]
 
-            infos = [e for e in all_issues if checks.INFO &lt;= e.level &lt; checks.WARNING and not e.is_silenced()]
+            <span class="nv">infos</span> <span class="o">=</span> [<span class="nv">e</span> <span class="k">for</span> <span class="nv">e</span> <span class="nv">in</span> <span class="nv">all_issues</span> <span class="k">if</span> <span class="nv">checks</span>.<span class="nv">INFO</span> <span class="o">&lt;=</span> <span class="nv">e</span>.<span class="nv">level</span> <span class="o">&lt;</span> <span class="nv">checks</span>.<span class="nv">WARNING</span> <span class="nv">and</span> <span class="nv">not</span> <span class="nv">e</span>.<span class="nv">is_silenced</span><span class="ss">()</span>]
 
-            warnings = [e for e in all_issues if checks.WARNING &lt;= e.level &lt; checks.ERROR and not e.is_silenced()]
+            <span class="nv">warnings</span> <span class="o">=</span> [<span class="nv">e</span> <span class="k">for</span> <span class="nv">e</span> <span class="nv">in</span> <span class="nv">all_issues</span> <span class="k">if</span> <span class="nv">checks</span>.<span class="nv">WARNING</span> <span class="o">&lt;=</span> <span class="nv">e</span>.<span class="nv">level</span> <span class="o">&lt;</span> <span class="nv">checks</span>.<span class="nv">ERROR</span> <span class="nv">and</span> <span class="nv">not</span> <span class="nv">e</span>.<span class="nv">is_silenced</span><span class="ss">()</span>]
 
-            errors = [e for e in all_issues if checks.ERROR &lt;= e.level &lt; checks.CRITICAL and not e.is_silenced()]
+            <span class="nv">errors</span> <span class="o">=</span> [<span class="nv">e</span> <span class="k">for</span> <span class="nv">e</span> <span class="nv">in</span> <span class="nv">all_issues</span> <span class="k">if</span> <span class="nv">checks</span>.<span class="nv">ERROR</span> <span class="o">&lt;=</span> <span class="nv">e</span>.<span class="nv">level</span> <span class="o">&lt;</span> <span class="nv">checks</span>.<span class="nv">CRITICAL</span> <span class="nv">and</span> <span class="nv">not</span> <span class="nv">e</span>.<span class="nv">is_silenced</span><span class="ss">()</span>]
 
-            criticals = [e for e in all_issues if checks.CRITICAL &lt;= e.level and not e.is_silenced()]
+            <span class="nv">criticals</span> <span class="o">=</span> [<span class="nv">e</span> <span class="k">for</span> <span class="nv">e</span> <span class="nv">in</span> <span class="nv">all_issues</span> <span class="k">if</span> <span class="nv">checks</span>.<span class="nv">CRITICAL</span> <span class="o">&lt;=</span> <span class="nv">e</span>.<span class="nv">level</span> <span class="nv">and</span> <span class="nv">not</span> <span class="nv">e</span>.<span class="nv">is_silenced</span><span class="ss">()</span>]
 
-            sorted_issues = [
+            <span class="nv">sorted_issues</span> <span class="o">=</span> [
 
-                (criticals, &#39;CRITICALS&#39;),
+                <span class="ss">(</span><span class="nv">criticals</span>, <span class="s1">&#39;</span><span class="s">CRITICALS</span><span class="s1">&#39;</span><span class="ss">)</span>,
 
-                (errors, &#39;ERRORS&#39;),
+                <span class="ss">(</span><span class="nv">errors</span>, <span class="s1">&#39;</span><span class="s">ERRORS</span><span class="s1">&#39;</span><span class="ss">)</span>,
 
-                (warnings, &#39;WARNINGS&#39;),
+                <span class="ss">(</span><span class="nv">warnings</span>, <span class="s1">&#39;</span><span class="s">WARNINGS</span><span class="s1">&#39;</span><span class="ss">)</span>,
 
-                (infos, &#39;INFOS&#39;),
+                <span class="ss">(</span><span class="nv">infos</span>, <span class="s1">&#39;</span><span class="s">INFOS</span><span class="s1">&#39;</span><span class="ss">)</span>,
 
-                (debugs, &#39;DEBUGS&#39;),
+                <span class="ss">(</span><span class="nv">debugs</span>, <span class="s1">&#39;</span><span class="s">DEBUGS</span><span class="s1">&#39;</span><span class="ss">)</span>,
 
             ]
 
-            for issues, group_name in sorted_issues:
+            <span class="k">for</span> <span class="nv">issues</span>, <span class="nv">group_name</span> <span class="nv">in</span> <span class="nv">sorted_issues</span>:
 
-                if issues:
+                <span class="k">if</span> <span class="nv">issues</span>:
 
-                    visible_issue_count += len(issues)
+                    <span class="nv">visible_issue_count</span> <span class="o">+=</span> <span class="nv">len</span><span class="ss">(</span><span class="nv">issues</span><span class="ss">)</span>
 
-                    formatted = (
+                    <span class="nv">formatted</span> <span class="o">=</span> <span class="ss">(</span>
 
-                        self.style.ERROR(str(e))
+                        <span class="nv">self</span>.<span class="nv">style</span>.<span class="nv">ERROR</span><span class="ss">(</span><span class="nv">str</span><span class="ss">(</span><span class="nv">e</span><span class="ss">))</span>
 
-                        if e.is_serious()
+                        <span class="k">if</span> <span class="nv">e</span>.<span class="nv">is_serious</span><span class="ss">()</span>
 
-                        else self.style.WARNING(str(e))
+                        <span class="k">else</span> <span class="nv">self</span>.<span class="nv">style</span>.<span class="nv">WARNING</span><span class="ss">(</span><span class="nv">str</span><span class="ss">(</span><span class="nv">e</span><span class="ss">))</span>
 
-                        for e in issues)
+                        <span class="k">for</span> <span class="nv">e</span> <span class="nv">in</span> <span class="nv">issues</span><span class="ss">)</span>
 
-                    formatted = &quot;\n&quot;.join(sorted(formatted))
+                    <span class="nv">formatted</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>.<span class="nv">join</span><span class="ss">(</span><span class="nv">sorted</span><span class="ss">(</span><span class="nv">formatted</span><span class="ss">))</span>
 
-                    body += &#39;\n%s:\n%s\n&#39; % (group_name, formatted)
+                    <span class="nv">body</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s">%s:</span><span class="se">\n</span><span class="s">%s</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="ss">(</span><span class="nv">group_name</span>, <span class="nv">formatted</span><span class="ss">)</span>
 
-        if visible_issue_count:
+        <span class="k">if</span> <span class="nv">visible_issue_count</span>:
 
-            header = &quot;System check identified some issues:\n&quot;
+            <span class="nv">header</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="s">System check identified some issues:</span><span class="se">\n</span><span class="s2">&quot;</span>
 
-        if display_num_errors:
+        <span class="k">if</span> <span class="nv">display_num_errors</span>:
 
-            if visible_issue_count:
+            <span class="k">if</span> <span class="nv">visible_issue_count</span>:
 
-                footer += &#39;\n&#39;
+                <span class="nv">footer</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
 
-            footer += &quot;System check identified %s (%s silenced).&quot; % (
+            <span class="nv">footer</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="s">System check identified %s (%s silenced).</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="ss">(</span>
 
-                &quot;no issues&quot; if visible_issue_count == 0 else
+                <span class="s2">&quot;</span><span class="s">no issues</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="nv">visible_issue_count</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span>
 
-                &quot;1 issue&quot; if visible_issue_count == 1 else
+                <span class="s2">&quot;</span><span class="s">1 issue</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="nv">visible_issue_count</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">else</span>
 
-                &quot;%s issues&quot; % visible_issue_count,
+                <span class="s2">&quot;</span><span class="s">%s issues</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="nv">visible_issue_count</span>,
 
-                len(all_issues) - visible_issue_count,
+                <span class="nv">len</span><span class="ss">(</span><span class="nv">all_issues</span><span class="ss">)</span> <span class="o">-</span> <span class="nv">visible_issue_count</span>,
 
-            )
+            <span class="ss">)</span>
 
-        if any(e.is_serious(fail_level) and not e.is_silenced() for e in all_issues):
+        <span class="k">if</span> <span class="nv">any</span><span class="ss">(</span><span class="nv">e</span>.<span class="nv">is_serious</span><span class="ss">(</span><span class="nv">fail_level</span><span class="ss">)</span> <span class="nv">and</span> <span class="nv">not</span> <span class="nv">e</span>.<span class="nv">is_silenced</span><span class="ss">()</span> <span class="k">for</span> <span class="nv">e</span> <span class="nv">in</span> <span class="nv">all_issues</span><span class="ss">)</span>:
 
-            msg = self.style.ERROR(&quot;SystemCheckError: %s&quot; % header) + body + footer
+            <span class="nv">msg</span> <span class="o">=</span> <span class="nv">self</span>.<span class="nv">style</span>.<span class="nv">ERROR</span><span class="ss">(</span><span class="s2">&quot;</span><span class="s">SystemCheckError: %s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="nv">header</span><span class="ss">)</span> <span class="o">+</span> <span class="nv">body</span> <span class="o">+</span> <span class="nv">footer</span>
 
-            raise SystemCheckError(msg)
+            <span class="nv">raise</span> <span class="nv">SystemCheckError</span><span class="ss">(</span><span class="nv">msg</span><span class="ss">)</span>
 
-        else:
+        <span class="k">else</span>:
 
-            msg = header + body + footer
+            <span class="nv">msg</span> <span class="o">=</span> <span class="nv">header</span> <span class="o">+</span> <span class="nv">body</span> <span class="o">+</span> <span class="nv">footer</span>
 
-        if msg:
+        <span class="k">if</span> <span class="nv">msg</span>:
 
-            if visible_issue_count:
+            <span class="k">if</span> <span class="nv">visible_issue_count</span>:
 
-                self.stderr.write(msg, lambda x: x)
+                <span class="nv">self</span>.<span class="nv">stderr</span>.<span class="nv">write</span><span class="ss">(</span><span class="nv">msg</span>, <span class="nv">lambda</span> <span class="nv">x</span>: <span class="nv">x</span><span class="ss">)</span>
 
-            else:
+            <span class="k">else</span>:
 
-                self.stdout.write(msg)
+                <span class="nv">self</span>.<span class="nv">stdout</span>.<span class="nv">write</span><span class="ss">(</span><span class="nv">msg</span><span class="ss">)</span>
 </code></pre></div>
+
 </details>
 <h4 id="check_migrations">check_migrations</h4>
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">check_migrations</span><span class="p">(</span>
@@ -1733,56 +1737,57 @@ and don't raise an exception.</p>
 </code></pre></div>
 <p>Print a warning if the set of migrations on disk don't match the</p>
 <p>migrations in the database.</p>
-<details class="example"><summary>View Source</summary><div class="highlight"><pre><span></span><code>    def check_migrations(self):
+<details class="example"><summary>View Source</summary><div class="codehilite"><pre><span></span><code>    <span class="k">def</span> <span class="nf">check_migrations</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 
-        &quot;&quot;&quot;
+        <span class="sd">&quot;&quot;&quot;</span>
 
-        Print a warning if the set of migrations on disk don&#39;t match the
+<span class="sd">        Print a warning if the set of migrations on disk don&#39;t match the</span>
 
-        migrations in the database.
+<span class="sd">        migrations in the database.</span>
 
-        &quot;&quot;&quot;
+<span class="sd">        &quot;&quot;&quot;</span>
 
-        from django.db.migrations.executor import MigrationExecutor
+        <span class="kn">from</span> <span class="nn">django.db.migrations.executor</span> <span class="kn">import</span> <span class="n">MigrationExecutor</span>
 
-        try:
+        <span class="k">try</span><span class="p">:</span>
 
-            executor = MigrationExecutor(connections[DEFAULT_DB_ALIAS])
+            <span class="n">executor</span> <span class="o">=</span> <span class="n">MigrationExecutor</span><span class="p">(</span><span class="n">connections</span><span class="p">[</span><span class="n">DEFAULT_DB_ALIAS</span><span class="p">])</span>
 
-        except ImproperlyConfigured:
+        <span class="k">except</span> <span class="n">ImproperlyConfigured</span><span class="p">:</span>
 
-            # No databases are configured (or the dummy one)
+            <span class="c1"># No databases are configured (or the dummy one)</span>
 
-            return
+            <span class="k">return</span>
 
-        plan = executor.migration_plan(executor.loader.graph.leaf_nodes())
+        <span class="n">plan</span> <span class="o">=</span> <span class="n">executor</span><span class="o">.</span><span class="n">migration_plan</span><span class="p">(</span><span class="n">executor</span><span class="o">.</span><span class="n">loader</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">leaf_nodes</span><span class="p">())</span>
 
-        if plan:
+        <span class="k">if</span> <span class="n">plan</span><span class="p">:</span>
 
-            apps_waiting_migration = sorted({migration.app_label for migration, backwards in plan})
+            <span class="n">apps_waiting_migration</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">({</span><span class="n">migration</span><span class="o">.</span><span class="n">app_label</span> <span class="k">for</span> <span class="n">migration</span><span class="p">,</span> <span class="n">backwards</span> <span class="ow">in</span> <span class="n">plan</span><span class="p">})</span>
 
-            self.stdout.write(
+            <span class="bp">self</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
 
-                self.style.NOTICE(
+                <span class="bp">self</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">NOTICE</span><span class="p">(</span>
 
-                    &quot;\nYou have %(unapplied_migration_count)s unapplied migration(s). &quot;
+                    <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">You have </span><span class="si">%(unapplied_migration_count)s</span><span class="s2"> unapplied migration(s). &quot;</span>
 
-                    &quot;Your project may not work properly until you apply the &quot;
+                    <span class="s2">&quot;Your project may not work properly until you apply the &quot;</span>
 
-                    &quot;migrations for app(s): %(apps_waiting_migration)s.&quot; % {
+                    <span class="s2">&quot;migrations for app(s): </span><span class="si">%(apps_waiting_migration)s</span><span class="s2">.&quot;</span> <span class="o">%</span> <span class="p">{</span>
 
-                        &quot;unapplied_migration_count&quot;: len(plan),
+                        <span class="s2">&quot;unapplied_migration_count&quot;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">plan</span><span class="p">),</span>
 
-                        &quot;apps_waiting_migration&quot;: &quot;, &quot;.join(apps_waiting_migration),
+                        <span class="s2">&quot;apps_waiting_migration&quot;</span><span class="p">:</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">apps_waiting_migration</span><span class="p">),</span>
 
-                    }
+                    <span class="p">}</span>
 
-                )
+                <span class="p">)</span>
 
-            )
+            <span class="p">)</span>
 
-            self.stdout.write(self.style.NOTICE(&quot;Run &#39;python manage.py migrate&#39; to apply them.&quot;))
+            <span class="bp">self</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">NOTICE</span><span class="p">(</span><span class="s2">&quot;Run &#39;python manage.py migrate&#39; to apply them.&quot;</span><span class="p">))</span>
 </code></pre></div>
+
 </details>
 <h4 id="create_parser">create_parser</h4>
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">create_parser</span><span class="p">(</span>
@@ -1794,100 +1799,101 @@ and don't raise an exception.</p>
 </code></pre></div>
 <p>Create and return the <code>ArgumentParser</code> which will be used to</p>
 <p>parse the arguments to this command.</p>
-<details class="example"><summary>View Source</summary><div class="highlight"><pre><span></span><code>    def create_parser(self, prog_name, subcommand, **kwargs):
+<details class="example"><summary>View Source</summary><div class="codehilite"><pre><span></span><code>    <span class="n">def</span> <span class="n">create_parser</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">prog_name</span><span class="p">,</span> <span class="n">subcommand</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span><span class="o">:</span>
 
-        &quot;&quot;&quot;
+        <span class="s2">&quot;</span><span class="se">&quot;&quot;</span><span class="s2"></span>
 
-        Create and return the ``ArgumentParser`` which will be used to
+<span class="s2">        Create and return the ``ArgumentParser`` which will be used to</span>
 
-        parse the arguments to this command.
+<span class="s2">        parse the arguments to this command.</span>
 
-        &quot;&quot;&quot;
+<span class="s2">        </span><span class="se">&quot;&quot;</span><span class="s2">&quot;</span>
 
-        parser = CommandParser(
+        <span class="k">parser</span> <span class="o">=</span> <span class="n">CommandParser</span><span class="p">(</span>
 
-            prog=&#39;%s %s&#39; % (os.path.basename(prog_name), subcommand),
+            <span class="n">prog</span><span class="o">=</span><span class="s1">&#39;%s %s&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">os</span><span class="p">.</span><span class="k">path</span><span class="p">.</span><span class="n">basename</span><span class="p">(</span><span class="n">prog_name</span><span class="p">),</span> <span class="n">subcommand</span><span class="p">),</span>
 
-            description=self.help or None,
+            <span class="k">description</span><span class="o">=</span><span class="n">self</span><span class="p">.</span><span class="k">help</span> <span class="k">or</span> <span class="k">None</span><span class="p">,</span>
 
-            formatter_class=DjangoHelpFormatter,
+            <span class="n">formatter_class</span><span class="o">=</span><span class="n">DjangoHelpFormatter</span><span class="p">,</span>
 
-            missing_args_message=getattr(self, &#39;missing_args_message&#39;, None),
+            <span class="n">missing_args_message</span><span class="o">=</span><span class="n">getattr</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="s1">&#39;missing_args_message&#39;</span><span class="p">,</span> <span class="k">None</span><span class="p">),</span>
 
-            called_from_command_line=getattr(self, &#39;_called_from_command_line&#39;, None),
+            <span class="n">called_from_command_line</span><span class="o">=</span><span class="n">getattr</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="s1">&#39;_called_from_command_line&#39;</span><span class="p">,</span> <span class="k">None</span><span class="p">),</span>
 
-            **kwargs
+            <span class="o">**</span><span class="n">kwargs</span>
 
-        )
+        <span class="p">)</span>
 
-        parser.add_argument(&#39;--version&#39;, action=&#39;version&#39;, version=self.get_version())
+        <span class="k">parser</span><span class="p">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--version&#39;</span><span class="p">,</span> <span class="k">action</span><span class="o">=</span><span class="s1">&#39;version&#39;</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="n">self</span><span class="p">.</span><span class="n">get_version</span><span class="p">())</span>
 
-        parser.add_argument(
+        <span class="k">parser</span><span class="p">.</span><span class="n">add_argument</span><span class="p">(</span>
 
-            &#39;-v&#39;, &#39;--verbosity&#39;, default=1,
+            <span class="s1">&#39;-v&#39;</span><span class="p">,</span> <span class="s1">&#39;--verbosity&#39;</span><span class="p">,</span> <span class="k">default</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
 
-            type=int, choices=[0, 1, 2, 3],
+            <span class="k">type</span><span class="o">=</span><span class="kt">int</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="err">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="err">]</span><span class="p">,</span>
 
-            help=&#39;Verbosity level; 0=minimal output, 1=normal output, 2=verbose output, 3=very verbose output&#39;,
+            <span class="k">help</span><span class="o">=</span><span class="s1">&#39;Verbosity level; 0=minimal output, 1=normal output, 2=verbose output, 3=very verbose output&#39;</span><span class="p">,</span>
 
-        )
+        <span class="p">)</span>
 
-        parser.add_argument(
+        <span class="k">parser</span><span class="p">.</span><span class="n">add_argument</span><span class="p">(</span>
 
-            &#39;--settings&#39;,
+            <span class="s1">&#39;--settings&#39;</span><span class="p">,</span>
 
-            help=(
+            <span class="k">help</span><span class="o">=</span><span class="p">(</span>
 
-                &#39;The Python path to a settings module, e.g. &#39;
+                <span class="s1">&#39;The Python path to a settings module, e.g. &#39;</span>
 
-                &#39;&quot;myproject.settings.main&quot;. If this isn\&#39;t provided, the &#39;
+                <span class="s1">&#39;&quot;myproject.settings.main&quot;. If this isn</span><span class="se">\&#39;</span><span class="s1">t provided, the &#39;</span>
 
-                &#39;DJANGO_SETTINGS_MODULE environment variable will be used.&#39;
+                <span class="s1">&#39;DJANGO_SETTINGS_MODULE environment variable will be used.&#39;</span>
 
-            ),
+            <span class="p">),</span>
 
-        )
+        <span class="p">)</span>
 
-        parser.add_argument(
+        <span class="k">parser</span><span class="p">.</span><span class="n">add_argument</span><span class="p">(</span>
 
-            &#39;--pythonpath&#39;,
+            <span class="s1">&#39;--pythonpath&#39;</span><span class="p">,</span>
 
-            help=&#39;A directory to add to the Python path, e.g. &quot;/home/djangoprojects/myproject&quot;.&#39;,
+            <span class="k">help</span><span class="o">=</span><span class="s1">&#39;A directory to add to the Python path, e.g. &quot;/home/djangoprojects/myproject&quot;.&#39;</span><span class="p">,</span>
 
-        )
+        <span class="p">)</span>
 
-        parser.add_argument(&#39;--traceback&#39;, action=&#39;store_true&#39;, help=&#39;Raise on CommandError exceptions&#39;)
+        <span class="k">parser</span><span class="p">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--traceback&#39;</span><span class="p">,</span> <span class="k">action</span><span class="o">=</span><span class="s1">&#39;store_true&#39;</span><span class="p">,</span> <span class="k">help</span><span class="o">=</span><span class="s1">&#39;Raise on CommandError exceptions&#39;</span><span class="p">)</span>
 
-        parser.add_argument(
+        <span class="k">parser</span><span class="p">.</span><span class="n">add_argument</span><span class="p">(</span>
 
-            &#39;--no-color&#39;, action=&#39;store_true&#39;,
+            <span class="s1">&#39;--no-color&#39;</span><span class="p">,</span> <span class="k">action</span><span class="o">=</span><span class="s1">&#39;store_true&#39;</span><span class="p">,</span>
 
-            help=&quot;Don&#39;t colorize the command output.&quot;,
+            <span class="k">help</span><span class="o">=</span><span class="s2">&quot;Don&#39;t colorize the command output.&quot;</span><span class="p">,</span>
 
-        )
+        <span class="p">)</span>
 
-        parser.add_argument(
+        <span class="k">parser</span><span class="p">.</span><span class="n">add_argument</span><span class="p">(</span>
 
-            &#39;--force-color&#39;, action=&#39;store_true&#39;,
+            <span class="s1">&#39;--force-color&#39;</span><span class="p">,</span> <span class="k">action</span><span class="o">=</span><span class="s1">&#39;store_true&#39;</span><span class="p">,</span>
 
-            help=&#39;Force colorization of the command output.&#39;,
+            <span class="k">help</span><span class="o">=</span><span class="s1">&#39;Force colorization of the command output.&#39;</span><span class="p">,</span>
 
-        )
+        <span class="p">)</span>
 
-        if self.requires_system_checks:
+        <span class="k">if</span> <span class="n">self</span><span class="p">.</span><span class="n">requires_system_checks</span><span class="o">:</span>
 
-            parser.add_argument(
+            <span class="k">parser</span><span class="p">.</span><span class="n">add_argument</span><span class="p">(</span>
 
-                &#39;--skip-checks&#39;, action=&#39;store_true&#39;,
+                <span class="s1">&#39;--skip-checks&#39;</span><span class="p">,</span> <span class="k">action</span><span class="o">=</span><span class="s1">&#39;store_true&#39;</span><span class="p">,</span>
 
-                help=&#39;Skip system checks.&#39;,
+                <span class="k">help</span><span class="o">=</span><span class="s1">&#39;Skip system checks.&#39;</span><span class="p">,</span>
 
-            )
+            <span class="p">)</span>
 
-        self.add_arguments(parser)
+        <span class="n">self</span><span class="p">.</span><span class="n">add_arguments</span><span class="p">(</span><span class="k">parser</span><span class="p">)</span>
 
-        return parser
+        <span class="k">return</span> <span class="k">parser</span>
 </code></pre></div>
+
 </details>
 <h4 id="execute">execute</h4>
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">execute</span><span class="p">(</span>
@@ -1899,76 +1905,77 @@ and don't raise an exception.</p>
 <p>Try to execute this command, performing system checks if needed (as</p>
 <p>controlled by the <code>requires_system_checks</code> attribute, except if
 force-skipped).</p>
-<details class="example"><summary>View Source</summary><div class="highlight"><pre><span></span><code>    def execute(self, *args, **options):
+<details class="example"><summary>View Source</summary><div class="codehilite"><pre><span></span><code>    <span class="n">def</span> <span class="k">execute</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="k">options</span><span class="p">)</span><span class="o">:</span>
 
-        &quot;&quot;&quot;
+        <span class="s2">&quot;</span><span class="se">&quot;&quot;</span><span class="s2"></span>
 
-        Try to execute this command, performing system checks if needed (as
+<span class="s2">        Try to execute this command, performing system checks if needed (as</span>
 
-        controlled by the ``requires_system_checks`` attribute, except if
+<span class="s2">        controlled by the ``requires_system_checks`` attribute, except if</span>
 
-        force-skipped).
+<span class="s2">        force-skipped).</span>
 
-        &quot;&quot;&quot;
+<span class="s2">        </span><span class="se">&quot;&quot;</span><span class="s2">&quot;</span>
 
-        if options[&#39;force_color&#39;] and options[&#39;no_color&#39;]:
+        <span class="k">if</span> <span class="k">options</span><span class="err">[</span><span class="s1">&#39;force_color&#39;</span><span class="err">]</span> <span class="k">and</span> <span class="k">options</span><span class="err">[</span><span class="s1">&#39;no_color&#39;</span><span class="err">]</span><span class="o">:</span>
 
-            raise CommandError(&quot;The --no-color and --force-color options can&#39;t be used together.&quot;)
+            <span class="n">raise</span> <span class="n">CommandError</span><span class="p">(</span><span class="s2">&quot;The --no-color and --force-color options can&#39;t be used together.&quot;</span><span class="p">)</span>
 
-        if options[&#39;force_color&#39;]:
+        <span class="k">if</span> <span class="k">options</span><span class="err">[</span><span class="s1">&#39;force_color&#39;</span><span class="err">]</span><span class="o">:</span>
 
-            self.style = color_style(force_color=True)
+            <span class="n">self</span><span class="p">.</span><span class="n">style</span> <span class="o">=</span> <span class="n">color_style</span><span class="p">(</span><span class="n">force_color</span><span class="o">=</span><span class="no">True</span><span class="p">)</span>
 
-        elif options[&#39;no_color&#39;]:
+        <span class="n">elif</span> <span class="k">options</span><span class="err">[</span><span class="s1">&#39;no_color&#39;</span><span class="err">]</span><span class="o">:</span>
 
-            self.style = no_style()
+            <span class="n">self</span><span class="p">.</span><span class="n">style</span> <span class="o">=</span> <span class="n">no_style</span><span class="p">()</span>
 
-            self.stderr.style_func = None
+            <span class="n">self</span><span class="p">.</span><span class="n">stderr</span><span class="p">.</span><span class="n">style_func</span> <span class="o">=</span> <span class="k">None</span>
 
-        if options.get(&#39;stdout&#39;):
+        <span class="k">if</span> <span class="k">options</span><span class="p">.</span><span class="k">get</span><span class="p">(</span><span class="s1">&#39;stdout&#39;</span><span class="p">)</span><span class="o">:</span>
 
-            self.stdout = OutputWrapper(options[&#39;stdout&#39;])
+            <span class="n">self</span><span class="p">.</span><span class="n">stdout</span> <span class="o">=</span> <span class="n">OutputWrapper</span><span class="p">(</span><span class="k">options</span><span class="err">[</span><span class="s1">&#39;stdout&#39;</span><span class="err">]</span><span class="p">)</span>
 
-        if options.get(&#39;stderr&#39;):
+        <span class="k">if</span> <span class="k">options</span><span class="p">.</span><span class="k">get</span><span class="p">(</span><span class="s1">&#39;stderr&#39;</span><span class="p">)</span><span class="o">:</span>
 
-            self.stderr = OutputWrapper(options[&#39;stderr&#39;])
+            <span class="n">self</span><span class="p">.</span><span class="n">stderr</span> <span class="o">=</span> <span class="n">OutputWrapper</span><span class="p">(</span><span class="k">options</span><span class="err">[</span><span class="s1">&#39;stderr&#39;</span><span class="err">]</span><span class="p">)</span>
 
-        if self.requires_system_checks and not options[&#39;skip_checks&#39;]:
+        <span class="k">if</span> <span class="n">self</span><span class="p">.</span><span class="n">requires_system_checks</span> <span class="k">and</span> <span class="k">not</span> <span class="k">options</span><span class="err">[</span><span class="s1">&#39;skip_checks&#39;</span><span class="err">]</span><span class="o">:</span>
 
-            if self.requires_system_checks == ALL_CHECKS:
+            <span class="k">if</span> <span class="n">self</span><span class="p">.</span><span class="n">requires_system_checks</span> <span class="o">==</span> <span class="n">ALL_CHECKS</span><span class="o">:</span>
 
-                self.check()
+                <span class="n">self</span><span class="p">.</span><span class="k">check</span><span class="p">()</span>
 
-            else:
+            <span class="k">else</span><span class="o">:</span>
 
-                self.check(tags=self.requires_system_checks)
+                <span class="n">self</span><span class="p">.</span><span class="k">check</span><span class="p">(</span><span class="n">tags</span><span class="o">=</span><span class="n">self</span><span class="p">.</span><span class="n">requires_system_checks</span><span class="p">)</span>
 
-        if self.requires_migrations_checks:
+        <span class="k">if</span> <span class="n">self</span><span class="p">.</span><span class="n">requires_migrations_checks</span><span class="o">:</span>
 
-            self.check_migrations()
+            <span class="n">self</span><span class="p">.</span><span class="n">check_migrations</span><span class="p">()</span>
 
-        output = self.handle(*args, **options)
+        <span class="n">output</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">handle</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="k">options</span><span class="p">)</span>
 
-        if output:
+        <span class="k">if</span> <span class="n">output</span><span class="o">:</span>
 
-            if self.output_transaction:
+            <span class="k">if</span> <span class="n">self</span><span class="p">.</span><span class="n">output_transaction</span><span class="o">:</span>
 
-                connection = connections[options.get(&#39;database&#39;, DEFAULT_DB_ALIAS)]
+                <span class="k">connection</span> <span class="o">=</span> <span class="n">connections</span><span class="err">[</span><span class="k">options</span><span class="p">.</span><span class="k">get</span><span class="p">(</span><span class="s1">&#39;database&#39;</span><span class="p">,</span> <span class="n">DEFAULT_DB_ALIAS</span><span class="p">)</span><span class="err">]</span>
 
-                output = &#39;%s\n%s\n%s&#39; % (
+                <span class="n">output</span> <span class="o">=</span> <span class="s1">&#39;%s</span><span class="se">\n</span><span class="s1">%s</span><span class="se">\n</span><span class="s1">%s&#39;</span> <span class="o">%</span> <span class="p">(</span>
 
-                    self.style.SQL_KEYWORD(connection.ops.start_transaction_sql()),
+                    <span class="n">self</span><span class="p">.</span><span class="n">style</span><span class="p">.</span><span class="n">SQL_KEYWORD</span><span class="p">(</span><span class="k">connection</span><span class="p">.</span><span class="n">ops</span><span class="p">.</span><span class="n">start_transaction_sql</span><span class="p">()),</span>
 
-                    output,
+                    <span class="n">output</span><span class="p">,</span>
 
-                    self.style.SQL_KEYWORD(connection.ops.end_transaction_sql()),
+                    <span class="n">self</span><span class="p">.</span><span class="n">style</span><span class="p">.</span><span class="n">SQL_KEYWORD</span><span class="p">(</span><span class="k">connection</span><span class="p">.</span><span class="n">ops</span><span class="p">.</span><span class="n">end_transaction_sql</span><span class="p">()),</span>
 
-                )
+                <span class="p">)</span>
 
-            self.stdout.write(output)
+            <span class="n">self</span><span class="p">.</span><span class="n">stdout</span><span class="p">.</span><span class="k">write</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
 
-        return output
+        <span class="k">return</span> <span class="n">output</span>
 </code></pre></div>
+
 </details>
 <h4 id="get_version">get_version</h4>
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">get_version</span><span class="p">(</span>
@@ -1978,20 +1985,21 @@ force-skipped).</p>
 <p>Return the Django version, which should be correct for all built-in</p>
 <p>Django commands. User-supplied commands can override this method to
 return their own version.</p>
-<details class="example"><summary>View Source</summary><div class="highlight"><pre><span></span><code>    def get_version(self):
+<details class="example"><summary>View Source</summary><div class="codehilite"><pre><span></span><code>    <span class="nv">def</span> <span class="nv">get_version</span><span class="ss">(</span><span class="nv">self</span><span class="ss">)</span>:
 
-        &quot;&quot;&quot;
+        <span class="s2">&quot;&quot;&quot;</span>
 
-        Return the Django version, which should be correct for all built-in
+        <span class="k">Return</span> <span class="nv">the</span> <span class="nv">Django</span> <span class="nv">version</span>, <span class="nv">which</span> <span class="nv">should</span> <span class="nv">be</span> <span class="nv">correct</span> <span class="k">for</span> <span class="nv">all</span> <span class="nv">built</span><span class="o">-</span><span class="nv">in</span>
 
-        Django commands. User-supplied commands can override this method to
+        <span class="nv">Django</span> <span class="nv">commands</span>. <span class="nv">User</span><span class="o">-</span><span class="nv">supplied</span> <span class="nv">commands</span> <span class="nv">can</span> <span class="nv">override</span> <span class="nv">this</span> <span class="nv">method</span> <span class="nv">to</span>
 
-        return their own version.
+        <span class="k">return</span> <span class="nv">their</span> <span class="nv">own</span> <span class="nv">version</span>.
 
-        &quot;&quot;&quot;
+        <span class="s2">&quot;&quot;&quot;</span>
 
-        return django.get_version()
+        <span class="k">return</span> <span class="nv">django</span>.<span class="nv">get_version</span><span class="ss">()</span>
 </code></pre></div>
+
 </details>
 <h4 id="handle">handle</h4>
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">handle</span><span class="p">(</span>
@@ -1999,26 +2007,27 @@ return their own version.</p>
     <span class="o">**</span><span class="n">kwargs</span>
 <span class="p">)</span>
 </code></pre></div>
-<details class="example"><summary>View Source</summary><div class="highlight"><pre><span></span><code>    def wrapped(*args, **kwargs):
+<details class="example"><summary>View Source</summary><div class="codehilite"><pre><span></span><code>    <span class="k">def</span> <span class="nf">wrapped</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 
-        from django.utils import translation
+        <span class="kn">from</span> <span class="nn">django.utils</span> <span class="kn">import</span> <span class="n">translation</span>
 
-        saved_locale = translation.get_language()
+        <span class="n">saved_locale</span> <span class="o">=</span> <span class="n">translation</span><span class="o">.</span><span class="n">get_language</span><span class="p">()</span>
 
-        translation.deactivate_all()
+        <span class="n">translation</span><span class="o">.</span><span class="n">deactivate_all</span><span class="p">()</span>
 
-        try:
+        <span class="k">try</span><span class="p">:</span>
 
-            res = handle_func(*args, **kwargs)
+            <span class="n">res</span> <span class="o">=</span> <span class="n">handle_func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-        finally:
+        <span class="k">finally</span><span class="p">:</span>
 
-            if saved_locale is not None:
+            <span class="k">if</span> <span class="n">saved_locale</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
 
-                translation.activate(saved_locale)
+                <span class="n">translation</span><span class="o">.</span><span class="n">activate</span><span class="p">(</span><span class="n">saved_locale</span><span class="p">)</span>
 
-        return res
+        <span class="k">return</span> <span class="n">res</span>
 </code></pre></div>
+
 </details>
 <h4 id="handle_merge">handle_merge</h4>
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">handle_merge</span><span class="p">(</span>
@@ -2029,172 +2038,173 @@ return their own version.</p>
 </code></pre></div>
 <p>Handles merging together conflicted migrations interactively,</p>
 <p>if it's safe; otherwise, advises on how to fix it.</p>
-<details class="example"><summary>View Source</summary><div class="highlight"><pre><span></span><code>    def handle_merge(self, loader, conflicts):
+<details class="example"><summary>View Source</summary><div class="codehilite"><pre><span></span><code>    <span class="n">def</span> <span class="n">handle_merge</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">loader</span><span class="p">,</span> <span class="n">conflicts</span><span class="p">):</span>
 
-        &quot;&quot;&quot;
+        <span class="sd">&quot;&quot;&quot;</span>
 
-        Handles merging together conflicted migrations interactively,
+<span class="sd">        Handles merging together conflicted migrations interactively,</span>
 
-        if it&#39;s safe; otherwise, advises on how to fix it.
+<span class="sd">        if it&#39;s safe; otherwise, advises on how to fix it.</span>
 
-        &quot;&quot;&quot;
+<span class="sd">        &quot;&quot;&quot;</span>
 
-        if self.interactive:
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">interactive</span><span class="p">:</span>
 
-            questioner = InteractiveMigrationQuestioner()
+            <span class="n">questioner</span> <span class="o">=</span> <span class="n">InteractiveMigrationQuestioner</span><span class="p">()</span>
 
-        else:
+        <span class="k">else</span><span class="p">:</span>
 
-            questioner = MigrationQuestioner(defaults={&#39;ask_merge&#39;: True})
+            <span class="n">questioner</span> <span class="o">=</span> <span class="n">MigrationQuestioner</span><span class="p">(</span><span class="n">defaults</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;ask_merge&#39;</span><span class="p">:</span> <span class="n">True</span><span class="p">})</span>
 
-        for app_label, migration_names in conflicts.items():
+        <span class="k">for</span> <span class="n">app_label</span><span class="p">,</span> <span class="n">migration_names</span> <span class="ow">in</span> <span class="n">conflicts</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
 
-            # Grab out the migrations in question, and work out their
+            <span class="c1"># Grab out the migrations in question, and work out their</span>
 
-            # common ancestor.
+            <span class="c1"># common ancestor.</span>
 
-            merge_migrations = []
+            <span class="n">merge_migrations</span> <span class="o">=</span> <span class="p">[]</span>
 
-            for migration_name in migration_names:
+            <span class="k">for</span> <span class="n">migration_name</span> <span class="ow">in</span> <span class="n">migration_names</span><span class="p">:</span>
 
-                migration = loader.get_migration(app_label, migration_name)
+                <span class="n">migration</span> <span class="o">=</span> <span class="n">loader</span><span class="o">.</span><span class="n">get_migration</span><span class="p">(</span><span class="n">app_label</span><span class="p">,</span> <span class="n">migration_name</span><span class="p">)</span>
 
-                migration.ancestry = [
+                <span class="n">migration</span><span class="o">.</span><span class="n">ancestry</span> <span class="o">=</span> <span class="p">[</span>
 
-                    mig for mig in loader.graph.forwards_plan((app_label, migration_name))
+                    <span class="n">mig</span> <span class="k">for</span> <span class="n">mig</span> <span class="ow">in</span> <span class="n">loader</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">forwards_plan</span><span class="p">((</span><span class="n">app_label</span><span class="p">,</span> <span class="n">migration_name</span><span class="p">))</span>
 
-                    if mig[0] == migration.app_label
+                    <span class="k">if</span> <span class="n">mig</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">migration</span><span class="o">.</span><span class="n">app_label</span>
 
-                ]
+                <span class="p">]</span>
 
-                merge_migrations.append(migration)
+                <span class="n">merge_migrations</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">migration</span><span class="p">)</span>
 
-            def all_items_equal(seq):
+            <span class="n">def</span> <span class="n">all_items_equal</span><span class="p">(</span><span class="n">seq</span><span class="p">):</span>
 
-                return all(item == seq[0] for item in seq[1:])
+                <span class="k">return</span> <span class="n">all</span><span class="p">(</span><span class="n">item</span> <span class="o">==</span> <span class="n">seq</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">seq</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
 
-            merge_migrations_generations = zip(*(m.ancestry for m in merge_migrations))
+            <span class="n">merge_migrations_generations</span> <span class="o">=</span> <span class="n">zip</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">ancestry</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">merge_migrations</span><span class="p">))</span>
 
-            common_ancestor_count = sum(1 for common_ancestor_generation
+            <span class="n">common_ancestor_count</span> <span class="o">=</span> <span class="n">sum</span><span class="p">(</span><span class="mi">1</span> <span class="k">for</span> <span class="n">common_ancestor_generation</span>
 
-                                        in takewhile(all_items_equal, merge_migrations_generations))
+                                        <span class="ow">in</span> <span class="n">takewhile</span><span class="p">(</span><span class="n">all_items_equal</span><span class="p">,</span> <span class="n">merge_migrations_generations</span><span class="p">))</span>
 
-            if not common_ancestor_count:
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">common_ancestor_count</span><span class="p">:</span>
 
-                raise ValueError(&quot;Could not find common ancestor of %s&quot; % migration_names)
+                <span class="n">raise</span> <span class="n">ValueError</span><span class="p">(</span><span class="s2">&quot;Could not find common ancestor of </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">migration_names</span><span class="p">)</span>
 
-            # Now work out the operations along each divergent branch
+            <span class="c1"># Now work out the operations along each divergent branch</span>
 
-            for migration in merge_migrations:
+            <span class="k">for</span> <span class="n">migration</span> <span class="ow">in</span> <span class="n">merge_migrations</span><span class="p">:</span>
 
-                migration.branch = migration.ancestry[common_ancestor_count:]
+                <span class="n">migration</span><span class="o">.</span><span class="n">branch</span> <span class="o">=</span> <span class="n">migration</span><span class="o">.</span><span class="n">ancestry</span><span class="p">[</span><span class="n">common_ancestor_count</span><span class="p">:]</span>
 
-                migrations_ops = (loader.get_migration(node_app, node_name).operations
+                <span class="n">migrations_ops</span> <span class="o">=</span> <span class="p">(</span><span class="n">loader</span><span class="o">.</span><span class="n">get_migration</span><span class="p">(</span><span class="n">node_app</span><span class="p">,</span> <span class="n">node_name</span><span class="p">)</span><span class="o">.</span><span class="n">operations</span>
 
-                                  for node_app, node_name in migration.branch)
+                                  <span class="k">for</span> <span class="n">node_app</span><span class="p">,</span> <span class="n">node_name</span> <span class="ow">in</span> <span class="n">migration</span><span class="o">.</span><span class="n">branch</span><span class="p">)</span>
 
-                migration.merged_operations = sum(migrations_ops, [])
+                <span class="n">migration</span><span class="o">.</span><span class="n">merged_operations</span> <span class="o">=</span> <span class="n">sum</span><span class="p">(</span><span class="n">migrations_ops</span><span class="p">,</span> <span class="p">[])</span>
 
-            # In future, this could use some of the Optimizer code
+            <span class="c1"># In future, this could use some of the Optimizer code</span>
 
-            # (can_optimize_through) to automatically see if they&#39;re
+            <span class="c1"># (can_optimize_through) to automatically see if they&#39;re</span>
 
-            # mergeable. For now, we always just prompt the user.
+            <span class="c1"># mergeable. For now, we always just prompt the user.</span>
 
-            if self.verbosity &gt; 0:
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbosity</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
 
-                self.stdout.write(self.style.MIGRATE_HEADING(&quot;Merging %s&quot; % app_label))
+                <span class="bp">self</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">MIGRATE_HEADING</span><span class="p">(</span><span class="s2">&quot;Merging </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">app_label</span><span class="p">))</span>
 
-                for migration in merge_migrations:
+                <span class="k">for</span> <span class="n">migration</span> <span class="ow">in</span> <span class="n">merge_migrations</span><span class="p">:</span>
 
-                    self.stdout.write(self.style.MIGRATE_LABEL(&quot;  Branch %s&quot; % migration.name))
+                    <span class="bp">self</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">MIGRATE_LABEL</span><span class="p">(</span><span class="s2">&quot;  Branch </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">migration</span><span class="o">.</span><span class="n">name</span><span class="p">))</span>
 
-                    for operation in migration.merged_operations:
+                    <span class="k">for</span> <span class="n">operation</span> <span class="ow">in</span> <span class="n">migration</span><span class="o">.</span><span class="n">merged_operations</span><span class="p">:</span>
 
-                        self.stdout.write(&#39;    - %s&#39; % operation.describe())
+                        <span class="bp">self</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;    - </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">operation</span><span class="o">.</span><span class="n">describe</span><span class="p">())</span>
 
-            if questioner.ask_merge(app_label):
+            <span class="k">if</span> <span class="n">questioner</span><span class="o">.</span><span class="n">ask_merge</span><span class="p">(</span><span class="n">app_label</span><span class="p">):</span>
 
-                # If they still want to merge it, then write out an empty
+                <span class="c1"># If they still want to merge it, then write out an empty</span>
 
-                # file depending on the migrations needing merging.
+                <span class="c1"># file depending on the migrations needing merging.</span>
 
-                numbers = [
+                <span class="n">numbers</span> <span class="o">=</span> <span class="p">[</span>
 
-                    MigrationAutodetector.parse_number(migration.name)
+                    <span class="n">MigrationAutodetector</span><span class="o">.</span><span class="n">parse_number</span><span class="p">(</span><span class="n">migration</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
 
-                    for migration in merge_migrations
+                    <span class="k">for</span> <span class="n">migration</span> <span class="ow">in</span> <span class="n">merge_migrations</span>
 
-                ]
+                <span class="p">]</span>
 
-                try:
+                <span class="n">try</span><span class="p">:</span>
 
-                    biggest_number = max(x for x in numbers if x is not None)
+                    <span class="n">biggest_number</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">numbers</span> <span class="k">if</span> <span class="n">x</span> <span class="k">is</span> <span class="ow">not</span> <span class="n">None</span><span class="p">)</span>
 
-                except ValueError:
+                <span class="n">except</span> <span class="n">ValueError</span><span class="p">:</span>
 
-                    biggest_number = 1
+                    <span class="n">biggest_number</span> <span class="o">=</span> <span class="mi">1</span>
 
-                subclass = type(&quot;Migration&quot;, (Migration,), {
+                <span class="n">subclass</span> <span class="o">=</span> <span class="n">type</span><span class="p">(</span><span class="s2">&quot;Migration&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">Migration</span><span class="p">,),</span> <span class="p">{</span>
 
-                    &quot;dependencies&quot;: [(app_label, migration.name) for migration in merge_migrations],
+                    <span class="s2">&quot;dependencies&quot;</span><span class="p">:</span> <span class="p">[(</span><span class="n">app_label</span><span class="p">,</span> <span class="n">migration</span><span class="o">.</span><span class="n">name</span><span class="p">)</span> <span class="k">for</span> <span class="n">migration</span> <span class="ow">in</span> <span class="n">merge_migrations</span><span class="p">],</span>
 
-                })
+                <span class="p">})</span>
 
-                parts = [&#39;%04i&#39; % (biggest_number + 1)]
+                <span class="n">parts</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;</span><span class="si">%04i</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">biggest_number</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)]</span>
 
-                if self.migration_name:
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">migration_name</span><span class="p">:</span>
 
-                    parts.append(self.migration_name)
+                    <span class="n">parts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">migration_name</span><span class="p">)</span>
 
-                else:
+                <span class="k">else</span><span class="p">:</span>
 
-                    parts.append(&#39;merge&#39;)
+                    <span class="n">parts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;merge&#39;</span><span class="p">)</span>
 
-                    leaf_names = &#39;_&#39;.join(sorted(migration.name for migration in merge_migrations))
+                    <span class="n">leaf_names</span> <span class="o">=</span> <span class="s1">&#39;_&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">sorted</span><span class="p">(</span><span class="n">migration</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">migration</span> <span class="ow">in</span> <span class="n">merge_migrations</span><span class="p">))</span>
 
-                    if len(leaf_names) &gt; 47:
+                    <span class="k">if</span> <span class="n">len</span><span class="p">(</span><span class="n">leaf_names</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">47</span><span class="p">:</span>
 
-                        parts.append(get_migration_name_timestamp())
+                        <span class="n">parts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">get_migration_name_timestamp</span><span class="p">())</span>
 
-                    else:
+                    <span class="k">else</span><span class="p">:</span>
 
-                        parts.append(leaf_names)
+                        <span class="n">parts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">leaf_names</span><span class="p">)</span>
 
-                migration_name = &#39;_&#39;.join(parts)
+                <span class="n">migration_name</span> <span class="o">=</span> <span class="s1">&#39;_&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">parts</span><span class="p">)</span>
 
-                new_migration = subclass(migration_name, app_label)
+                <span class="n">new_migration</span> <span class="o">=</span> <span class="n">subclass</span><span class="p">(</span><span class="n">migration_name</span><span class="p">,</span> <span class="n">app_label</span><span class="p">)</span>
 
-                writer = MigrationWriter(new_migration, self.include_header)
+                <span class="n">writer</span> <span class="o">=</span> <span class="n">MigrationWriter</span><span class="p">(</span><span class="n">new_migration</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">include_header</span><span class="p">)</span>
 
-                if not self.dry_run:
+                <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">dry_run</span><span class="p">:</span>
 
-                    # Write the merge migrations file to the disk
+                    <span class="c1"># Write the merge migrations file to the disk</span>
 
-                    with open(writer.path, &quot;w&quot;, encoding=&#39;utf-8&#39;) as fh:
+                    <span class="n">with</span> <span class="n">open</span><span class="p">(</span><span class="n">writer</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fh</span><span class="p">:</span>
 
-                        fh.write(writer.as_string())
+                        <span class="n">fh</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">writer</span><span class="o">.</span><span class="n">as_string</span><span class="p">())</span>
 
-                    if self.verbosity &gt; 0:
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbosity</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
 
-                        self.stdout.write(&quot;\nCreated new merge migration %s&quot; % writer.path)
+                        <span class="bp">self</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Created new merge migration </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">writer</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
 
-                elif self.verbosity == 3:
+                <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbosity</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
 
-                    # Alternatively, makemigrations --merge --dry-run --verbosity 3
+                    <span class="c1"># Alternatively, makemigrations --merge --dry-run --verbosity 3</span>
 
-                    # will output the merge migrations to stdout rather than saving
+                    <span class="c1"># will output the merge migrations to stdout rather than saving</span>
 
-                    # the file to the disk.
+                    <span class="c1"># the file to the disk.</span>
 
-                    self.stdout.write(self.style.MIGRATE_HEADING(
+                    <span class="bp">self</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">MIGRATE_HEADING</span><span class="p">(</span>
 
-                        &quot;Full merge migrations file &#39;%s&#39;:&quot; % writer.filename
+                        <span class="s2">&quot;Full merge migrations file &#39;</span><span class="si">%s</span><span class="s2">&#39;:&quot;</span> <span class="o">%</span> <span class="n">writer</span><span class="o">.</span><span class="n">filename</span>
 
-                    ))
+                    <span class="p">))</span>
 
-                    self.stdout.write(writer.as_string())
+                    <span class="bp">self</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">writer</span><span class="o">.</span><span class="n">as_string</span><span class="p">())</span>
 </code></pre></div>
+
 </details>
 <h4 id="print_help">print_help</h4>
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">print_help</span><span class="p">(</span>
@@ -2205,20 +2215,21 @@ return their own version.</p>
 </code></pre></div>
 <p>Print the help message for this command, derived from</p>
 <p><code>self.usage()</code>.</p>
-<details class="example"><summary>View Source</summary><div class="highlight"><pre><span></span><code>    def print_help(self, prog_name, subcommand):
+<details class="example"><summary>View Source</summary><div class="codehilite"><pre><span></span><code>    <span class="nv">def</span> <span class="nv">print_help</span><span class="ss">(</span><span class="nv">self</span>, <span class="nv">prog_name</span>, <span class="nv">subcommand</span><span class="ss">)</span>:
 
-        &quot;&quot;&quot;
+        <span class="s2">&quot;&quot;&quot;</span>
 
-        Print the help message for this command, derived from
+        <span class="nv">Print</span> <span class="nv">the</span> <span class="nv">help</span> <span class="nv">message</span> <span class="k">for</span> <span class="nv">this</span> <span class="nv">command</span>, <span class="nv">derived</span> <span class="nv">from</span>
 
-        ``self.usage()``.
+        ``<span class="nv">self</span>.<span class="nv">usage</span><span class="ss">()</span>``.
 
-        &quot;&quot;&quot;
+        <span class="s2">&quot;&quot;&quot;</span>
 
-        parser = self.create_parser(prog_name, subcommand)
+        <span class="nv">parser</span> <span class="o">=</span> <span class="nv">self</span>.<span class="nv">create_parser</span><span class="ss">(</span><span class="nv">prog_name</span>, <span class="nv">subcommand</span><span class="ss">)</span>
 
-        parser.print_help()
+        <span class="nv">parser</span>.<span class="nv">print_help</span><span class="ss">()</span>
 </code></pre></div>
+
 </details>
 <h4 id="run_from_argv">run_from_argv</h4>
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">run_from_argv</span><span class="p">(</span>
@@ -2231,72 +2242,73 @@ return their own version.</p>
 command raises a <code>CommandError</code>, intercept it and print it sensibly
 to stderr. If the <code>--traceback</code> option is present or the raised
 <code>Exception</code> is not <code>CommandError</code>, raise it.</p>
-<details class="example"><summary>View Source</summary><div class="highlight"><pre><span></span><code>    def run_from_argv(self, argv):
+<details class="example"><summary>View Source</summary><div class="codehilite"><pre><span></span><code>    <span class="n">def</span> <span class="n">run_from_argv</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">argv</span><span class="p">)</span><span class="o">:</span>
 
-        &quot;&quot;&quot;
+        <span class="s2">&quot;</span><span class="se">&quot;&quot;</span><span class="s2"></span>
 
-        Set up any environment changes requested (e.g., Python path
+<span class="s2">        Set up any environment changes requested (e.g., Python path</span>
 
-        and Django settings), then run this command. If the
+<span class="s2">        and Django settings), then run this command. If the</span>
 
-        command raises a ``CommandError``, intercept it and print it sensibly
+<span class="s2">        command raises a ``CommandError``, intercept it and print it sensibly</span>
 
-        to stderr. If the ``--traceback`` option is present or the raised
+<span class="s2">        to stderr. If the ``--traceback`` option is present or the raised</span>
 
-        ``Exception`` is not ``CommandError``, raise it.
+<span class="s2">        ``Exception`` is not ``CommandError``, raise it.</span>
 
-        &quot;&quot;&quot;
+<span class="s2">        </span><span class="se">&quot;&quot;</span><span class="s2">&quot;</span>
 
-        self._called_from_command_line = True
+        <span class="n">self</span><span class="p">.</span><span class="n">_called_from_command_line</span> <span class="o">=</span> <span class="no">True</span>
 
-        parser = self.create_parser(argv[0], argv[1])
+        <span class="k">parser</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">create_parser</span><span class="p">(</span><span class="n">argv</span><span class="err">[</span><span class="mi">0</span><span class="err">]</span><span class="p">,</span> <span class="n">argv</span><span class="err">[</span><span class="mi">1</span><span class="err">]</span><span class="p">)</span>
 
-        options = parser.parse_args(argv[2:])
+        <span class="k">options</span> <span class="o">=</span> <span class="k">parser</span><span class="p">.</span><span class="n">parse_args</span><span class="p">(</span><span class="n">argv</span><span class="err">[</span><span class="mi">2</span><span class="o">:</span><span class="err">]</span><span class="p">)</span>
 
-        cmd_options = vars(options)
+        <span class="n">cmd_options</span> <span class="o">=</span> <span class="n">vars</span><span class="p">(</span><span class="k">options</span><span class="p">)</span>
 
-        # Move positional args out of options to mimic legacy optparse
+        <span class="c1"># Move positional args out of options to mimic legacy optparse</span>
 
-        args = cmd_options.pop(&#39;args&#39;, ())
+        <span class="n">args</span> <span class="o">=</span> <span class="n">cmd_options</span><span class="p">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;args&#39;</span><span class="p">,</span> <span class="p">())</span>
 
-        handle_default_options(options)
+        <span class="n">handle_default_options</span><span class="p">(</span><span class="k">options</span><span class="p">)</span>
 
-        try:
+        <span class="n">try</span><span class="o">:</span>
 
-            self.execute(*args, **cmd_options)
+            <span class="n">self</span><span class="p">.</span><span class="k">execute</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">cmd_options</span><span class="p">)</span>
 
-        except CommandError as e:
+        <span class="k">except</span> <span class="n">CommandError</span> <span class="k">as</span> <span class="n">e</span><span class="o">:</span>
 
-            if options.traceback:
+            <span class="k">if</span> <span class="k">options</span><span class="p">.</span><span class="n">traceback</span><span class="o">:</span>
 
-                raise
+                <span class="n">raise</span>
 
-            # SystemCheckError takes care of its own formatting.
+            <span class="c1"># SystemCheckError takes care of its own formatting.</span>
 
-            if isinstance(e, SystemCheckError):
+            <span class="k">if</span> <span class="n">isinstance</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">SystemCheckError</span><span class="p">)</span><span class="o">:</span>
 
-                self.stderr.write(str(e), lambda x: x)
+                <span class="n">self</span><span class="p">.</span><span class="n">stderr</span><span class="p">.</span><span class="k">write</span><span class="p">(</span><span class="n">str</span><span class="p">(</span><span class="n">e</span><span class="p">),</span> <span class="n">lambda</span> <span class="n">x</span><span class="o">:</span> <span class="n">x</span><span class="p">)</span>
 
-            else:
+            <span class="k">else</span><span class="o">:</span>
 
-                self.stderr.write(&#39;%s: %s&#39; % (e.__class__.__name__, e))
+                <span class="n">self</span><span class="p">.</span><span class="n">stderr</span><span class="p">.</span><span class="k">write</span><span class="p">(</span><span class="s1">&#39;%s: %s&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="n">__class__</span><span class="p">.</span><span class="n">__name__</span><span class="p">,</span> <span class="n">e</span><span class="p">))</span>
 
-            sys.exit(e.returncode)
+            <span class="n">sys</span><span class="p">.</span><span class="k">exit</span><span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="n">returncode</span><span class="p">)</span>
 
-        finally:
+        <span class="n">finally</span><span class="o">:</span>
 
-            try:
+            <span class="n">try</span><span class="o">:</span>
 
-                connections.close_all()
+                <span class="n">connections</span><span class="p">.</span><span class="n">close_all</span><span class="p">()</span>
 
-            except ImproperlyConfigured:
+            <span class="k">except</span> <span class="n">ImproperlyConfigured</span><span class="o">:</span>
 
-                # Ignore if connections aren&#39;t setup at this point (e.g. no
+                <span class="c1"># Ignore if connections aren&#39;t setup at this point (e.g. no</span>
 
-                # configured settings).
+                <span class="c1"># configured settings).</span>
 
-                pass
+                <span class="n">pass</span>
 </code></pre></div>
+
 </details>
 <h4 id="write_migration_files">write_migration_files</h4>
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">write_migration_files</span><span class="p">(</span>
@@ -2305,94 +2317,95 @@ to stderr. If the <code>--traceback</code> option is present or the raised
 <span class="p">)</span>
 </code></pre></div>
 <p>Take a changes dict and write them out as migration files.</p>
-<details class="example"><summary>View Source</summary><div class="highlight"><pre><span></span><code>    def write_migration_files(self, changes):
+<details class="example"><summary>View Source</summary><div class="codehilite"><pre><span></span><code><span class="w">    </span><span class="n">def</span><span class="w"> </span><span class="n">write_migration_files</span><span class="p">(</span><span class="n">self</span><span class="p">,</span><span class="w"> </span><span class="n">changes</span><span class="p">)</span><span class="err">:</span><span class="w"></span>
 
-        &quot;&quot;&quot;
+<span class="w">        </span><span class="ss">&quot;&quot;&quot;</span>
 
-        Take a changes dict and write them out as migration files.
+<span class="ss">        Take a changes dict and write them out as migration files.</span>
 
-        &quot;&quot;&quot;
+<span class="ss">        &quot;&quot;&quot;</span><span class="w"></span>
 
-        directory_created = {}
+<span class="w">        </span><span class="n">directory_created</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="err">{}</span><span class="w"></span>
 
-        for app_label, app_migrations in changes.items():
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="n">app_label</span><span class="p">,</span><span class="w"> </span><span class="n">app_migrations</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">changes</span><span class="p">.</span><span class="n">items</span><span class="p">()</span><span class="err">:</span><span class="w"></span>
 
-            if self.verbosity &gt;= 1:
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="n">self</span><span class="p">.</span><span class="n">verbosity</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">1</span><span class="err">:</span><span class="w"></span>
 
-                self.stdout.write(self.style.MIGRATE_HEADING(&quot;Migrations for &#39;%s&#39;:&quot; % app_label))
+<span class="w">                </span><span class="n">self</span><span class="p">.</span><span class="n">stdout</span><span class="p">.</span><span class="k">write</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">style</span><span class="p">.</span><span class="n">MIGRATE_HEADING</span><span class="p">(</span><span class="ss">&quot;Migrations for &#39;%s&#39;:&quot;</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="n">app_label</span><span class="p">))</span><span class="w"></span>
 
-            for migration in app_migrations:
+<span class="w">            </span><span class="k">for</span><span class="w"> </span><span class="n">migration</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="nl">app_migrations</span><span class="p">:</span><span class="w"></span>
 
-                # Describe the migration
+<span class="w">                </span><span class="err">#</span><span class="w"> </span><span class="k">Describe</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">migration</span><span class="w"></span>
 
-                writer = MigrationWriter(migration, self.include_header)
+<span class="w">                </span><span class="n">writer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MigrationWriter</span><span class="p">(</span><span class="n">migration</span><span class="p">,</span><span class="w"> </span><span class="n">self</span><span class="p">.</span><span class="n">include_header</span><span class="p">)</span><span class="w"></span>
 
-                if self.verbosity &gt;= 1:
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="n">self</span><span class="p">.</span><span class="n">verbosity</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">1</span><span class="err">:</span><span class="w"></span>
 
-                    # Display a relative path if it&#39;s below the current working
+<span class="w">                    </span><span class="err">#</span><span class="w"> </span><span class="n">Display</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="k">relative</span><span class="w"> </span><span class="k">path</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">it</span><span class="s1">&#39;s below the current working</span>
 
-                    # directory, or an absolute path otherwise.
+<span class="s1">                    # directory, or an absolute path otherwise.</span>
 
-                    try:
+<span class="s1">                    try:</span>
 
-                        migration_string = os.path.relpath(writer.path)
+<span class="s1">                        migration_string = os.path.relpath(writer.path)</span>
 
-                    except ValueError:
+<span class="s1">                    except ValueError:</span>
 
-                        migration_string = writer.path
+<span class="s1">                        migration_string = writer.path</span>
 
-                    if migration_string.startswith(&#39;..&#39;):
+<span class="s1">                    if migration_string.startswith(&#39;</span><span class="p">..</span><span class="s1">&#39;):</span>
 
-                        migration_string = writer.path
+<span class="s1">                        migration_string = writer.path</span>
 
-                    self.stdout.write(&#39;  %s\n&#39; % self.style.MIGRATE_LABEL(migration_string))
+<span class="s1">                    self.stdout.write(&#39;</span><span class="w">  </span><span class="o">%</span><span class="n">s</span><span class="err">\</span><span class="n">n</span><span class="s1">&#39; % self.style.MIGRATE_LABEL(migration_string))</span>
 
-                    for operation in migration.operations:
+<span class="s1">                    for operation in migration.operations:</span>
 
-                        self.stdout.write(&#39;    - %s&#39; % operation.describe())
+<span class="s1">                        self.stdout.write(&#39;</span><span class="w">    </span><span class="o">-</span><span class="w"> </span><span class="o">%</span><span class="n">s</span><span class="s1">&#39; % operation.describe())</span>
 
-                if not self.dry_run:
+<span class="s1">                if not self.dry_run:</span>
 
-                    # Write the migrations file to the disk.
+<span class="s1">                    # Write the migrations file to the disk.</span>
 
-                    migrations_directory = os.path.dirname(writer.path)
+<span class="s1">                    migrations_directory = os.path.dirname(writer.path)</span>
 
-                    if not directory_created.get(app_label):
+<span class="s1">                    if not directory_created.get(app_label):</span>
 
-                        os.makedirs(migrations_directory, exist_ok=True)
+<span class="s1">                        os.makedirs(migrations_directory, exist_ok=True)</span>
 
-                        init_path = os.path.join(migrations_directory, &quot;__init__.py&quot;)
+<span class="s1">                        init_path = os.path.join(migrations_directory, &quot;__init__.py&quot;)</span>
 
-                        if not os.path.isfile(init_path):
+<span class="s1">                        if not os.path.isfile(init_path):</span>
 
-                            open(init_path, &quot;w&quot;).close()
+<span class="s1">                            open(init_path, &quot;w&quot;).close()</span>
 
-                        # We just do this once per app
+<span class="s1">                        # We just do this once per app</span>
 
-                        directory_created[app_label] = True
+<span class="s1">                        directory_created[app_label] = True</span>
 
-                    migration_string = writer.as_string()
+<span class="s1">                    migration_string = writer.as_string()</span>
 
-                    with open(writer.path, &quot;w&quot;, encoding=&#39;utf-8&#39;) as fh:
+<span class="s1">                    with open(writer.path, &quot;w&quot;, encoding=&#39;</span><span class="n">utf</span><span class="o">-</span><span class="mi">8</span><span class="s1">&#39;) as fh:</span>
 
-                        fh.write(migration_string)
+<span class="s1">                        fh.write(migration_string)</span>
 
-                elif self.verbosity == 3:
+<span class="s1">                elif self.verbosity == 3:</span>
 
-                    # Alternatively, makemigrations --dry-run --verbosity 3
+<span class="s1">                    # Alternatively, makemigrations --dry-run --verbosity 3</span>
 
-                    # will output the migrations to stdout rather than saving
+<span class="s1">                    # will output the migrations to stdout rather than saving</span>
 
-                    # the file to the disk.
+<span class="s1">                    # the file to the disk.</span>
 
-                    self.stdout.write(self.style.MIGRATE_HEADING(
+<span class="s1">                    self.stdout.write(self.style.MIGRATE_HEADING(</span>
 
-                        &quot;Full migrations file &#39;%s&#39;:&quot; % writer.filename
+<span class="s1">                        &quot;Full migrations file &#39;</span><span class="o">%</span><span class="n">s</span><span class="err">&#39;:&quot;</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="n">writer</span><span class="p">.</span><span class="n">filename</span><span class="w"></span>
 
-                    ))
+<span class="w">                    </span><span class="p">))</span><span class="w"></span>
 
-                    self.stdout.write(writer.as_string())
+<span class="w">                    </span><span class="n">self</span><span class="p">.</span><span class="n">stdout</span><span class="p">.</span><span class="k">write</span><span class="p">(</span><span class="n">writer</span><span class="p">.</span><span class="n">as_string</span><span class="p">())</span><span class="w"></span>
 </code></pre></div>
+
 </details>
                 
               

@@ -333,7 +333,7 @@
   
     <li class="md-nav__item">
       <a href="CHANGELOG.html" class="md-nav__link">
-        Changelog
+        ChangeLog
       </a>
     </li>
   
@@ -681,9 +681,10 @@
 │   ├── 0003_auto_20210522_1228.py /
 </code></pre></div>
 <p>Running <a href="https://docs.djangoproject.com/en/3.2/ref/django-admin/#django-admin-makemigrations"><code>makemigrations</code></a> fails with the following error:</p>
-<div class="highlight"><pre><span></span><code>CommandError: Conflicting migrations detected; multiple leaf nodes in the migration graph: (0003_auto_20210522_1128, 0003_auto_20210522_1228 in app).
-To fix them run &#39;python manage.py makemigrations --merge&#39;
+<div class="codehilite"><pre><span></span><code><span class="n">CommandError</span><span class="o">:</span> <span class="n">Conflicting</span> <span class="n">migrations</span> <span class="n">detected</span><span class="o">;</span> <span class="n">multiple</span> <span class="n">leaf</span> <span class="n">nodes</span> <span class="k">in</span> <span class="n">the</span> <span class="n">migration</span> <span class="n">graph</span><span class="o">:</span> <span class="o">(</span><span class="mi">0003</span><span class="n">_auto_20210522_1128</span><span class="o">,</span> <span class="mi">0003</span><span class="n">_auto_20210522_1228</span> <span class="k">in</span> <span class="n">app</span><span class="o">).</span>
+<span class="n">To</span> <span class="n">fix</span> <span class="n">them</span> <span class="n">run</span> <span class="s1">&#39;python manage.py makemigrations --merge&#39;</span>
 </code></pre></div>
+
 <p>Using the <a href="https://docs.djangoproject.com/en/3.2/ref/django-admin/#cmdoption-makemigrations-merge"><code>--merge</code></a> option creates a new migration file which might not be desired.</p>
 <h2 id="solution">Solution</h2>
 <p><code>django-migration-fixer</code> identifies changes between the default branch <code>main</code>, and the feature branch <code>feature/test-b</code> and maintains a consistent dependency history as shown below:</p>
@@ -749,13 +750,13 @@ base migration which might not be accurate in every case and is not recommended.
       <nav class="md-footer-nav__inner md-grid">
         
         
-          <a href="CHANGELOG.html" title="Changelog" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="CHANGELOG.html" title="ChangeLog" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
               <span class="md-flex__ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                Changelog
+                ChangeLog
               </span>
             </div>
             <div class="md-flex__cell md-flex__cell--shrink">

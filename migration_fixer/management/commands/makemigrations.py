@@ -24,6 +24,7 @@ class Command(BaseCommand):
     """
     Create a new django migration with support for fixing conflicts.
     """
+
     success_msg = "Successfully fixed migrations."
 
     def add_arguments(self, parser):

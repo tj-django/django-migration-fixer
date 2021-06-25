@@ -13,16 +13,19 @@ MIGRATION_REGEX = (
 
 
 def _clean_message(output: str) -> str:
+    """Strips the succeeding new line and carriage return characters."""
     return output.rstrip("\n\r")
 
 
 def _decode_message(output: bytes, encoding: str) -> str:
+    """Converts bytes to string, stripping white spaces."""
     return output.decode(encoding).strip()
 
 
 def run_command(
     command: str, encoding: str = "utf-8", timeout: int = DEFAULT_TIMEOUT
 ) -> Tuple[bool, str, str]:
+    """Executes a shell command returning the output and exit code."""
     command = shlex.split(command)
     process = subprocess.Popen(
         command,
@@ -56,6 +59,7 @@ def run_command(
 
 
 def _update_migration(conflict_path: Path, app_label: str, seen: List[str]) -> None:
+    """Modify the migration file."""
     replacement = "('{app_label}', '{prev_migration}'),".format(
         app_label=app_label,
         prev_migration=seen[-1],
@@ -85,6 +89,7 @@ def fix_numbered_migration(
     start_name: str,
     changed_files: List[str],
 ):
+    """Resolve migration conflicts for numbered migrations."""
     seen = [start_name]
     counter = count(seed + 1)  # 0537 -> 538
     sorted_changed_files = sorted(changed_files, key=lambda p: p.split("_")[0])
@@ -114,13 +119,14 @@ def fix_numbered_migration(
             seen.append(new_conflict_name.strip(".py"))
 
 
-def fix_migration(
+def fix_named_migration(
     *,
     app_label: str,
     migration_path: Path,
     start_name: str,
     changed_files: List[str],
 ):
+    """Resolve migration conflicts for named migrations."""
     seen = [start_name]
 
     for path in changed_files:

@@ -3,11 +3,12 @@ site_author: Tonye Jack
 site_description: Fix django migrations
 copyright: "&copy; 2021 Tonye Jack"
 repo_url: https://github.com/tj-django/django-migration-fixer
+site_url: https://tj-django.github.io/django-migration-fixer
 theme:
   name: material
   language: en
-  favicon: docs/images/logo.png
-  logo: docs/images/logo.png
+  favicon: images/logo.png
+  logo: images/logo.png
   palette:
     primary: blue
     accent: white
@@ -17,12 +18,17 @@ markdown_extensions:
   - pymdownx.highlight
   - pymdownx.superfences
   - pymdownx.inlinehilite
+  - pymdownx.details
   - admonition
   - codehilite:
       css_class: highlight
   - mkautodoc
-  - pymdownx.highlight:
-      linenums: true
 nav:
   - Home: README.md
+  - Modules:
+      management: makemigrations.md
+      utils: utils.md
   - ChangeLog: CHANGELOG.md
+
+extra_css:
+  - css/custom.css

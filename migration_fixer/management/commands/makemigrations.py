@@ -13,7 +13,7 @@ from django.db import DEFAULT_DB_ALIAS, connections, router
 from django.db.migrations.loader import MigrationLoader
 
 from migration_fixer.utils import (
-    fix_migration,
+    fix_named_migration,
     fix_numbered_migration,
     no_translations,
     run_command,
@@ -21,6 +21,9 @@ from migration_fixer.utils import (
 
 
 class Command(BaseCommand):
+    """
+    Create a new django migration with support for fixing conflicts.
+    """
     success_msg = "Successfully fixed migrations."
 
     def add_arguments(self, parser):
@@ -220,7 +223,7 @@ class Command(BaseCommand):
                                         changed_files=changed_files,
                                     )
                                 else:
-                                    fix_migration(
+                                    fix_named_migration(
                                         app_label=app_label,
                                         migration_path=migration_path,
                                         start_name=last_remote_filename,

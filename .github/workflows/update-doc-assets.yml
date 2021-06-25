@@ -40,6 +40,12 @@ jobs:
           body: "Updated README.md"
           token: ${{ secrets.PAT_TOKEN }}
 
+      - name: Copy doc assets
+        run: |
+          sed 's|./docs/images|./images|g' README.md > docs/README.md
+          cp -f CHANGELOG.md docs/CHANGELOG.md
+          cp -f *.png docs/images
+
       - name: Set up Python
         uses: actions/setup-python@v2
         with:

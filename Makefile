@@ -58,11 +58,14 @@ coverage:  ## check code coverage quickly with the default Python
 	@coverage html
 	@$(BROWSER) htmlcov/index.html
 
-github-pages: install-docs
-	@DJANGO_SETTINGS_MODULE=django_migration_fixer.settings portray on_github_pages
+build-docs:
+	@mkdocs build
 
-servedocs: install-docs  ## compile the docs watching for changes
-	@DJANGO_SETTINGS_MODULE=django_migration_fixer.settings portray in_browser
+github-pages: install-docs
+	@mkdocs gh-deploy
+
+servedocs: install-docs build-docs  ## compile the docs watching for changes
+	@mkdocs serve
 
 release: dist  ## package and upload a release
 	@twine upload dist/*

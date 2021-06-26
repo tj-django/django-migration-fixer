@@ -18,5 +18,11 @@ class MigrationFixerTestCase(BaseCommandTestCase):
     cmd_class = Command
     expected_output = Command.success_msg
 
+    def setUp(self):
+        pass
+
+    def tearDown(self):
+        pass
+
     def test_equal(self):
         self.assertEqual(1, 1)

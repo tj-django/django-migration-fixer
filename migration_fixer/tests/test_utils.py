@@ -1,6 +1,11 @@
 from django.utils import translation
 
-from migration_fixer.utils import _clean_message, _decode_message, no_translations, run_command
+from migration_fixer.utils import (
+    _clean_message,
+    _decode_message,
+    no_translations,
+    run_command,
+)
 
 
 def test__clean_message():
@@ -36,5 +41,5 @@ def test_run_command():
     )
 
     assert head_sha_has_error is True
-    assert head_sha_output != ''
-    assert head_sha_error == ''
+    assert head_sha_output != ""
+    assert head_sha_error == ""

@@ -53,9 +53,11 @@ class Command(BaseCommand):
             except CommandError as e:
                 [message] = e.args
                 if "Conflicting migrations" in message:
-                    git_setup_has_error, git_setup_output, git_setup_error = run_command(
-                        "git status"
-                    )
+                    (
+                        git_setup_has_error,
+                        git_setup_output,
+                        git_setup_error,
+                    ) = run_command("git status")
 
                     if not git_setup_has_error:
                         raise CommandError(

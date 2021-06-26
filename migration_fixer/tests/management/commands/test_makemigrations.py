@@ -4,7 +4,6 @@ from django.test import override_settings
 
 from migration_fixer.management.commands.makemigrations import Command
 from migration_fixer.tests.base import BaseCommandTestCase
-from migration_fixer.utils import run_command
 
 
 @override_settings(

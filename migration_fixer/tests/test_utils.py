@@ -37,7 +37,7 @@ def test_no_translations():
 
 def test_run_command():
     head_sha_has_error, head_sha_output, head_sha_error = run_command(
-        f"git rev-parse HEAD"
+        "git rev-parse HEAD"
     )
 
     assert head_sha_has_error is True

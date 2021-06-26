@@ -12,6 +12,7 @@
 
 Maintain a consistent migration history when conflicts occur as a result of changes made using different versions of the default branch.
 
+
 ## Installation
 
 ```bash

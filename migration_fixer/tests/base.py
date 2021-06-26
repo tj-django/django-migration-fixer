@@ -13,7 +13,7 @@ class BaseCommandTestCase(with_metaclass(abc.ABCMeta, TestCase)):
     base_kwargs = {"verbosity": 0}
 
     @classmethod
-    def setup_command(cls, *args, **kwargs):
+    def execute_command(cls, *args, **kwargs):
         cmd = cls.cmd_class()
 
         out = StringIO()

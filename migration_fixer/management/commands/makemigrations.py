@@ -53,11 +53,11 @@ class Command(BaseCommand):
             except CommandError as e:
                 [message] = e.args
                 if "Conflicting migrations" in message:
-                    git_setup, git_setup_output, git_setup_error = run_command(
+                    git_setup_has_error, git_setup_output, git_setup_error = run_command(
                         "git status"
                     )
 
-                    if not git_setup:
+                    if not git_setup_has_error:
                         raise CommandError(
                             self.style.ERROR(
                                 f"VCS is not yet setup. "
@@ -67,12 +67,12 @@ class Command(BaseCommand):
                         )
 
                     (
-                        get_current_branch,
+                        get_current_branch_has_error,
                         get_current_branch_output,
                         get_current_branch_error,
                     ) = run_command("git branch --show-current")
 
-                    if not get_current_branch:
+                    if not get_current_branch_has_error:
                         raise CommandError(
                             self.style.ERROR(
                                 f"Unable to determine the current branch: "
@@ -90,11 +90,11 @@ class Command(BaseCommand):
                     )
 
                     # Pull the last commit
-                    git_pull, git_pull_output, git_pull_error = run_command(
+                    git_pull_has_error, git_pull_output, git_pull_error = run_command(
                         pull_command
                     )
 
-                    if not git_pull:
+                    if not git_pull_has_error:
                         raise CommandError(
                             self.style.ERROR(
                                 f"Error pulling branch ({self.default_branch}) changes: "
@@ -102,11 +102,11 @@ class Command(BaseCommand):
                             )
                         )
 
-                    head_sha, head_sha_output, head_sha_error = run_command(
+                    head_sha_has_error, head_sha_output, head_sha_error = run_command(
                         f"git rev-parse {self.default_branch}"
                     )
 
-                    if not head_sha:
+                    if not head_sha_has_error:
                         raise CommandError(
                             self.style.ERROR(
                                 f"Error determining head sha on ({self.default_branch}): "
@@ -163,14 +163,14 @@ class Command(BaseCommand):
 
                         with migration_path:
                             (
-                                get_changed_files,
+                                get_changed_files_has_error,
                                 get_changed_files_output,
                                 get_changed_files_error,
                             ) = run_command(
                                 f"git diff --diff-filter=ACMUXTR --name-only {self.default_branch}"
                             )
 
-                            if not get_changed_files:
+                            if not get_changed_files_has_error:
                                 raise CommandError(
                                     self.style.ERROR(
                                         "Error retrieving changed files on "

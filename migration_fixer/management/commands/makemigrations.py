@@ -86,7 +86,7 @@ class Command(BaseCommand):
                         "git pull"
                         if get_current_branch_output == self.default_branch
                         else (
-                            "git fetch --depth=1 origin "
+                            "git fetch origin "
                             f"{self.default_branch}:{self.default_branch}"
                         )
                     )

@@ -10,7 +10,8 @@
 
 # django-migration-fixer
 
-Maintain a consistent migration history when conflicts occur as a result of changes made using different versions of the default branch.
+Resolve django makemigrations multiple leaf nodes error.
+
 
 ## Installation
 
@@ -48,6 +49,7 @@ $ python manage.py makemigrations -b master --fix
 
 ## Features
 
+*   Maintain a consistent migration history when conflicts occur as a result of changes made using different versions of the default branch.
 *   Resolve migration conflicts on PR branches
 *   Resolve migration conflicts on the default branch **(NOT RECOMMENDED)**
 *   Supports default migration modules i.e (`0001_....py`)

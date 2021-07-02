@@ -526,7 +526,8 @@
 <p><a href="https://github.com/tj-django/django-migration-fixer/actions/workflows/test.yml"><img alt="Test" src="https://github.com/tj-django/django-migration-fixer/actions/workflows/test.yml/badge.svg" /></a> <a href="https://github.com/tj-django/django-migration-fixer/actions/workflows/deploy.yml"><img alt="Upload Python Package" src="https://github.com/tj-django/django-migration-fixer/actions/workflows/deploy.yml/badge.svg" /></a> <a href="https://github.com/tj-django/django-migration-fixer/actions/workflows/lint.yml"><img alt="Run linters" src="https://github.com/tj-django/django-migration-fixer/actions/workflows/lint.yml/badge.svg" /></a></p>
 <p><a href="https://pypi.python.org/pypi/django-migration-fixer"><img alt="PyPI - Python Version" src="https://img.shields.io/pypi/pyversions/django-migration-fixer" /></a> <a href="https://pypi.python.org/pypi/django-migration-fixer"><img alt="PyPI - Django Version" src="https://img.shields.io/pypi/djversions/django-migration-fixer" /></a> <a href="https://pepy.tech/project/django-migration-fixer"><img alt="Downloads" src="https://pepy.tech/badge/django-migration-fixer" /></a></p>
 <h1 id="django-migration-fixer">django-migration-fixer</h1>
-<p>Maintain a consistent migration history when conflicts occur as a result of changes made using different versions of the default branch.</p>
+<p>Ensure that migration files always stay(s) ordered regardless of remote changes.
+Resolve django makemigrations conflicts <code>multiple leaf nodes in the migration graph</code>.</p>
 <h2 id="installation">Installation</h2>
 <div class="highlight"><pre><span></span><code>$ pip install django-migration-fixer
 </code></pre></div>
@@ -547,6 +548,7 @@
 </code></pre></div>
 <h2 id="features">Features</h2>
 <ul>
+<li>Maintain a consistent migration history when conflicts occur as a result of changes made using different versions of the default branch.</li>
 <li>Resolve migration conflicts on PR branches</li>
 <li>Resolve migration conflicts on the default branch <strong>(NOT RECOMMENDED)</strong></li>
 <li>Supports default migration modules i.e (<code>0001_....py</code>)</li>

@@ -10,7 +10,7 @@
 
 # django-migration-fixer
 
-Ensure that migration files always stay(s) ordered regardless of remote changes on the default branch. Resolve django makemigrations conflicts `multiple leaf nodes in the migration graph:`.
+Ensure that migration files always stay(s) ordered regardless of remote changes. Resolve django makemigrations conflicts `multiple leaf nodes in the migration graph:`.
 
 
 ## Installation

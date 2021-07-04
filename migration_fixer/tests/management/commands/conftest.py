@@ -5,9 +5,6 @@ import pytest
 from git import Repo
 from pytest_shutil.workspace import Workspace
 
-from migration_fixer.tests.management.commands.constants import TEST_01_MIGRATION_BRANCH, TEST_02_MIGRATION_BRANCH
-from migration_fixer.tests.management.commands.utils import temporary_checkout
-
 
 @pytest.fixture(autouse=True)
 def use_demo_app(settings):
@@ -28,7 +25,9 @@ class GitRepo(Workspace):
 
 @pytest.fixture
 def git_repo(settings):
-    workspace = pathlib.Path(os.path.join(settings.BASE_DIR, 'migration_fixer', 'tests', 'demo'))
+    workspace = pathlib.Path(
+        os.path.join(settings.BASE_DIR, "migration_fixer", "tests", "demo")
+    )
 
     with GitRepo(workspace=workspace) as repo:
         yield repo

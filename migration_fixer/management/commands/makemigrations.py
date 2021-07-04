@@ -11,7 +11,7 @@ from django.core.management.base import CommandError
 from django.core.management.commands.makemigrations import Command as BaseCommand
 from django.db import DEFAULT_DB_ALIAS, connections, router
 from django.db.migrations.loader import MigrationLoader
-from git import Repo, InvalidGitRepositoryError
+from git import InvalidGitRepositoryError, Repo
 
 from migration_fixer.utils import (
     fix_named_migration,
@@ -24,6 +24,7 @@ class Command(BaseCommand):
     """
     Create a new django migration with support for fixing conflicts.
     """
+
     success_msg = "Successfully fixed migrations."
 
     def __init__(self, *args, git=None, **kwargs):
@@ -47,7 +48,7 @@ class Command(BaseCommand):
             "-f",
             "--force-update",
             help="Force update the default branch.",
-            action='store_true',
+            action="store_true",
         )
         super().add_arguments(parser)
 
@@ -89,7 +90,9 @@ class Command(BaseCommand):
                     current_branch = self.repo.active_branch.name
 
                     if self.verbosity >= 2:
-                        self.stdout.write(f"Fetching git remote origin changes on: {self.default_branch}")
+                        self.stdout.write(
+                            f"Fetching git remote origin changes on: {self.default_branch}"
+                        )
 
                     if current_branch == self.default_branch:
                         self.repo.remotes[self.default_branch].origin.pull()
@@ -98,7 +101,9 @@ class Command(BaseCommand):
                             remote.fetch(self.default_branch, force=self.force_update)
 
                     if self.verbosity >= 2:
-                        self.stdout.write(f"Retrieving the last commit sha on: {self.default_branch}")
+                        self.stdout.write(
+                            f"Retrieving the last commit sha on: {self.default_branch}"
+                        )
 
                     default_branch_commit = self.repo.commit(self.default_branch)
 
@@ -158,8 +163,10 @@ class Command(BaseCommand):
                             changed_files = [
                                 diff.b_path
                                 for diff in diff_index
-                                if migration_absolute_path in getattr(diff.a_blob, 'abspath', '') or
-                                   migration_absolute_path in getattr(diff.b_blob, 'abspath', '')
+                                if migration_absolute_path
+                                in getattr(diff.a_blob, "abspath", "")
+                                or migration_absolute_path
+                                in getattr(diff.b_blob, "abspath", "")
                             ]
 
                             # Local migration
@@ -168,7 +175,9 @@ class Command(BaseCommand):
                                 for p in changed_files
                             ]
                             if self.verbosity >= 2:
-                                self.stdout.write(f"Retrieving the last migration on: {self.default_branch}")
+                                self.stdout.write(
+                                    f"Retrieving the last migration on: {self.default_branch}"
+                                )
 
                             last_remote = [
                                 fname

@@ -22,11 +22,13 @@ docs_requires = [
 
 install_requires = [
     "django",
+    "GitPython==3.1.18",
 ]
 
 test_requires = [
     "pytest>=3",
     "pytest-django",
+    "pytest-git",
     "tox",
     "tox-gh-actions",
     "coverage",

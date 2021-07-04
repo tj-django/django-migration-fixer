@@ -23,6 +23,9 @@ def temporary_checkout(git_repo, target_branch_name):
         # Clean all untracked files
         git_repo.api.git.clean("-xdf")
 
+        for remote in git_repo.remotes:
+            remote.fetch(target_branch_name, force=True)
+
         target_branch = git_repo.api.heads[target_branch_name]
 
         target_branch.checkout(force=True)

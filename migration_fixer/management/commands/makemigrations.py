@@ -154,7 +154,8 @@ class Command(BaseCommand):
                         with migration_path:
                             if self.verbosity >= 2:
                                 self.stdout.write(
-                                    f"Retrieving changed files between the current branch and {self.default_branch}"
+                                    "Retrieving changed files between "
+                                    f"the current branch and {self.default_branch}"
                                 )
 
                             diff_index = default_branch_commit.diff(current_commit)

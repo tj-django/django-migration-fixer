@@ -15,7 +15,7 @@ from migration_fixer.tests.management.commands.utils import (
 
 @pytest.mark.django_db
 def test_run_makemigrations_is_valid_without_any_conflicts(git_repo):
-    cmd = Command(git=git_repo.api)
+    cmd = Command(repo=git_repo.api)
 
     with temporary_checkout(
         git_repo, target_branch_name=TEST_01_MIGRATION_BRANCH
@@ -30,7 +30,7 @@ def test_run_makemigrations_is_valid_without_any_conflicts(git_repo):
 
 @pytest.mark.django_db
 def test_run_makemigrations_with_fix_is_valid_for_conflicts(git_repo):
-    cmd = Command(git=git_repo.api)
+    cmd = Command(repo=git_repo.api)
 
     with temporary_checkout(
         git_repo, target_branch_name=TEST_02_MIGRATION_BRANCH

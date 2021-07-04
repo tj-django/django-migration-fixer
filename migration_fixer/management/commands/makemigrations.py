@@ -27,10 +27,10 @@ class Command(BaseCommand):
 
     success_msg = "Successfully fixed migrations."
 
-    def __init__(self, *args, git=None, **kwargs):
+    def __init__(self, *args, repo=None, **kwargs):
         super().__init__(*args, **kwargs)
         self.cwd = os.getcwd()
-        self.repo = git or Repo.init(self.cwd)
+        self.repo = repo or Repo.init(self.cwd)
 
     def add_arguments(self, parser):
         parser.add_argument(

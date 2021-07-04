@@ -1,10 +1,8 @@
 import os
 import re
-import shlex
-import subprocess
 from itertools import count
 from pathlib import Path
-from typing import List, Tuple
+from typing import List
 
 DEFAULT_TIMEOUT = 120
 MIGRATION_REGEX = (

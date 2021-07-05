@@ -32,7 +32,6 @@ test_requires = [
     "tox",
     "tox-gh-actions",
     "coverage",
-    "codacy-coverage",
 ]
 
 lint_requires = [

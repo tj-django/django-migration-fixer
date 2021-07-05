@@ -71,6 +71,11 @@ jobs:
           PLATFORM: ${{ matrix.platform }}
           ENV: test_02
 
+      - name: Run codacy-coverage-reporter
+        uses: codacy/codacy-coverage-reporter-action@v1
+        with:
+          project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
+
       - name: "Upload coverage to Codecov"
         uses: codecov/codecov-action@v1.5.2
         with:

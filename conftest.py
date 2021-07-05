@@ -22,4 +22,3 @@ def pytest_runtest_setup(item):
     if envnames:
         if item.config.getoption("-E") not in envnames:
             pytest.skip("test requires env in {!r}".format(envnames))
-

@@ -1,3 +1,5 @@
+import os
+
 import pytest
 
 
@@ -7,6 +9,7 @@ def pytest_addoption(parser):
         action="store",
         metavar="NAME",
         help="only run tests matching the environment NAME.",
+        default=os.getenv("ENV"),
     )
 
 

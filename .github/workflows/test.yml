@@ -47,9 +47,9 @@ jobs:
         run: |
           make install-test
 
-      - name: Checkout feature/migration-test-01
+      - name: Checkout main
         run: |
-          git checkout feature/migration-test-01
+          git checkout main
         working-directory: migration_fixer/tests/demo
 
       - name: Run test_01
@@ -59,9 +59,9 @@ jobs:
           PLATFORM: ${{ matrix.platform }}
           ENV: test_01
 
-      - name: Checkout feature/migration-test-02
+      - name: Checkout feature/migration-test-01
         run: |
-          git checkout feature/migration-test-02
+          git checkout feature/migration-test-01
         working-directory: migration_fixer/tests/demo
 
       - name: Run test_02

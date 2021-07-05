@@ -15,7 +15,7 @@ def execute_command(cmd, *args, **kwargs):
 
 
 @contextlib.contextmanager
-def temporary_checkout(git_repo):
+def temporary_checkout(git_repo, target_branch_name):
     cwd = os.getcwd()
 
     try:
@@ -23,7 +23,9 @@ def temporary_checkout(git_repo):
         # Clean all untracked files
         git_repo.api.git.clean("-xdf")
 
-        target_branch = git_repo.api.active_branch
+        target_branch = git_repo.api.heads[target_branch_name]
+
+        target_branch.checkout(force=True)
 
         yield target_branch
 

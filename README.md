@@ -62,7 +62,6 @@ $ python manage.py makemigrations -b master --fix
 *   [`macos-*`](https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on)
 *   [`windows-*`](https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on)
 
-
 ## Example
 
 **Branch:** `main`

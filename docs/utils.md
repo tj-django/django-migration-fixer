@@ -1,8 +1,5 @@
 # Utility Functions
 
-::: migration_fixer.utils.run_command
-    :docstring:
-
 ::: migration_fixer.utils.fix_numbered_migration
     :docstring:
 

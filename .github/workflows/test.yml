@@ -13,7 +13,7 @@ jobs:
   build:
     runs-on: ${{ matrix.platform }}
     strategy:
-      fail-fast: true
+      fail-fast: false
       matrix:
         platform: [ubuntu-latest, macos-latest, windows-latest]
         python-version: [3.6, 3.7, 3.8, 3.9, '3.10.0-beta.1']
@@ -21,7 +21,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          submodules: migration_fixer/tests/demo
+          submodules: true
+          fetch-depth: 0
 
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v2
@@ -36,15 +37,39 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-${{ matrix.platform }}-pip-${{ matrix.python-version }}-
 
+      - name: Update branches
+        run: |
+          git fetch origin feature/migration-test-01:feature/migration-test-01
+          git fetch origin feature/migration-test-02:feature/migration-test-02
+        working-directory: migration_fixer/tests/demo
+
       - name: Install dependencies
         run: |
           make install-test
 
-      - name: Run test
+      - name: Checkout feature/migration-test-01
+        run: |
+          git checkout feature/migration-test-01
+        working-directory: migration_fixer/tests/demo
+
+      - name: Run test_01
         run: make tox
         env:
           CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
           PLATFORM: ${{ matrix.platform }}
+          ENV: test_01
+
+      - name: Checkout feature/migration-test-01
+        run: |
+          git checkout feature/migration-test-01
+        working-directory: migration_fixer/tests/demo
+
+      - name: Run test_02
+        run: make tox
+        env:
+          CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
+          PLATFORM: ${{ matrix.platform }}
+          ENV: test_02
 
       - name: "Upload coverage to Codecov"
         uses: codecov/codecov-action@v1.5.2

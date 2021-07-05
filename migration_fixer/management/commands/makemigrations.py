@@ -11,12 +11,12 @@ from django.core.management.base import CommandError
 from django.core.management.commands.makemigrations import Command as BaseCommand
 from django.db import DEFAULT_DB_ALIAS, connections, router
 from django.db.migrations.loader import MigrationLoader
+from git import InvalidGitRepositoryError, Repo
 
 from migration_fixer.utils import (
     fix_named_migration,
     fix_numbered_migration,
     no_translations,
-    run_command,
 )
 
 
@@ -26,6 +26,11 @@ class Command(BaseCommand):
     """
 
     success_msg = "Successfully fixed migrations."
+
+    def __init__(self, *args, repo=None, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.cwd = os.getcwd()
+        self.repo = repo or Repo.init(self.cwd)
 
     def add_arguments(self, parser):
         parser.add_argument(
@@ -39,12 +44,19 @@ class Command(BaseCommand):
             help="The name of the default branch.",
             default="main",
         )
+        parser.add_argument(
+            "-f",
+            "--force-update",
+            help="Force update the default branch.",
+            action="store_true",
+        )
         super().add_arguments(parser)
 
     @no_translations
     def handle(self, *app_labels, **options):
         self.merge = options["merge"]
         self.fix = options["fix"]
+        self.force_update = options["force_update"]
         self.default_branch = options["default_branch"]
 
         if self.fix:
@@ -53,68 +65,50 @@ class Command(BaseCommand):
             except CommandError as e:
                 [message] = e.args
                 if "Conflicting migrations" in message:
-                    (
-                        git_setup_has_error,
-                        git_setup_output,
-                        git_setup_error,
-                    ) = run_command("git status")
+                    if self.verbosity >= 2:
+                        self.stdout.write("Verifying git repository...")
 
-                    if not git_setup_has_error:
+                    try:
+                        self.repo.git_dir
+                    except InvalidGitRepositoryError:
+                        is_git_repo = False
+                    else:
+                        is_git_repo = True
+
+                    if not is_git_repo:
                         raise CommandError(
                             self.style.ERROR(
-                                f"VCS is not yet setup. "
-                                "Please run (git init) "
-                                f'\n"{git_setup_output or git_setup_error}"'
+                                f"Git repository is not yet setup. "
+                                "Please run (git init) in"
+                                f'\n"{self.cwd}"'
                             )
                         )
 
-                    (
-                        get_current_branch_has_error,
-                        get_current_branch_output,
-                        get_current_branch_error,
-                    ) = run_command("git branch --show-current")
+                    if self.verbosity >= 2:
+                        self.stdout.write("Retrieving the current branch...")
 
-                    if not get_current_branch_has_error:
-                        raise CommandError(
-                            self.style.ERROR(
-                                f"Unable to determine the current branch: "
-                                f'"{get_current_branch_output or get_current_branch_error}"'
-                            )
+                    current_branch = self.repo.active_branch.name
+
+                    if self.verbosity >= 2:
+                        self.stdout.write(
+                            f"Fetching git remote origin changes on: {self.default_branch}"
                         )
 
-                    pull_command = (
-                        "git pull"
-                        if get_current_branch_output == self.default_branch
-                        else (
-                            "git fetch origin "
-                            f"{self.default_branch}:{self.default_branch}"
-                        )
-                    )
+                    if current_branch == self.default_branch:
+                        self.repo.remotes[self.default_branch].origin.pull()
+                    else:
+                        for remote in self.repo.remotes:
+                            remote.fetch(self.default_branch, force=self.force_update)
 
-                    # Pull the last commit
-                    git_pull_has_error, git_pull_output, git_pull_error = run_command(
-                        pull_command
-                    )
-
-                    if not git_pull_has_error:
-                        raise CommandError(
-                            self.style.ERROR(
-                                f"Error pulling branch ({self.default_branch}) changes: "
-                                f'"{git_pull_output or git_pull_error}"'
-                            )
+                    if self.verbosity >= 2:
+                        self.stdout.write(
+                            f"Retrieving the last commit sha on: {self.default_branch}"
                         )
 
-                    head_sha_has_error, head_sha_output, head_sha_error = run_command(
-                        f"git rev-parse {self.default_branch}"
-                    )
+                    default_branch_commit = self.repo.commit(self.default_branch)
 
-                    if not head_sha_has_error:
-                        raise CommandError(
-                            self.style.ERROR(
-                                f"Error determining head sha on ({self.default_branch}): "
-                                f'"{head_sha_output or head_sha_error}"'
-                            )
-                        )
+                    current_commit = self.repo.commit(current_branch)
+
                     # Load the current graph state. Pass in None for the connection so
                     # the loader doesn't try to resolve replaced migrations from DB.
                     loader = MigrationLoader(None, ignore_no_migrations=True)
@@ -147,13 +141,7 @@ class Command(BaseCommand):
                     # hard if there are any and they don't want to merge
                     conflicts = loader.detect_conflicts()
 
-                    app_labels = app_labels or tuple(
-                        app_label
-                        for app_label in settings.INSTALLED_APPS
-                        if app_label in conflicts
-                    )
-
-                    for app_label in app_labels:
+                    for app_label in conflicts:
                         conflict = conflicts.get(app_label)
                         migration_module, _ = loader.migrations_module(app_label)
                         migration_absolute_path = os.path.join(
@@ -164,33 +152,34 @@ class Command(BaseCommand):
                         )
 
                         with migration_path:
-                            (
-                                get_changed_files_has_error,
-                                get_changed_files_output,
-                                get_changed_files_error,
-                            ) = run_command(
-                                f"git diff --diff-filter=ACMUXTR --name-only {self.default_branch}"
-                            )
-
-                            if not get_changed_files_has_error:
-                                raise CommandError(
-                                    self.style.ERROR(
-                                        "Error retrieving changed files on "
-                                        f"({self.default_branch}): "
-                                        f'"{get_changed_files_output or get_changed_files_error}"'
-                                    )
+                            if self.verbosity >= 2:
+                                self.stdout.write(
+                                    "Retrieving changed files between "
+                                    f"the current branch and {self.default_branch}"
                                 )
+
+                            diff_index = default_branch_commit.diff(current_commit)
+
                             # Files different on the current branch
                             changed_files = [
-                                fname
-                                for fname in get_changed_files_output.split("\n")
-                                if migration_absolute_path in fname
+                                diff.b_path
+                                for diff in diff_index
+                                if migration_absolute_path
+                                in getattr(diff.a_blob, "abspath", "")
+                                or migration_absolute_path
+                                in getattr(diff.b_blob, "abspath", "")
                             ]
+
                             # Local migration
                             local_filenames = [
                                 os.path.splitext(os.path.basename(p))[0]
                                 for p in changed_files
                             ]
+                            if self.verbosity >= 2:
+                                self.stdout.write(
+                                    f"Retrieving the last migration on: {self.default_branch}"
+                                )
+
                             last_remote = [
                                 fname
                                 for fname in conflict
@@ -218,6 +207,11 @@ class Command(BaseCommand):
                                     and len(seed_split) > 1
                                     and str(seed_split[0]).isdigit()
                                 ):
+                                    if self.verbosity >= 2:
+                                        self.stdout.write(
+                                            "Fixing numbered migration..."
+                                        )
+
                                     fix_numbered_migration(
                                         app_label=app_label,
                                         migration_path=migration_path,
@@ -226,6 +220,9 @@ class Command(BaseCommand):
                                         changed_files=changed_files,
                                     )
                                 else:
+                                    if self.verbosity >= 2:
+                                        self.stdout.write("Fixing named migration...")
+
                                     fix_named_migration(
                                         app_label=app_label,
                                         migration_path=migration_path,

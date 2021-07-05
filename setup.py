@@ -22,11 +22,13 @@ docs_requires = [
 
 install_requires = [
     "django",
+    "GitPython",
 ]
 
 test_requires = [
     "pytest>=3",
     "pytest-django",
+    "pytest-git",
     "tox",
     "tox-gh-actions",
     "coverage",

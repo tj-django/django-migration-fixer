@@ -1,11 +1,6 @@
 from django.utils import translation
 
-from migration_fixer.utils import (
-    _clean_message,
-    _decode_message,
-    no_translations,
-    run_command,
-)
+from migration_fixer.utils import _clean_message, _decode_message, no_translations
 
 
 def test__clean_message():
@@ -33,13 +28,3 @@ def test_no_translations():
         assert translation.get_language() is None
 
     do_not_translate()
-
-
-def test_run_command():
-    head_sha_has_no_error, head_sha_output, head_sha_error = run_command(
-        "git rev-parse HEAD"
-    )
-
-    assert head_sha_has_no_error is True
-    assert head_sha_output != ""
-    assert head_sha_error == ""

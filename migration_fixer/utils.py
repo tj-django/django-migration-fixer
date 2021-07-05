@@ -1,10 +1,8 @@
 import os
 import re
-import shlex
-import subprocess
 from itertools import count
 from pathlib import Path
-from typing import List, Tuple
+from typing import List
 
 DEFAULT_TIMEOUT = 120
 MIGRATION_REGEX = (
@@ -20,42 +18,6 @@ def _clean_message(output: str) -> str:
 def _decode_message(output: bytes, encoding: str) -> str:
     """Converts bytes to string, stripping white spaces."""
     return output.decode(encoding).strip()
-
-
-def run_command(
-    command: str, encoding: str = "utf-8", timeout: int = DEFAULT_TIMEOUT
-) -> Tuple[bool, str, str]:
-    """Executes a shell command returning the output and exit code."""
-    command = shlex.split(command)
-    process = subprocess.Popen(
-        command,
-        encoding=encoding,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.STDOUT,
-    )
-
-    try:
-        output, error = process.communicate(timeout=timeout)
-    except subprocess.TimeoutExpired:
-        process.kill()
-        output, error = process.communicate()
-
-    output = output or ""
-    error = error or ""
-
-    if isinstance(output, bytes):
-        output = _decode_message(output, encoding)
-
-    if isinstance(error, bytes):
-        error = _decode_message(error, encoding)
-
-    output = _clean_message(output)
-    error = _clean_message(error)
-
-    exit_code = process.poll()
-    has_no_errors = exit_code == 0
-
-    return has_no_errors, output, error
 
 
 def _update_migration(conflict_path: Path, app_label: str, seen: List[str]) -> None:

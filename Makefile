@@ -25,7 +25,7 @@ guard-%: ## Checks that env var is set else exits with non 0 mainly used in CI;
 # ------- Python package (pip) management commands -------
 # --------------------------------------------------------
 
-clean: clean-build clean-pyc clean-test  ## remove all build, test, coverage and Python artifacts
+clean: clean-build clean-pyc clean-test clean-docs  ## remove all build, test, coverage and Python artifacts
 
 clean-build:  ## remove build artifacts
 	@rm -fr build/
@@ -46,10 +46,13 @@ clean-test:  ## remove test and coverage artifacts
 	@rm -fr htmlcov/
 	@rm -fr .pytest_cache
 
+clean-docs:  ## remove all doc artifacts
+	@rm -fr site
+
 lint:  ## check style with flake8
 	@flake8 restricted_fields tests
 
-tox: install-test  ## Run tox test
+tox:  ## Run tox test
 	@tox
 
 coverage:  ## check code coverage quickly with the default Python

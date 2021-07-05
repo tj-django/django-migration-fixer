@@ -12,7 +12,6 @@
 
 Resolve django makemigrations `multiple leaf nodes in the migration graph` by ensuring that migration files and dependencies are always ordered regardless of remote changes.
 
-
 ## Installation
 
 ```bash

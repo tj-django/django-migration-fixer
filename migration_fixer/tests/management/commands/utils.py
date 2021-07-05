@@ -15,7 +15,7 @@ def execute_command(cmd, *args, **kwargs):
 
 
 @contextlib.contextmanager
-def temporary_checkout(git_repo, target_branch_name):
+def temporary_checkout(git_repo):
     cwd = os.getcwd()
 
     try:

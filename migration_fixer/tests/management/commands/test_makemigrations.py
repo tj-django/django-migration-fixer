@@ -4,7 +4,6 @@ import pytest
 
 from migration_fixer.management.commands.makemigrations import Command
 from migration_fixer.tests.management.commands.constants import (
-    DEFAULT_BRANCH,
     TEST_01_MIGRATION_BRANCH,
     TEST_02_MIGRATION_BRANCH,
 )
@@ -21,7 +20,7 @@ def test_run_makemigrations_is_valid_without_any_conflicts(git_repo):
 
     with temporary_checkout(
         git_repo,
-        default_branch_name=DEFAULT_BRANCH,
+        default_branch_name=TEST_01_MIGRATION_BRANCH,
         target_branch_name=TEST_01_MIGRATION_BRANCH,
     ) as target_branch:
         output1 = execute_command(cmd)
@@ -39,7 +38,7 @@ def test_run_makemigrations_is_valid_without_any_conflicts_verbose(git_repo):
 
     with temporary_checkout(
         git_repo,
-        default_branch_name=DEFAULT_BRANCH,
+        default_branch_name=TEST_01_MIGRATION_BRANCH,
         target_branch_name=TEST_01_MIGRATION_BRANCH,
     ) as target_branch:
         output1 = execute_command(cmd, verbosity=2)
@@ -57,7 +56,7 @@ def test_run_makemigrations_with_fix_is_valid_for_conflicts(git_repo):
 
     with temporary_checkout(
         git_repo,
-        default_branch_name=DEFAULT_BRANCH,
+        default_branch_name=TEST_01_MIGRATION_BRANCH,
         target_branch_name=TEST_02_MIGRATION_BRANCH,
     ) as target_branch:
         output = execute_command(cmd, default_branch=TEST_01_MIGRATION_BRANCH, fix=True)
@@ -82,7 +81,7 @@ Successfully fixed migrations.
 
     with temporary_checkout(
         git_repo,
-        default_branch_name=DEFAULT_BRANCH,
+        default_branch_name=TEST_01_MIGRATION_BRANCH,
         target_branch_name=TEST_02_MIGRATION_BRANCH,
     ) as target_branch:
         output = execute_command(

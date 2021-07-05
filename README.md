@@ -56,6 +56,13 @@ $ python manage.py makemigrations -b master --fix
 *   Supports named migration modules i.e (`custom_migration.py`)
 *   Re-nummber all migrations using the last migration on the default branch i.e `main` or `develop`
 
+## Supported Platforms
+
+*   [`ubuntu-*`](https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on)
+*   [`macos-*`](https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on)
+*   [`windows-*`](https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on)
+
+
 ## Example
 
 **Branch:** `main`

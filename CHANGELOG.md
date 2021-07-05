@@ -1,12 +1,38 @@
 # Changelog
 
-## [v0.0.7](https://github.com/tj-django/django-migration-fixer/tree/v0.0.7) (2021-06-21)
+## [v1.0.0](https://github.com/tj-django/django-migration-fixer/tree/v1.0.0) (2021-07-05)
 
-[Full Changelog](https://github.com/tj-django/django-migration-fixer/compare/v0.0.6...v0.0.7)
+[Full Changelog](https://github.com/tj-django/django-migration-fixer/compare/v0.0.7...v1.0.0)
+
+**Implemented enhancements:**
+
+- Improve logging [\#34](https://github.com/tj-django/django-migration-fixer/issues/34)
+- \[Enhancement\] Explore using PyGithub directly. [\#29](https://github.com/tj-django/django-migration-fixer/issues/29)
 
 **Closed issues:**
 
 - Dependency Dashboard [\#40](https://github.com/tj-django/django-migration-fixer/issues/40)
+- Improve test coverage [\#17](https://github.com/tj-django/django-migration-fixer/issues/17)
+
+**Merged pull requests:**
+
+- Increase test coverage. [\#62](https://github.com/tj-django/django-migration-fixer/pull/62) ([jackton1](https://github.com/jackton1))
+- Updated README.md [\#60](https://github.com/tj-django/django-migration-fixer/pull/60) ([jackton1](https://github.com/jackton1))
+- Updated README.md [\#57](https://github.com/tj-django/django-migration-fixer/pull/57) ([jackton1](https://github.com/jackton1))
+- Update tox.ini [\#56](https://github.com/tj-django/django-migration-fixer/pull/56) ([jackton1](https://github.com/jackton1))
+- Update dependency Django to v3.2.5 [\#55](https://github.com/tj-django/django-migration-fixer/pull/55) ([renovate[bot]](https://github.com/apps/renovate))
+- Updated README.md [\#54](https://github.com/tj-django/django-migration-fixer/pull/54) ([jackton1](https://github.com/jackton1))
+- Increased test coverage. [\#53](https://github.com/tj-django/django-migration-fixer/pull/53) ([jackton1](https://github.com/jackton1))
+- Clean up docs. [\#52](https://github.com/tj-django/django-migration-fixer/pull/52) ([jackton1](https://github.com/jackton1))
+- Update tj-actions/verify-changed-files action to v7 [\#51](https://github.com/tj-django/django-migration-fixer/pull/51) ([renovate[bot]](https://github.com/apps/renovate))
+- Update precommit hook pycqa/isort to v5.9.1 [\#50](https://github.com/tj-django/django-migration-fixer/pull/50) ([renovate[bot]](https://github.com/apps/renovate))
+- Update precommit hook pycqa/isort to v5.9.0 [\#49](https://github.com/tj-django/django-migration-fixer/pull/49) ([renovate[bot]](https://github.com/apps/renovate))
+- Updated README.md [\#48](https://github.com/tj-django/django-migration-fixer/pull/48) ([jackton1](https://github.com/jackton1))
+- Upgraded v0.0.6 → v0.0.7 [\#47](https://github.com/tj-django/django-migration-fixer/pull/47) ([jackton1](https://github.com/jackton1))
+
+## [v0.0.7](https://github.com/tj-django/django-migration-fixer/tree/v0.0.7) (2021-06-21)
+
+[Full Changelog](https://github.com/tj-django/django-migration-fixer/compare/v0.0.6...v0.0.7)
 
 **Merged pull requests:**
 

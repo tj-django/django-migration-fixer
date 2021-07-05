@@ -47,9 +47,9 @@ jobs:
         run: |
           make install-test
 
-      - name: Checkout 01
+      - name: Checkout main
         run: |
-          git checkout feature/migration-test-01
+          git checkout main
         working-directory: migration_fixer/tests/demo
 
       - name: Run test

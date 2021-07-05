@@ -287,6 +287,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#test-platforms" class="md-nav__link">
+    Test Platforms
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#example" class="md-nav__link">
     Example
   </a>
@@ -342,13 +349,13 @@
         <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
       
       <label class="md-nav__link" for="__nav_2">
-        Modules
+        API Refrence
         <span class="md-nav__icon md-icon"></span>
       </label>
-      <nav class="md-nav" aria-label="Modules" data-md-level="1">
+      <nav class="md-nav" aria-label="API Refrence" data-md-level="1">
         <label class="md-nav__title" for="__nav_2">
           <span class="md-nav__icon md-icon"></span>
-          Modules
+          API Refrence
         </label>
         <ul class="md-nav__list" data-md-scrollfix>
           
@@ -470,6 +477,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#test-platforms" class="md-nav__link">
+    Test Platforms
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#example" class="md-nav__link">
     Example
   </a>
@@ -526,8 +540,7 @@
 <p><a href="https://github.com/tj-django/django-migration-fixer/actions/workflows/test.yml"><img alt="Test" src="https://github.com/tj-django/django-migration-fixer/actions/workflows/test.yml/badge.svg" /></a> <a href="https://github.com/tj-django/django-migration-fixer/actions/workflows/deploy.yml"><img alt="Upload Python Package" src="https://github.com/tj-django/django-migration-fixer/actions/workflows/deploy.yml/badge.svg" /></a> <a href="https://github.com/tj-django/django-migration-fixer/actions/workflows/lint.yml"><img alt="Run linters" src="https://github.com/tj-django/django-migration-fixer/actions/workflows/lint.yml/badge.svg" /></a></p>
 <p><a href="https://pypi.python.org/pypi/django-migration-fixer"><img alt="PyPI - Python Version" src="https://img.shields.io/pypi/pyversions/django-migration-fixer" /></a> <a href="https://pypi.python.org/pypi/django-migration-fixer"><img alt="PyPI - Django Version" src="https://img.shields.io/pypi/djversions/django-migration-fixer" /></a> <a href="https://pepy.tech/project/django-migration-fixer"><img alt="Downloads" src="https://pepy.tech/badge/django-migration-fixer" /></a></p>
 <h1 id="django-migration-fixer">django-migration-fixer</h1>
-<p>Ensure that migration files always stay(s) ordered regardless of remote changes.
-Resolve django makemigrations conflicts <code>multiple leaf nodes in the migration graph</code>.</p>
+<p>Resolve django makemigrations <code>multiple leaf nodes in the migration graph</code> by ensuring that migration files and dependencies are always ordered regardless of remote changes.</p>
 <h2 id="installation">Installation</h2>
 <div class="highlight"><pre><span></span><code>$ pip install django-migration-fixer
 </code></pre></div>
@@ -554,6 +567,12 @@ Resolve django makemigrations conflicts <code>multiple leaf nodes in the migrati
 <li>Supports default migration modules i.e (<code>0001_....py</code>)</li>
 <li>Supports named migration modules i.e (<code>custom_migration.py</code>)</li>
 <li>Re-nummber all migrations using the last migration on the default branch i.e <code>main</code> or <code>develop</code></li>
+</ul>
+<h2 id="test-platforms">Test Platforms</h2>
+<ul>
+<li><a href="https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on"><code>ubuntu-*</code></a></li>
+<li><a href="https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on"><code>macos-*</code></a></li>
+<li><a href="https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on"><code>windows-*</code></a></li>
 </ul>
 <h2 id="example">Example</h2>
 <p><strong>Branch:</strong> <code>main</code></p>

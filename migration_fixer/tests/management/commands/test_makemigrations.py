@@ -69,13 +69,13 @@ def test_run_makemigrations_with_fix_is_valid_for_conflicts(git_repo):
 @pytest.mark.django_db
 def test_run_makemigrations_with_fix_is_valid_for_conflicts_verbose(git_repo):
     cmd = Command(repo=git_repo.api)
-    expected_output = f"""Verifying git repository
-Retrieving the current branch
+    expected_output = f"""Verifying git repository...
+Retrieving the current branch...
 Fetching git remote origin changes on: {TEST_01_MIGRATION_BRANCH}
 Retrieving the last commit sha on: {TEST_01_MIGRATION_BRANCH}
 Retrieving changed files between the current branch and {TEST_01_MIGRATION_BRANCH}
 Retrieving the last migration on: {TEST_01_MIGRATION_BRANCH}
-Fixing numbered migration
+Fixing numbered migration...
 Successfully fixed migrations.
 """
 

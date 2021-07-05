@@ -66,7 +66,7 @@ class Command(BaseCommand):
                 [message] = e.args
                 if "Conflicting migrations" in message:
                     if self.verbosity >= 2:
-                        self.stdout.write("Verifying git repository")
+                        self.stdout.write("Verifying git repository...")
 
                     try:
                         self.repo.git_dir
@@ -85,7 +85,7 @@ class Command(BaseCommand):
                         )
 
                     if self.verbosity >= 2:
-                        self.stdout.write("Retrieving the current branch")
+                        self.stdout.write("Retrieving the current branch...")
 
                     current_branch = self.repo.active_branch.name
 
@@ -208,7 +208,9 @@ class Command(BaseCommand):
                                     and str(seed_split[0]).isdigit()
                                 ):
                                     if self.verbosity >= 2:
-                                        self.stdout.write("Fixing numbered migration")
+                                        self.stdout.write(
+                                            "Fixing numbered migration..."
+                                        )
 
                                     fix_numbered_migration(
                                         app_label=app_label,
@@ -219,7 +221,7 @@ class Command(BaseCommand):
                                     )
                                 else:
                                     if self.verbosity >= 2:
-                                        self.stdout.write("Fixing named migration")
+                                        self.stdout.write("Fixing named migration...")
 
                                     fix_named_migration(
                                         app_label=app_label,

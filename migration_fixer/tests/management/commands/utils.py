@@ -4,6 +4,8 @@ from io import StringIO
 
 from django.core.management import call_command
 
+from migration_fixer.tests.management.commands.conftest import GitRepo
+
 
 def execute_command(cmd, *args, **kwargs):
     out = StringIO()
@@ -15,7 +17,9 @@ def execute_command(cmd, *args, **kwargs):
 
 
 @contextlib.contextmanager
-def temporary_checkout(git_repo, target_branch_name):
+def temporary_checkout(
+    git_repo: GitRepo, default_branch_name: str, target_branch_name: str
+):
     cwd = os.getcwd()
 
     try:
@@ -32,5 +36,9 @@ def temporary_checkout(git_repo, target_branch_name):
     finally:
         # Clean all untracked files
         git_repo.api.git.clean("-xdf")
+
+        default_branch = git_repo.api.heads[default_branch_name]
+
+        default_branch.checkout(force=True)
 
         os.chdir(cwd)

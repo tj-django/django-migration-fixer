@@ -52,7 +52,7 @@ clean-docs:  ## remove all doc artifacts
 lint:  ## check style with flake8
 	@flake8 restricted_fields tests
 
-tox: install-test  ## Run tox test
+tox:  ## Run tox test
 	@tox
 
 coverage:  ## check code coverage quickly with the default Python

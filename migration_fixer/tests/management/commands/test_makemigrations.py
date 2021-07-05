@@ -13,6 +13,7 @@ from migration_fixer.tests.management.commands.utils import (
 )
 
 
+@pytest.mark.env("test_01")
 @pytest.mark.django_db
 def test_run_makemigrations_is_valid_without_any_conflicts(git_repo):
     cmd = Command(repo=git_repo.api)
@@ -28,6 +29,7 @@ def test_run_makemigrations_is_valid_without_any_conflicts(git_repo):
     assert output2 == "No changes detected\n"
 
 
+@pytest.mark.env("test_02")
 @pytest.mark.django_db
 def test_run_makemigrations_with_fix_is_valid_for_conflicts(git_repo):
     cmd = Command(repo=git_repo.api)

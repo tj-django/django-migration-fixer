@@ -1,0 +1,40 @@
+name: django-migration-fixer
+description: Resolve django makemigrations multiple leaf nodes in the migration graph error
+author: tj-actions
+inputs:
+  managepy-path:
+    description: 'The location of manage.py.'
+    required: true
+    default: './manage.py'
+  default-branch:
+    description: 'The default branch or target branch of a Pull request: Defaults to github.base_ref'
+    required: false
+  force-update:
+    description: 'Force update the target branch locally when git fetch fails.'
+    required: false
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Get branch name
+      id: branch-name
+      uses: tj-actions/branch-names@v4.5
+    - id: migration-fixer
+      run: |
+        pip install django-migration-fixer==1.0.0
+
+        EXTRA_ARGS="--fix"
+
+        if [[ '${{ inputs.force-update }}' == 'true'  ]]; then
+          EXTRA_ARGS+=" -f"
+        fi
+
+        if [[ -z "${{ inputs.default-branch }}" ]]; then
+          BRANCH="${{ steps.branch-name.outputs.base_ref_branch }}"
+        fi
+
+        ${{ inputs.managepy-path }} $EXTRA_ARGS -b "$BRANCH"
+      shell: bash
+branding:
+  icon: check
+  color: white

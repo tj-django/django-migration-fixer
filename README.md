@@ -48,6 +48,9 @@ $ python manage.py makemigrations -b master --fix
 
 ### Github Actions
 
+> NOTE: :warning: 
+> - To get this action to work you'll need to [install django-migration-fixer](#installation) and update your `INSTALLED_APPS` setting
+
 ```yaml
 ...
     runs-on: ubuntu-latest

@@ -22,10 +22,9 @@ def _decode_message(output: bytes, encoding: str) -> str:
 
 def _update_migration(conflict_path: Path, app_label: str, seen: List[str]) -> None:
     """Modify the migration file."""
-    replacement = "('{app_label}', '{prev_migration}'),".format(
-        app_label=app_label,
-        prev_migration=seen[-1],
-    )
+    prev_migration = seen[-1]
+
+    replacement = f'("{app_label}", "{prev_migration}"),'
 
     replace_regex = re.compile(
         MIGRATION_REGEX.format(app_label=app_label),

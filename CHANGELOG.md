@@ -1,12 +1,14 @@
 # Changelog
 
-## [Unreleased](https://github.com/tj-django/django-migration-fixer/tree/HEAD)
+## [v1.0.4](https://github.com/tj-django/django-migration-fixer/tree/v1.0.4) (2021-07-06)
 
-[Full Changelog](https://github.com/tj-django/django-migration-fixer/compare/v1.0.3...HEAD)
+[Full Changelog](https://github.com/tj-django/django-migration-fixer/compare/v1.0.3...v1.0.4)
 
 **Merged pull requests:**
 
+- Upgraded v1.0.2 → v1.0.3 [\#73](https://github.com/tj-django/django-migration-fixer/pull/73) ([jackton1](https://github.com/jackton1))
 - Updated README.md [\#72](https://github.com/tj-django/django-migration-fixer/pull/72) ([jackton1](https://github.com/jackton1))
+- Fixed bug using a detached head  [\#71](https://github.com/tj-django/django-migration-fixer/pull/71) ([jackton1](https://github.com/jackton1))
 
 ## [v1.0.3](https://github.com/tj-django/django-migration-fixer/tree/v1.0.3) (2021-07-06)
 

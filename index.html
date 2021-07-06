@@ -274,6 +274,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#github-actions" class="md-nav__link">
+    Github Actions
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -464,6 +471,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#github-actions" class="md-nav__link">
+    Github Actions
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -558,6 +572,50 @@
 <h3 id="specifying-a-different-default-branch">Specifying a different default branch</h3>
 <p>Run:</p>
 <div class="highlight"><pre><span></span><code>$ python manage.py makemigrations -b master --fix
+</code></pre></div>
+<h3 id="github-actions">Github Actions</h3>
+<div class="highlight"><pre><span></span><code><span class="nn">...</span>
+    <span class="nt">runs-on</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">ubuntu-latest</span>
+    <span class="nt">steps</span><span class="p">:</span>
+      <span class="p p-Indicator">-</span> <span class="nt">uses</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">actions/checkout@v2</span>
+        <span class="nt">with</span><span class="p">:</span>
+          <span class="nt">fetch-depth</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
+
+      <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Set up Python</span>
+        <span class="nt">uses</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">actions/setup-python@v2</span>
+        <span class="nt">with</span><span class="p">:</span>
+          <span class="nt">python-version</span><span class="p">:</span> <span class="s">&#39;3.6.x&#39;</span>
+
+      <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Upgrade pip</span>
+        <span class="nt">run</span><span class="p">:</span> <span class="p p-Indicator">|</span>
+          <span class="no">pip install -U pip</span>
+
+      <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Run django-migration-fixer</span>
+        <span class="nt">uses</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">tj-django/django-migration-fixer@v1.0.1</span>
+        <span class="nt">with</span><span class="p">:</span>
+          <span class="nt">managepy-path</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">/path/to/manage.py</span>
+
+      <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Verify Changed files</span>
+        <span class="nt">uses</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">tj-actions/verify-changed-files@v7.1</span>
+        <span class="nt">id</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">verify-changed-files</span>
+        <span class="nt">with</span><span class="p">:</span>
+          <span class="nt">files</span><span class="p">:</span> <span class="p p-Indicator">|</span>
+             <span class="no">/path/to/migrations</span>
+
+      <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Commit migration changes</span>
+        <span class="nt">if</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">steps.verify-changed-files.outputs.files_changed == &#39;true&#39;</span>
+        <span class="nt">run</span><span class="p">:</span> <span class="p p-Indicator">|</span>
+          <span class="no">git config --local user.email &quot;github-actions[bot]@users.noreply.github.com&quot;</span>
+          <span class="no">git config --local user.name &quot;github-actions[bot]&quot;</span>
+          <span class="no">git add /path/to/migrations</span>
+          <span class="no">git commit -m &quot;Update migrations&quot;</span>
+
+      <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Push migration changes</span>
+        <span class="nt">if</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">steps.verify-changed-files.outputs.files_changed == &#39;true&#39;</span>
+        <span class="nt">uses</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">ad-m/github-push-action@master</span>
+        <span class="nt">with</span><span class="p">:</span>
+          <span class="nt">github_token</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">${{ secrets.GITHUB_TOKEN }}</span>
+          <span class="nt">branch</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">${{ github.ref }}</span>
 </code></pre></div>
 <h2 id="features">Features</h2>
 <ul>

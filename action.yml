@@ -9,6 +9,7 @@ inputs:
   default-branch:
     description: 'The default branch or target branch of a Pull request: Defaults to github.base_ref'
     required: false
+    default: ${{ github.base_ref }}
   force-update:
     description: 'Force update the target branch locally when git fetch fails.'
     required: false
@@ -16,11 +17,10 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - name: Get branch name
-      id: branch-name
-      uses: tj-actions/branch-names@v4.5
     - id: migration-fixer
       run: |
+        BRANCH="${{ inputs.default-branch }}"
+
         pip install django-migration-fixer==1.0.0
 
         EXTRA_ARGS="--fix"
@@ -29,11 +29,7 @@ runs:
           EXTRA_ARGS+=" -f"
         fi
 
-        if [[ -z "${{ inputs.default-branch }}" ]]; then
-          BRANCH="${{ steps.branch-name.outputs.base_ref_branch }}"
-        fi
-
-        python ${{ inputs.managepy-path }} $EXTRA_ARGS -b "$BRANCH"
+        python ${{ inputs.managepy-path }} $EXTRA_ARGS -b "${BRANCH/refs\/heads\//}"
       shell: bash
 branding:
   icon: check

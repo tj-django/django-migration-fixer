@@ -70,7 +70,7 @@ $ python manage.py makemigrations -b master --fix
           pip install -U pip
 
       - name: Run django-migration-fixer
-        uses: tj-django/django-migration-fixer@v1.0.6
+        uses: tj-django/django-migration-fixer@v1.0.7
         with:
           managepy-path: /path/to/manage.py
 

@@ -98,7 +98,7 @@ class Command(BaseCommand):
                         self.repo.remotes[self.default_branch].origin.pull()
                     else:
                         for remote in self.repo.remotes:
-                            remote.fetch(self.default_branch, force=self.force_update)
+                            remote.fetch(f'{self.default_branch}:{self.default_branch}', force=self.force_update)
 
                     if self.verbosity >= 2:
                         self.stdout.write(

@@ -21,8 +21,6 @@ runs:
       run: |
         BRANCH="${{ inputs.default-branch }}"
 
-        pip install django-migration-fixer
-
         EXTRA_ARGS="--fix"
 
         if [[ '${{ inputs.force-update }}' == 'true'  ]]; then

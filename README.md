@@ -46,7 +46,6 @@ Run:
 $ python manage.py makemigrations -b master --fix
 ```
 
-
 ### Github Actions
 
 ```yaml
@@ -93,7 +92,6 @@ $ python manage.py makemigrations -b master --fix
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: ${{ github.ref }}
 ```
-
 
 ## Features
 

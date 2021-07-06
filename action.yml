@@ -27,7 +27,7 @@ runs:
           EXTRA_ARGS+=" -f"
         fi
 
-        python ${{ inputs.managepy-path }} $EXTRA_ARGS -b "${BRANCH/refs\/heads\//}"
+        python ${{ inputs.managepy-path }} makemigrations $EXTRA_ARGS -b "${BRANCH/refs\/heads\//}"
       shell: bash
 branding:
   icon: check

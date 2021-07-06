@@ -574,6 +574,12 @@
 <div class="highlight"><pre><span></span><code>$ python manage.py makemigrations -b master --fix
 </code></pre></div>
 <h3 id="github-actions">Github Actions</h3>
+<blockquote>
+<p>NOTE: :warning:</p>
+<ul>
+<li>To get this action to work you'll need to <a href="#installation">install django-migration-fixer</a> and update your <code>INSTALLED_APPS</code> setting</li>
+</ul>
+</blockquote>
 <div class="highlight"><pre><span></span><code><span class="nn">...</span>
     <span class="nt">runs-on</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">ubuntu-latest</span>
     <span class="nt">steps</span><span class="p">:</span>

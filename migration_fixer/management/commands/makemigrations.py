@@ -87,7 +87,7 @@ class Command(BaseCommand):
                     if self.verbosity >= 2:
                         self.stdout.write("Retrieving the current branch...")
 
-                    current_branch = self.repo.active_branch.name
+                    current_branch = self.repo.head.name
 
                     if self.verbosity >= 2:
                         self.stdout.write(

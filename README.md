@@ -118,16 +118,13 @@ $ python manage.py makemigrations -b master --fix
 
 ![Screen Shot 2021-07-06 at 2 21 29 PM](https://user-images.githubusercontent.com/17484350/124649021-f6496380-de65-11eb-9b95-0f204abe142a.png)
 
-
 #### After merging the default branch
 
 ![Screen Shot 2021-07-06 at 2 21 46 PM](https://user-images.githubusercontent.com/17484350/124648930-d7e36800-de65-11eb-99a3-bf806ecfd32b.png)
 
-
 #### After running django-migration-fixer
 
 ![Screen Shot 2021-07-06 at 2 22 31 PM](https://user-images.githubusercontent.com/17484350/124649105-0feaab00-de66-11eb-80f3-7987d67b361d.png)
-
 
 ### More Examples
 

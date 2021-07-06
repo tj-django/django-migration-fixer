@@ -105,6 +105,6 @@ setup(
         "Source": "https://github.com/tj-django/django-migration-fixer",
         "Documentation": "https://tj-django.github.io/django-migration-fixer",
     },
-    version="1.0.5",
+    version="1.0.6",
     zip_safe=False,
 )

@@ -33,7 +33,7 @@ runs:
           BRANCH="${{ steps.branch-name.outputs.base_ref_branch }}"
         fi
 
-        ${{ inputs.managepy-path }} $EXTRA_ARGS -b "$BRANCH"
+        python ${{ inputs.managepy-path }} $EXTRA_ARGS -b "$BRANCH"
       shell: bash
 branding:
   icon: check

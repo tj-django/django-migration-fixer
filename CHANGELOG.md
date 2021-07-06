@@ -1,11 +1,16 @@
 # Changelog
 
-## [Unreleased](https://github.com/tj-django/django-migration-fixer/tree/HEAD)
+## [v1.0.2](https://github.com/tj-django/django-migration-fixer/tree/v1.0.2) (2021-07-06)
 
-[Full Changelog](https://github.com/tj-django/django-migration-fixer/compare/v1.0.1...HEAD)
+[Full Changelog](https://github.com/tj-django/django-migration-fixer/compare/v1.0.1...v1.0.2)
+
+**Closed issues:**
+
+- Add github action that uses the GITHUB\_BASE\_REF instead of the default `branch` input. [\#22](https://github.com/tj-django/django-migration-fixer/issues/22)
 
 **Merged pull requests:**
 
+- Upgraded v1.0.0 → v1.0.1 [\#68](https://github.com/tj-django/django-migration-fixer/pull/68) ([jackton1](https://github.com/jackton1))
 - Updated README.md [\#67](https://github.com/tj-django/django-migration-fixer/pull/67) ([jackton1](https://github.com/jackton1))
 
 ## [v1.0.1](https://github.com/tj-django/django-migration-fixer/tree/v1.0.1) (2021-07-06)

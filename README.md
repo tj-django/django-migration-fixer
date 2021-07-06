@@ -46,6 +46,55 @@ Run:
 $ python manage.py makemigrations -b master --fix
 ```
 
+
+### Github Actions
+
+```yaml
+...
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.6.x'
+
+      - name: Upgrade pip
+        run: |
+          pip install -U pip
+
+      - name: Run django-migration-fixer
+        uses: tj-django/django-migration-fixer@v1.0.1
+        with:
+          managepy-path: /path/to/manage.py
+
+      - name: Verify Changed files
+        uses: tj-actions/verify-changed-files@v7.1
+        id: verify-changed-files
+        with:
+          files: |
+             /path/to/migrations
+          
+      - name: Commit migration changes
+        if: steps.verify-changed-files.outputs.files_changed == 'true'
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add /path/to/migrations
+          git commit -m "Update migrations"
+
+      - name: Push migration changes
+        if: steps.verify-changed-files.outputs.files_changed == 'true'
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.ref }}
+```
+
+
 ## Features
 
 *   Maintain a consistent migration history when conflicts occur as a result of changes made using different versions of the default branch.

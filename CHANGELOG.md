@@ -1,5 +1,13 @@
 # Changelog
 
+## [v1.0.5](https://github.com/tj-django/django-migration-fixer/tree/v1.0.5) (2021-07-06)
+
+[Full Changelog](https://github.com/tj-django/django-migration-fixer/compare/v1.0.4...v1.0.5)
+
+**Merged pull requests:**
+
+- Upgraded v1.0.3 → v1.0.4 [\#74](https://github.com/tj-django/django-migration-fixer/pull/74) ([jackton1](https://github.com/jackton1))
+
 ## [v1.0.4](https://github.com/tj-django/django-migration-fixer/tree/v1.0.4) (2021-07-06)
 
 [Full Changelog](https://github.com/tj-django/django-migration-fixer/compare/v1.0.3...v1.0.4)

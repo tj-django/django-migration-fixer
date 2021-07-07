@@ -53,7 +53,15 @@ $ python manage.py makemigrations -b master --fix
 > *   To get this action to work you'll need to install [django-migration-fixer](#installation) and update your `INSTALLED_APPS` setting
 
 ```yaml
-...
+name: Fix django migrations
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  fix-migrations:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -69,6 +77,10 @@ $ python manage.py makemigrations -b master --fix
         run: |
           pip install -U pip
 
+      - name: Install project dependencies
+        run: |
+          make install
+
       - name: Run django-migration-fixer
         uses: tj-django/django-migration-fixer@v1.0.7
         with:
@@ -80,7 +92,7 @@ $ python manage.py makemigrations -b master --fix
         with:
           files: |
              /path/to/migrations
-          
+
       - name: Commit migration changes
         if: steps.verify-changed-files.outputs.files_changed == 'true'
         run: |

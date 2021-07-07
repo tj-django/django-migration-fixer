@@ -648,7 +648,15 @@
 <li>To get this action to work you'll need to install <a href="#installation">django-migration-fixer</a> and update your <code>INSTALLED_APPS</code> setting</li>
 </ul>
 </blockquote>
-<div class="highlight"><pre><span></span><code><span class="nn">...</span>
+<div class="highlight"><pre><span></span><code><span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Fix django migrations</span>
+
+<span class="nt">on</span><span class="p">:</span>
+  <span class="nt">pull_request</span><span class="p">:</span>
+    <span class="nt">branches</span><span class="p">:</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">main</span>
+
+<span class="nt">jobs</span><span class="p">:</span>
+  <span class="nt">fix-migrations</span><span class="p">:</span>
     <span class="nt">runs-on</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">ubuntu-latest</span>
     <span class="nt">steps</span><span class="p">:</span>
       <span class="p p-Indicator">-</span> <span class="nt">uses</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">actions/checkout@v2</span>
@@ -663,6 +671,10 @@
       <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Upgrade pip</span>
         <span class="nt">run</span><span class="p">:</span> <span class="p p-Indicator">|</span>
           <span class="no">pip install -U pip</span>
+
+      <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Install project dependencies</span>
+        <span class="nt">run</span><span class="p">:</span> <span class="p p-Indicator">|</span>
+          <span class="no">make install</span>
 
       <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Run django-migration-fixer</span>
         <span class="nt">uses</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">tj-django/django-migration-fixer@v1.0.7</span>

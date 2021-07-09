@@ -57,20 +57,6 @@ jobs:
         run: |
           make install-test
 
-      - name: Run invalid_repo test
-        run: make tox
-        env:
-          CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
-          PLATFORM: ${{ matrix.platform }}
-          ENV: invalid_repo
-
-      - name: Run utils test
-        run: make tox
-        env:
-          CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
-          PLATFORM: ${{ matrix.platform }}
-          ENV: utils
-
       - name: Checkout feature/migration-test-01
         run: |
           git checkout feature/migration-test-01
@@ -81,43 +67,6 @@ jobs:
         env:
           CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
           PLATFORM: ${{ matrix.platform }}
-          ENV: test_01
-
-      - name: Checkout feature/migration-test-01
-        run: |
-          git checkout feature/migration-test-01
-        working-directory: migration_fixer/tests/demo
-
-      - name: Run test_02
-        run: make tox
-        env:
-          CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
-          PLATFORM: ${{ matrix.platform }}
-          ENV: test_02
-
-      - name: Checkout feature/migration-test-01
-        run: |
-          git checkout feature/migration-test-01
-        working-directory: migration_fixer/tests/demo
-
-      - name: Run test_03
-        run: make tox
-        env:
-          CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
-          PLATFORM: ${{ matrix.platform }}
-          ENV: test_03
-
-      - name: Checkout feature/migration-test-01
-        run: |
-          git checkout feature/migration-test-01
-        working-directory: migration_fixer/tests/demo
-
-      - name: Run test_04
-        run: make tox
-        env:
-          CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
-          PLATFORM: ${{ matrix.platform }}
-          ENV: test_04
 
       - name: Run codacy-coverage-reporter
         uses: codacy/codacy-coverage-reporter-action@v1

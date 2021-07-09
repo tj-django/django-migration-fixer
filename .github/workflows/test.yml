@@ -56,7 +56,7 @@ jobs:
         run: |
           make install-test
 
-      - name: Run utils test
+      - name: Run invalid_repo test
         run: make tox
         env:
           CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}

@@ -1,6 +1,7 @@
 """Tests for `migration_fixer` package."""
 
 import pytest
+from django.core.management.base import CommandError
 
 from migration_fixer.management.commands.makemigrations import Command
 from migration_fixer.tests.management.commands.constants import (
@@ -12,6 +13,22 @@ from migration_fixer.tests.management.commands.utils import (
     execute_command,
     temporary_checkout,
 )
+
+
+@pytest.mark.env("invalid_repo")
+@pytest.mark.django_db
+def test_invalid_repo(invalid_git_repo, mocker):
+    mocker.patch(
+        "django.core.management.commands.makemigrations.Command.handle",
+        side_effect=CommandError("Conflicting migrations detected"),
+    )
+    cmd = Command(repo=invalid_git_repo.api)
+    cmd.verbosity = 1
+
+    with pytest.raises(CommandError) as exc_info:
+        execute_command(cmd, fix=True)
+
+    assert "Git repository is not yet setup." in str(exc_info.value)
 
 
 @pytest.mark.env("test_01")

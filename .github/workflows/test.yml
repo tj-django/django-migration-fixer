@@ -61,6 +61,13 @@ jobs:
         env:
           CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
           PLATFORM: ${{ matrix.platform }}
+          ENV: invalid_repo
+
+      - name: Run utils test
+        run: make tox
+        env:
+          CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
+          PLATFORM: ${{ matrix.platform }}
           ENV: utils
 
       - name: Checkout feature/migration-test-01

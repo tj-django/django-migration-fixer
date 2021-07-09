@@ -28,6 +28,7 @@ install_requires = [
 test_requires = [
     "pytest>=3",
     "pytest-django",
+    "pytest-mock",
     "pytest-git",
     "tox",
     "tox-gh-actions",

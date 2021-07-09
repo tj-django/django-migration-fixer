@@ -79,6 +79,18 @@ jobs:
           PLATFORM: ${{ matrix.platform }}
           ENV: test_02
 
+      - name: Checkout feature/migration-test-01
+        run: |
+          git checkout feature/migration-test-01
+        working-directory: migration_fixer/tests/demo
+
+      - name: Run test_03
+        run: make tox
+        env:
+          CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
+          PLATFORM: ${{ matrix.platform }}
+          ENV: test_03
+
       - name: Run codacy-coverage-reporter
         uses: codacy/codacy-coverage-reporter-action@v1
         with:

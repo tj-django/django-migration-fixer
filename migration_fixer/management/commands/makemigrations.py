@@ -196,7 +196,8 @@ class Command(BaseCommand):
                                     self.style.ERROR(
                                         f"Unable to determine the last migration on: "
                                         f"{self.default_branch}. "
-                                        'Please verify the target branch using "-b [target branch]".',
+                                        "Please verify the target branch using"
+                                        "\"-b [target branch]\".",
                                     )
                                 )
 

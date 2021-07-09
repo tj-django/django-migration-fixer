@@ -62,7 +62,7 @@ jobs:
           git checkout feature/migration-test-01
         working-directory: migration_fixer/tests/demo
 
-      - name: Run test_01
+      - name: Run test
         run: make tox
         env:
           CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}

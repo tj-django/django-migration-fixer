@@ -39,7 +39,7 @@ def _update_migration(conflict_path: Path, app_label: str, prev_migration: str) 
 
         # Write to the conflict file.
         conflict_path.write_text(output)
-    else:
+    else:  # pragma: no cover
         raise ValueError(f'Couldn\'t find "{regex}" in {conflict_path.name}')
 
 

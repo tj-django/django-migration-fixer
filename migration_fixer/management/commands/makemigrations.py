@@ -83,9 +83,9 @@ class Command(BaseCommand):
                     if self.verbosity >= 2:
                         self.stdout.write("Retrieving the current branch...")
 
-                    current_branch = self.repo.head.name
+                    current_branch = self.repo.head.ref.name
 
-                    if self.repo.is_dirty():
+                    if self.repo.is_dirty():  # pragma: no cover
                         raise CommandError(
                             self.style.ERROR(
                                 "Git repository has uncommitted changes. "

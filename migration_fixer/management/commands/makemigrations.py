@@ -65,7 +65,7 @@ class Command(BaseCommand):
                         self.stdout.write("Verifying git repository...")
 
                     try:
-                        self.repo.git_dir & self.repo.head.commit
+                        self.repo.git_dir and self.repo.head.commit
                     except (ValueError, InvalidGitRepositoryError):
                         is_git_repo = False
                     else:

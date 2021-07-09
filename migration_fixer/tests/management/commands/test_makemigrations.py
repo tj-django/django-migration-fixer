@@ -4,12 +4,13 @@ import pytest
 from django.core.management.base import CommandError
 
 from migration_fixer.management.commands.makemigrations import Command
-from migration_fixer.tests.management.commands.constants import (
+from migration_fixer.tests.management.commands._constants import (
     TEST_01_MIGRATION_BRANCH,
     TEST_02_MIGRATION_BRANCH,
     TEST_03_MIGRATION_BRANCH,
+    TEST_04_MIGRATION_BRANCH,
 )
-from migration_fixer.tests.management.commands.utils import (
+from migration_fixer.tests.management.commands._utils import (
     execute_command,
     temporary_checkout,
 )
@@ -159,3 +160,22 @@ Successfully fixed migrations.
 
     assert target_branch.name == TEST_03_MIGRATION_BRANCH
     assert output == expected_output
+
+
+@pytest.mark.env("test_04")
+@pytest.mark.django_db
+def test_run_makemigrations_fix_with_invlaid_module(git_repo):
+    expected_output = """Error: Unable to fix migration for "demo" app: testmodel_dob.py
+NOTE: It needs to begin with a number. eg. 0001_*
+"""
+    cmd = Command(repo=git_repo.api)
+
+    with temporary_checkout(
+        git_repo,
+        default_branch_name=TEST_01_MIGRATION_BRANCH,
+        target_branch_name=TEST_04_MIGRATION_BRANCH,
+    ) as target_branch:
+        output = execute_command(cmd, default_branch=TEST_01_MIGRATION_BRANCH, fix=True)
+
+    assert target_branch.name == TEST_04_MIGRATION_BRANCH
+    assert expected_output == output

@@ -1,3 +1,4 @@
+import pytest
 from django.utils import translation
 
 from migration_fixer.utils import _clean_message, _decode_message, no_translations

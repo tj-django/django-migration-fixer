@@ -56,6 +56,13 @@ jobs:
         run: |
           make install-test
 
+      - name: Run utils test
+        run: make tox
+        env:
+          CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
+          PLATFORM: ${{ matrix.platform }}
+          ENV: utils
+
       - name: Checkout feature/migration-test-01
         run: |
           git checkout feature/migration-test-01

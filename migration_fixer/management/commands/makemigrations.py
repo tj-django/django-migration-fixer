@@ -98,8 +98,12 @@ class Command(BaseCommand):
                             f"Fetching git remote origin changes on: {self.default_branch}"
                         )
 
-                    if current_branch == self.default_branch:
-                        self.repo.remotes[self.default_branch].origin.pull()
+                    if current_branch == self.default_branch:  # pragma: no cover
+                        for remote in self.repo.remotes:
+                            remote.pull(
+                                self.default_branch,
+                                force=self.force_update,
+                            )
                     else:
                         for remote in self.repo.remotes:
                             remote.fetch(
@@ -191,7 +195,7 @@ class Command(BaseCommand):
                                 name for name in conflict if name not in local_filenames
                             ]
 
-                            if not last_remote:
+                            if not last_remote:  # pragma: no cover
                                 raise CommandError(
                                     self.style.ERROR(
                                         f"Unable to determine the last migration on: "
@@ -231,7 +235,7 @@ class Command(BaseCommand):
                                             else lambda x: x
                                         ),
                                     )
-                                else:
+                                else:  # pragma: no cover
                                     raise ValueError(
                                         f"Unable to fix migration: {last_remote_filename}. \n"
                                         f"NOTE: It needs to begin with a number. eg. 0001_*",

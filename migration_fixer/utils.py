@@ -21,10 +21,8 @@ def _decode_message(output: bytes, encoding: str) -> str:
 
 def _update_migration(conflict_path: Path, app_label: str, prev_migration: str) -> None:
     """Modify the migration file."""
-    replace_regex = re.compile(
-        MIGRATION_REGEX.format(app_label=app_label),
-        re.I | re.M,
-    )
+    regex = MIGRATION_REGEX.format(app_label=app_label)
+    replace_regex = re.compile(regex, re.I)
 
     match = replace_regex.search(conflict_path.read_text())
 
@@ -42,7 +40,7 @@ def _update_migration(conflict_path: Path, app_label: str, prev_migration: str) 
         # Write to the conflict file.
         conflict_path.write_text(output)
     else:
-        raise ValueError(f'Couldn\'t find "{MIGRATION_REGEX}" in {conflict_path.name}')
+        raise ValueError(f'Couldn\'t find "{regex}" in {conflict_path.name}')
 
 
 def migration_sorter(path: str, app_label: str) -> int:

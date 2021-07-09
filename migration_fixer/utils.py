@@ -52,7 +52,7 @@ def migration_sorter(path: str, app_label: str) -> int:
 
     if not str(key).isdigit():
         raise ValueError(
-            f'Unable to fix migration for "{app_label}" app: {path} \n'
+            f'Unable to fix migration for "{app_label}" app: {path}\n'
             f"NOTE: It needs to begin with a number. eg. 0001_*",
         )
 
@@ -89,7 +89,7 @@ def fix_numbered_migration(
             conflict_parts[0] = next_
         else:
             raise ValueError(
-                f'Unable to fix migration: "{conflict_path.name}" \n'
+                f'Unable to fix migration: "{conflict_path.name}"\n'
                 f"NOTE: It needs to begin with a number. eg. 0001_*",
             )
 

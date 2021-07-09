@@ -45,6 +45,7 @@ clean-test:  ## remove test and coverage artifacts
 	@rm -f .coverage
 	@rm -fr htmlcov/
 	@rm -fr .pytest_cache
+	@rm -fr .mypy_cache/
 
 clean-docs:  ## remove all doc artifacts
 	@rm -fr site

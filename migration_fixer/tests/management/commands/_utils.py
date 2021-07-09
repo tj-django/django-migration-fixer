@@ -10,6 +10,7 @@ from migration_fixer.tests.management.commands.conftest import GitRepo
 def execute_command(cmd, *args, **kwargs):
     out = StringIO()
     kwargs["stdout"] = out
+    kwargs["stderr"] = out
     call_command(cmd, *args, **kwargs)
     output = out.getvalue()
 

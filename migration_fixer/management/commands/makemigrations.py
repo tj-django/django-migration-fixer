@@ -13,11 +13,7 @@ from django.db import DEFAULT_DB_ALIAS, connections, router
 from django.db.migrations.loader import MigrationLoader
 from git import InvalidGitRepositoryError, Repo
 
-from migration_fixer.utils import (
-    fix_named_migration,
-    fix_numbered_migration,
-    no_translations,
-)
+from migration_fixer.utils import fix_numbered_migration, no_translations
 
 
 class Command(BaseCommand):
@@ -69,8 +65,8 @@ class Command(BaseCommand):
                         self.stdout.write("Verifying git repository...")
 
                     try:
-                        self.repo.git_dir
-                    except InvalidGitRepositoryError:
+                        self.repo.git_dir and self.repo.head.commit
+                    except (ValueError, InvalidGitRepositoryError):
                         is_git_repo = False
                     else:
                         is_git_repo = True
@@ -87,15 +83,27 @@ class Command(BaseCommand):
                     if self.verbosity >= 2:
                         self.stdout.write("Retrieving the current branch...")
 
-                    current_branch = self.repo.head.name
+                    current_branch = self.repo.head.ref.name
+
+                    if self.repo.is_dirty():  # pragma: no cover
+                        raise CommandError(
+                            self.style.ERROR(
+                                "Git repository has uncommitted changes. "
+                                "Please commit any outstanding changes."
+                            )
+                        )
 
                     if self.verbosity >= 2:
                         self.stdout.write(
                             f"Fetching git remote origin changes on: {self.default_branch}"
                         )
 
-                    if current_branch == self.default_branch:
-                        self.repo.remotes[self.default_branch].origin.pull()
+                    if current_branch == self.default_branch:  # pragma: no cover
+                        for remote in self.repo.remotes:
+                            remote.pull(
+                                self.default_branch,
+                                force=self.force_update,
+                            )
                     else:
                         for remote in self.repo.remotes:
                             remote.fetch(
@@ -184,16 +192,16 @@ class Command(BaseCommand):
                                 )
 
                             last_remote = [
-                                fname
-                                for fname in conflict
-                                if fname not in local_filenames
+                                name for name in conflict if name not in local_filenames
                             ]
 
-                            if not last_remote:
+                            if not last_remote:  # pragma: no cover
                                 raise CommandError(
                                     self.style.ERROR(
                                         f"Unable to determine the last migration on: "
-                                        f"{self.default_branch}",
+                                        f"{self.default_branch}. "
+                                        "Please verify the target branch using"
+                                        '"-b [target branch]".',
                                     )
                                 )
 
@@ -221,16 +229,16 @@ class Command(BaseCommand):
                                         seed=int(seed_split[0]),
                                         start_name=last_remote_filename,
                                         changed_files=changed_files,
+                                        writer=(
+                                            lambda message: self.stdout.write(message)
+                                            if self.verbosity >= 2
+                                            else lambda x: x
+                                        ),
                                     )
-                                else:
-                                    if self.verbosity >= 2:
-                                        self.stdout.write("Fixing named migration...")
-
-                                    fix_named_migration(
-                                        app_label=app_label,
-                                        migration_path=migration_path,
-                                        start_name=last_remote_filename,
-                                        changed_files=changed_files,
+                                else:  # pragma: no cover
+                                    raise ValueError(
+                                        f"Unable to fix migration: {last_remote_filename}. \n"
+                                        f"NOTE: It needs to begin with a number. eg. 0001_*",
                                     )
                             except (ValueError, IndexError, TypeError) as e:
                                 self.stderr.write(f"Error: {e}")

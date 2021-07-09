@@ -49,6 +49,8 @@ jobs:
         run: |
           git fetch origin feature/migration-test-01:feature/migration-test-01
           git fetch origin feature/migration-test-02:feature/migration-test-02
+          git fetch origin feature/migration-test-03:feature/migration-test-03
+          git fetch origin feature/migration-test-04:feature/migration-test-04
         working-directory: migration_fixer/tests/demo
 
       - name: Install dependencies
@@ -60,24 +62,11 @@ jobs:
           git checkout feature/migration-test-01
         working-directory: migration_fixer/tests/demo
 
-      - name: Run test_01
+      - name: Run test
         run: make tox
         env:
           CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
           PLATFORM: ${{ matrix.platform }}
-          ENV: test_01
-
-      - name: Checkout feature/migration-test-01
-        run: |
-          git checkout feature/migration-test-01
-        working-directory: migration_fixer/tests/demo
-
-      - name: Run test_02
-        run: make tox
-        env:
-          CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
-          PLATFORM: ${{ matrix.platform }}
-          ENV: test_02
 
       - name: Run codacy-coverage-reporter
         uses: codacy/codacy-coverage-reporter-action@v1

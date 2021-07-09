@@ -31,3 +31,11 @@ def git_repo(settings):
 
     with GitRepo(workspace=workspace) as repo:
         yield repo
+
+
+@pytest.fixture
+def invalid_git_repo(settings):
+    workspace = os.path.join(settings.BASE_DIR, "non_existing")
+
+    with GitRepo(workspace=workspace, delete=True) as repo:
+        yield repo

@@ -12,6 +12,15 @@
 
 Resolve django makemigrations `multiple leaf nodes in the migration graph` by ensuring that migration files and dependencies are always ordered regardless of remote changes.
 
+## Features
+
+*   100% test coverage.
+*   Maintain a consistent migration history when conflicts occur as a result of changes made using different versions of the default branch.
+*   Resolve migration conflicts on PR branches
+*   Resolve migration conflicts on the default branch **(NOT RECOMMENDED)**
+*   Supports default migration modules i.e (`0001_....py`)
+*   Re-number all migrations using the last migration on the default branch i.e `main` or `develop`
+
 ## Installation
 
 ```bash
@@ -108,14 +117,6 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: ${{ github.ref }}
 ```
-
-## Features
-
-*   Maintain a consistent migration history when conflicts occur as a result of changes made using different versions of the default branch.
-*   Resolve migration conflicts on PR branches
-*   Resolve migration conflicts on the default branch **(NOT RECOMMENDED)**
-*   Supports default migration modules i.e (`0001_....py`)
-*   Re-number all migrations using the last migration on the default branch i.e `main` or `develop`
 
 ## Test Platforms
 

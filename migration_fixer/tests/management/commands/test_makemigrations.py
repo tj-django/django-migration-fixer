@@ -185,7 +185,7 @@ NOTE: It needs to begin with a number. eg. 0001_*
 @pytest.mark.env("test_05")
 @pytest.mark.django_db
 def test_run_makemigrations_fix_with_invlaid_module(git_repo):
-    expected_output = """Error: Unable to fix migration for "demo" app: testmodel_dob.py
+    expected_output = """Error: Unable to fix migration for "demo" app: custom_migration.py
 NOTE: It needs to begin with a number. eg. 0001_*
 """
     cmd = Command(repo=git_repo.api)

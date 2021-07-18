@@ -51,6 +51,7 @@ jobs:
           git fetch origin feature/migration-test-02:feature/migration-test-02
           git fetch origin feature/migration-test-03:feature/migration-test-03
           git fetch origin feature/migration-test-04:feature/migration-test-04
+          git fetch origin feature/migration-test-05:feature/migration-test-05
         working-directory: migration_fixer/tests/demo
 
       - name: Install dependencies

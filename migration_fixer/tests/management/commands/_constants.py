@@ -7,3 +7,5 @@ TEST_02_MIGRATION_BRANCH = "feature/migration-test-02"
 TEST_03_MIGRATION_BRANCH = "feature/migration-test-03"
 # Single merge to main after 01 is merged (named module)
 TEST_04_MIGRATION_BRANCH = "feature/migration-test-04"
+# Multiple migrations with a named migration file
+TEST_05_MIGRATION_BRANCH = "feature/migration-test-05"

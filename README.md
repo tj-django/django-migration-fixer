@@ -59,7 +59,9 @@ $ python manage.py makemigrations -b master --fix
 
 > NOTE: :warning:
 >
-> *   To get this action to work you'll need to install [django-migration-fixer](#installation) and update your `INSTALLED_APPS` setting
+> *   To get this action to work you'll need to install [django-migration-fixer](#installation) and update your `INSTALLED_APPS` setting.
+>  
+>      See: https://github.com/tj-django/django-clone for an example setup.
 
 ```yaml
 name: Fix django migrations

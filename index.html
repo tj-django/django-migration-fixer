@@ -240,6 +240,13 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#features" class="md-nav__link">
+    Features
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#installation" class="md-nav__link">
     Installation
   </a>
@@ -283,13 +290,6 @@
         
       </ul>
     </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#features" class="md-nav__link">
-    Features
-  </a>
   
 </li>
       
@@ -471,6 +471,13 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#features" class="md-nav__link">
+    Features
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#installation" class="md-nav__link">
     Installation
   </a>
@@ -514,13 +521,6 @@
         
       </ul>
     </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#features" class="md-nav__link">
-    Features
-  </a>
   
 </li>
       
@@ -624,6 +624,15 @@
 <a href="https://pypi.python.org/pypi/django-migration-fixer"><img alt="PyPI - Python Version" src="https://img.shields.io/pypi/pyversions/django-migration-fixer" /></a> <a href="https://pypi.python.org/pypi/django-migration-fixer"><img alt="PyPI - Django Version" src="https://img.shields.io/pypi/djversions/django-migration-fixer" /></a> <a href="https://pepy.tech/project/django-migration-fixer"><img alt="Downloads" src="https://pepy.tech/badge/django-migration-fixer" /></a> <a href="https://github.com/search?o=desc\&amp;q=tj-django+django-migration-fixer+language%3AYAML\&amp;s=\&amp;type=Code"><img alt="Public workflows that use this action." src="https://img.shields.io/endpoint?url=https%3A%2F%2Fapi-tj-actions1.vercel.app%2Fapi%2Fgithub-actions%2Fused-by%3Faction%3Dtj-django%2Fdjango-migration-fixer%26badge%3Dtrue" /></a></p>
 <h1 id="django-migration-fixer">django-migration-fixer</h1>
 <p>Resolve django makemigrations <code>multiple leaf nodes in the migration graph</code> by ensuring that migration files and dependencies are always ordered regardless of remote changes.</p>
+<h2 id="features">Features</h2>
+<ul>
+<li>100% test coverage.</li>
+<li>Maintain a consistent migration history when conflicts occur as a result of changes made using different versions of the default branch.</li>
+<li>Resolve migration conflicts on PR branches</li>
+<li>Resolve migration conflicts on the default branch <strong>(NOT RECOMMENDED)</strong></li>
+<li>Supports default migration modules i.e (<code>0001_....py</code>)</li>
+<li>Re-number all migrations using the last migration on the default branch i.e <code>main</code> or <code>develop</code></li>
+</ul>
 <h2 id="installation">Installation</h2>
 <div class="highlight"><pre><span></span><code>$ pip install django-migration-fixer
 </code></pre></div>
@@ -704,14 +713,6 @@
           <span class="nt">github_token</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">${{ secrets.GITHUB_TOKEN }}</span>
           <span class="nt">branch</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">${{ github.ref }}</span>
 </code></pre></div>
-<h2 id="features">Features</h2>
-<ul>
-<li>Maintain a consistent migration history when conflicts occur as a result of changes made using different versions of the default branch.</li>
-<li>Resolve migration conflicts on PR branches</li>
-<li>Resolve migration conflicts on the default branch <strong>(NOT RECOMMENDED)</strong></li>
-<li>Supports default migration modules i.e (<code>0001_....py</code>)</li>
-<li>Re-number all migrations using the last migration on the default branch i.e <code>main</code> or <code>develop</code></li>
-</ul>
 <h2 id="test-platforms">Test Platforms</h2>
 <ul>
 <li><a href="https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on"><code>ubuntu-*</code></a></li>

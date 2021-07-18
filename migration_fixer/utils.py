@@ -83,13 +83,7 @@ def fix_numbered_migration(
         conflict_path = migration_path / basename
         conflict_parts = basename.split("_")
 
-        if str(conflict_parts[0]).isdigit():
-            conflict_parts[0] = next_
-        else:
-            raise ValueError(
-                f'Unable to fix migration: "{conflict_path.name}"\n'
-                f"NOTE: It needs to begin with a number. eg. 0001_*",
-            )
+        conflict_parts[0] = next_
 
         new_conflict_name = "_".join(conflict_parts)
 

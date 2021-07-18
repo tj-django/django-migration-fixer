@@ -19,7 +19,7 @@ Resolve django makemigrations `multiple leaf nodes in the migration graph` by en
 *   Resolve migration conflicts on PR branches
 *   Resolve migration conflicts on the default branch **(NOT RECOMMENDED)**
 *   Supports default migration modules i.e (`0001_....py`)
-*   Re-number all migrations using the last migration on the default branch i.e `main` or `develop`
+*   Re-number all migrations using the last migration on the default branch i.e `main|master|develop` depending on your setup.
 
 ## Installation
 

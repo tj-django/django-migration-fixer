@@ -1,5 +1,19 @@
 # Changelog
 
+## [v1.1.2](https://github.com/tj-django/django-migration-fixer/tree/v1.1.2) (2021-07-19)
+
+[Full Changelog](https://github.com/tj-django/django-migration-fixer/compare/v1.1.1...v1.1.2)
+
+**Closed issues:**
+
+- Dependency Dashboard [\#40](https://github.com/tj-django/django-migration-fixer/issues/40)
+
+**Merged pull requests:**
+
+- Update codecov/codecov-action action to v2 [\#92](https://github.com/tj-django/django-migration-fixer/pull/92) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency mkdocs to v1.2.2 [\#91](https://github.com/tj-django/django-migration-fixer/pull/91) ([renovate[bot]](https://github.com/apps/renovate))
+- Upgraded v1.1.0 → v1.1.1 [\#90](https://github.com/tj-django/django-migration-fixer/pull/90) ([jackton1](https://github.com/jackton1))
+
 ## [v1.1.1](https://github.com/tj-django/django-migration-fixer/tree/v1.1.1) (2021-07-18)
 
 [Full Changelog](https://github.com/tj-django/django-migration-fixer/compare/v1.1.0...v1.1.1)
@@ -18,10 +32,6 @@
 **Implemented enhancements:**
 
 - \[Testing\]: Setup django-test-migrations [\#30](https://github.com/tj-django/django-migration-fixer/issues/30)
-
-**Closed issues:**
-
-- Dependency Dashboard [\#40](https://github.com/tj-django/django-migration-fixer/issues/40)
 
 **Merged pull requests:**
 

@@ -23,6 +23,7 @@ docs_requires = [
 install_requires = [
     "django",
     "GitPython",
+    "typing_extensions==3.10.0.0",
 ]
 
 test_requires = [

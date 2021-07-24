@@ -4,7 +4,7 @@ wheel==0.36.2
 flake8==3.9.2
 tox==3.23.1
 coverage==5.5
-twine==3.4.1
+twine==3.4.2
 mkdocs==1.1.2
 portray==1.6.0
 

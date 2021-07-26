@@ -175,11 +175,16 @@ class Command(BaseCommand):
                             changed_files = [
                                 diff.b_path
                                 for diff in diff_index
-                                if migration_absolute_path
-                                in getattr(diff.a_blob, "abspath", "")
-                                or migration_absolute_path
-                                in getattr(diff.b_blob, "abspath", "")
+                                if (
+                                        migration_absolute_path
+                                        in getattr(diff.a_blob, "abspath", "")
+                                        or migration_absolute_path
+                                        in getattr(diff.b_blob, "abspath", "") 
+                                   ) and (
+                                        os.path.splitext(os.path.basename(diff.b_path))[0] in conflict
+                                   )                            
                             ]
+
 
                             # Local migration
                             local_filenames = [

@@ -1,12 +1,41 @@
 # Changelog
 
-## [v1.1.2](https://github.com/tj-django/django-migration-fixer/tree/v1.1.2) (2021-07-19)
+## [Unreleased](https://github.com/tj-django/django-migration-fixer/tree/HEAD)
 
-[Full Changelog](https://github.com/tj-django/django-migration-fixer/compare/v1.1.1...v1.1.2)
+[Full Changelog](https://github.com/tj-django/django-migration-fixer/compare/v1.1.3...HEAD)
+
+**Merged pull requests:**
+
+- Updated README.md [\#112](https://github.com/tj-django/django-migration-fixer/pull/112) ([jackton1](https://github.com/jackton1))
+
+## [v1.1.3](https://github.com/tj-django/django-migration-fixer/tree/v1.1.3) (2021-08-02)
+
+[Full Changelog](https://github.com/tj-django/django-migration-fixer/compare/v1.1.2...v1.1.3)
 
 **Closed issues:**
 
 - Dependency Dashboard [\#40](https://github.com/tj-django/django-migration-fixer/issues/40)
+
+**Merged pull requests:**
+
+- Updated README.md [\#109](https://github.com/tj-django/django-migration-fixer/pull/109) ([jackton1](https://github.com/jackton1))
+- Bump tox from 3.24.0 to 3.24.1 [\#107](https://github.com/tj-django/django-migration-fixer/pull/107) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Update dependency Django to v3.2.6 [\#106](https://github.com/tj-django/django-migration-fixer/pull/106) ([renovate[bot]](https://github.com/apps/renovate))
+- Update precommit hook pycqa/isort to v5.9.3 [\#105](https://github.com/tj-django/django-migration-fixer/pull/105) ([renovate[bot]](https://github.com/apps/renovate))
+- Fixed bug with changed\_files [\#104](https://github.com/tj-django/django-migration-fixer/pull/104) ([jackton1](https://github.com/jackton1))
+- Bump twine from 3.4.1 to 3.4.2 [\#103](https://github.com/tj-django/django-migration-fixer/pull/103) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump mkdocs from 1.1.2 to 1.2.2 [\#102](https://github.com/tj-django/django-migration-fixer/pull/102) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump portray from 1.6.0 to 1.7.0 [\#101](https://github.com/tj-django/django-migration-fixer/pull/101) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump tox from 3.23.1 to 3.24.0 [\#100](https://github.com/tj-django/django-migration-fixer/pull/100) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Update codecov/codecov-action action to v2.0.2 [\#97](https://github.com/tj-django/django-migration-fixer/pull/97) ([renovate[bot]](https://github.com/apps/renovate))
+- Update codacy/codacy-analysis-cli-action action to v4 [\#96](https://github.com/tj-django/django-migration-fixer/pull/96) ([renovate[bot]](https://github.com/apps/renovate))
+- \[pre-commit.ci\] pre-commit autoupdate [\#95](https://github.com/tj-django/django-migration-fixer/pull/95) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- Update codacy/codacy-analysis-cli-action action to v3 [\#94](https://github.com/tj-django/django-migration-fixer/pull/94) ([renovate[bot]](https://github.com/apps/renovate))
+- Upgraded v1.1.1 → v1.1.2 [\#93](https://github.com/tj-django/django-migration-fixer/pull/93) ([jackton1](https://github.com/jackton1))
+
+## [v1.1.2](https://github.com/tj-django/django-migration-fixer/tree/v1.1.2) (2021-07-19)
+
+[Full Changelog](https://github.com/tj-django/django-migration-fixer/compare/v1.1.1...v1.1.2)
 
 **Merged pull requests:**
 

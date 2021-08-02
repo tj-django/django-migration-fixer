@@ -332,6 +332,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#inputs" class="md-nav__link">
+    Inputs
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#test-platforms" class="md-nav__link">
     Test Platforms
   </a>
@@ -551,6 +558,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#inputs" class="md-nav__link">
+    Inputs
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#test-platforms" class="md-nav__link">
     Test Platforms
   </a>
@@ -630,6 +644,41 @@
 <li>To get this action to work you'll need to install <a href="#installation">django-migration-fixer</a> and update your <code>INSTALLED_APPS</code> setting.</li>
 </ul>
 </blockquote>
+<h2 id="inputs">Inputs</h2>
+<table>
+<thead>
+<tr>
+<th align="center">Input</th>
+<th align="center">type</th>
+<th align="center">required</th>
+<th align="center">default</th>
+<th align="center">description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">managepy-path</td>
+<td align="center"><code>string</code></td>
+<td align="center"><code>true</code></td>
+<td align="center"><code>./manage.py</code></td>
+<td align="center">The location of manage.py.</td>
+</tr>
+<tr>
+<td align="center">default-branch</td>
+<td align="center"><code>string</code></td>
+<td align="center"><code>false</code></td>
+<td align="center"><code>${{ github.base_ref }}</code></td>
+<td align="center">The default branch or <br> target branch of a Pull request.</td>
+</tr>
+<tr>
+<td align="center">force-update</td>
+<td align="center"><code>string</code></td>
+<td align="center"><code>false</code></td>
+<td align="center"></td>
+<td align="center">Force update the target branch <br> locally when git fetch fails.</td>
+</tr>
+</tbody>
+</table>
 <div class="highlight"><pre><span></span><code><span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Fix django migrations</span>
 
 <span class="nt">on</span><span class="p">:</span>

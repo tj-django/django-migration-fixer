@@ -70,7 +70,7 @@ Run:
 $ python manage.py makemigrations -b master --fix
 ```
 
-### Github Actions
+### Setup using Github Actions
 
 > NOTE: :warning:
 >

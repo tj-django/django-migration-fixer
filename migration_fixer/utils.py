@@ -1,6 +1,5 @@
 import os
 import re
-from functools import partial
 from itertools import count
 from pathlib import Path
 from typing import Callable, List
@@ -65,15 +64,12 @@ def fix_numbered_migration(
     start_name: str,
     changed_files: List[str],
     writer: Callable[[str], None],
-):
+) -> None:
     """Resolve migration conflicts for numbered migrations."""
     seen = [start_name]
     counter = count(seed + 1)  # 0537 -> 538
-    sorted_changed_files = sorted(
-        changed_files, key=partial(migration_sorter, app_label=app_label)
-    )
 
-    for path in sorted_changed_files:
+    for path in changed_files:
         next_ = str(next(counter))
 
         if len(next_) < 4:
@@ -122,3 +118,8 @@ def no_translations(handle_func):
         return res
 
     return wrapped
+
+
+def get_filename(path: str) -> str:
+    """Return the file name from a path."""
+    return os.path.splitext(os.path.basename(path))[0]

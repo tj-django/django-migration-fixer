@@ -75,7 +75,6 @@ $ python manage.py makemigrations -b master --fix
 >
 > *   To get this action to work you'll need to install [django-migration-fixer](#installation) and update your `INSTALLED_APPS` setting.
 
-
 ## Inputs
 
 |   Input       |    type     |  required      |  default                      |  description               |
@@ -83,7 +82,6 @@ $ python manage.py makemigrations -b master --fix
 | managepy-path |  `string`   |    `true`     | `./manage.py`                  | The location of manage.py. |
 | default-branch |  `string`  |    `false`     |  `${{ github.base_ref }}`      |  The default branch or <br> target branch of a Pull request.  |
 | force-update |  `string`  |    `false`     |        |  Force update the target branch <br> locally when git fetch fails.  |
-
 
 ```yaml
 name: Fix django migrations

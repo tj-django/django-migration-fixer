@@ -4,6 +4,7 @@ Create a new django migration with support for fixing conflicts.
 
 import os
 import pathlib
+from functools import partial
 
 from django.apps import apps
 from django.conf import settings
@@ -13,7 +14,12 @@ from django.db import DEFAULT_DB_ALIAS, connections, router
 from django.db.migrations.loader import MigrationLoader
 from git import InvalidGitRepositoryError, Repo
 
-from migration_fixer.utils import fix_numbered_migration, get_filename, no_translations
+from migration_fixer.utils import (
+    fix_numbered_migration,
+    get_filename,
+    migration_sorter,
+    no_translations,
+)
 
 
 class Command(BaseCommand):
@@ -190,9 +196,14 @@ class Command(BaseCommand):
                                 if get_filename(path) in conflict
                             ][0]
 
+                            sorted_changed_files = sorted(
+                                changed_files,
+                                key=partial(migration_sorter, app_label=app_label),
+                            )
+
                             changed_files = [
                                 path
-                                for path in changed_files
+                                for path in sorted_changed_files
                                 if (
                                     int(conflict_base.split("_")[0])
                                     >= int(get_filename(path).split("_")[0])

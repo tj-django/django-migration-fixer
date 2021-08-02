@@ -4,6 +4,7 @@ Create a new django migration with support for fixing conflicts.
 
 import os
 import pathlib
+from functools import partial
 
 from django.apps import apps
 from django.conf import settings
@@ -13,7 +14,12 @@ from django.db import DEFAULT_DB_ALIAS, connections, router
 from django.db.migrations.loader import MigrationLoader
 from git import InvalidGitRepositoryError, Repo
 
-from migration_fixer.utils import fix_numbered_migration, no_translations
+from migration_fixer.utils import (
+    fix_numbered_migration,
+    get_filename,
+    migration_sorter,
+    no_translations,
+)
 
 
 class Command(BaseCommand):
@@ -169,50 +175,74 @@ class Command(BaseCommand):
                                     f"the current branch and {self.default_branch}"
                                 )
 
-                            diff_index = default_branch_commit.diff(current_commit)
-
-                            # Files different on the current branch
-                            changed_files = [
-                                diff.b_path
-                                for diff in diff_index
-                                if migration_absolute_path
-                                in getattr(diff.a_blob, "abspath", "")
-                                or migration_absolute_path
-                                in getattr(diff.b_blob, "abspath", "")
-                            ]
-
-                            # Local migration
-                            local_filenames = [
-                                os.path.splitext(os.path.basename(p))[0]
-                                for p in changed_files
-                            ]
-                            if self.verbosity >= 2:
-                                self.stdout.write(
-                                    f"Retrieving the last migration on: {self.default_branch}"
-                                )
-
-                            last_remote = [
-                                name for name in conflict if name not in local_filenames
-                            ]
-
-                            if not last_remote:  # pragma: no cover
-                                raise CommandError(
-                                    self.style.ERROR(
-                                        f"Unable to determine the last migration on: "
-                                        f"{self.default_branch}. "
-                                        "Please verify the target branch using"
-                                        '"-b [target branch]".',
-                                    )
-                                )
-
-                            last_remote_filename, *rest = last_remote
-                            changed_files = changed_files or [
-                                f"{fname}.py" for fname in rest
-                            ]
-
-                            seed_split = last_remote_filename.split("_")
-
                             try:
+                                diff_index = default_branch_commit.diff(current_commit)
+
+                                # Files different on the current branch
+                                changed_files = [
+                                    diff.b_path
+                                    for diff in diff_index
+                                    if (
+                                        migration_absolute_path
+                                        in getattr(diff.a_blob, "abspath", "")
+                                        or migration_absolute_path
+                                        in getattr(diff.b_blob, "abspath", "")
+                                    )
+                                ]
+
+                                # Only consider files from the current conflict.
+                                conflict_base = [
+                                    get_filename(path)
+                                    for path in changed_files
+                                    if get_filename(path) in conflict
+                                ][0]
+
+                                sorted_changed_files = sorted(
+                                    changed_files,
+                                    key=partial(migration_sorter, app_label=app_label),
+                                )
+
+                                changed_files = [
+                                    path
+                                    for path in sorted_changed_files
+                                    if (
+                                        int(conflict_base.split("_")[0])
+                                        >= int(get_filename(path).split("_")[0])
+                                    )
+                                ]
+
+                                # Local migration
+                                local_filenames = [
+                                    get_filename(p) for p in changed_files
+                                ]
+                                if self.verbosity >= 2:
+                                    self.stdout.write(
+                                        f"Retrieving the last migration on: {self.default_branch}"
+                                    )
+
+                                last_remote = [
+                                    name
+                                    for name in conflict
+                                    if name not in local_filenames
+                                ]
+
+                                if not last_remote:  # pragma: no cover
+                                    raise CommandError(
+                                        self.style.ERROR(
+                                            f"Unable to determine the last migration on: "
+                                            f"{self.default_branch}. "
+                                            "Please verify the target branch using"
+                                            '"-b [target branch]".',
+                                        )
+                                    )
+
+                                last_remote_filename, *rest = last_remote
+                                changed_files = changed_files or [
+                                    f"{fname}.py" for fname in rest
+                                ]
+
+                                seed_split = last_remote_filename.split("_")
+
                                 if (
                                     seed_split
                                     and len(seed_split) > 1

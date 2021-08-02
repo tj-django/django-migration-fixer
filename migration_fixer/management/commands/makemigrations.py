@@ -185,7 +185,7 @@ class Command(BaseCommand):
 
                             # Only consider files from the current conflict.
                             conflict_base = [
-                                path
+                                get_filename(path)
                                 for path in changed_files
                                 if get_filename(path) in conflict
                             ][0]

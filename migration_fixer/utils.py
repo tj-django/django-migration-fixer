@@ -65,7 +65,7 @@ def fix_numbered_migration(
     start_name: str,
     changed_files: List[str],
     writer: Callable[[str], None],
-):
+) -> None:
     """Resolve migration conflicts for numbered migrations."""
     seen = [start_name]
     counter = count(seed + 1)  # 0537 -> 538
@@ -122,3 +122,8 @@ def no_translations(handle_func):
         return res
 
     return wrapped
+
+
+def get_filename(path: str) -> str:
+    """Return the file name from a path."""
+    return os.path.splitext(os.path.basename(path))[0]

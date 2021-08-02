@@ -13,7 +13,7 @@ from django.db import DEFAULT_DB_ALIAS, connections, router
 from django.db.migrations.loader import MigrationLoader
 from git import InvalidGitRepositoryError, Repo
 
-from migration_fixer.utils import fix_numbered_migration, no_translations
+from migration_fixer.utils import fix_numbered_migration, get_filename, no_translations
 
 
 class Command(BaseCommand):
@@ -181,17 +181,26 @@ class Command(BaseCommand):
                                     or migration_absolute_path
                                     in getattr(diff.b_blob, "abspath", "")
                                 )
-                                and (
-                                    os.path.splitext(os.path.basename(diff.b_path))[0]
-                                    in conflict
+                            ]
+
+                            # Only consider files from the current conflict.
+                            conflict_base = [
+                                path
+                                for path in changed_files
+                                if get_filename(path) in conflict
+                            ][0]
+
+                            changed_files = [
+                                path
+                                for path in changed_files
+                                if (
+                                    int(conflict_base.split("_")[0])
+                                    >= int(get_filename(path).split("_")[0])
                                 )
                             ]
 
                             # Local migration
-                            local_filenames = [
-                                os.path.splitext(os.path.basename(p))[0]
-                                for p in changed_files
-                            ]
+                            local_filenames = [get_filename(p) for p in changed_files]
                             if self.verbosity >= 2:
                                 self.stdout.write(
                                     f"Retrieving the last migration on: {self.default_branch}"

@@ -13,14 +13,14 @@
         <meta name="author" content="Tonye Jack">
       
       
-        <link rel="canonical" href="https://tj-django.github.io/django-migration-fixer/utils/">
+        <link rel="canonical" href="https://tj-django.github.io/django-migration-fixer/more-examples/">
       
       <link rel="icon" href="../images/logo.png">
       <meta name="generator" content="mkdocs-1.2.2, mkdocs-material-7.2.2">
     
     
       
-        <title>utils - django-migration-fixer</title>
+        <title>More Examples - django-migration-fixer</title>
       
     
     
@@ -73,7 +73,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#utility-functions" class="md-skip">
+        <a href="#more-examples" class="md-skip">
           Skip to content
         </a>
       
@@ -102,7 +102,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              utils
+              More Examples
             
           </span>
         </div>
@@ -224,14 +224,12 @@
 
   
   
-    
-  
   
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" checked>
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
       
       <label class="md-nav__link" for="__nav_2">
         API Reference
@@ -259,21 +257,11 @@
             
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../utils/" class="md-nav__link">
         utils
       </a>
-      
     </li>
   
 
@@ -290,11 +278,54 @@
 
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="../more-examples/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          More Examples
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         More Examples
       </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#more-examples" class="md-nav__link">
+    More Examples
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#solution" class="md-nav__link">
+    Solution
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -330,8 +361,28 @@
   
   
   
-    
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#more-examples" class="md-nav__link">
+    More Examples
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#solution" class="md-nav__link">
+    Solution
+  </a>
+  
+</li>
+      
+    </ul>
   
 </nav>
                   </div>
@@ -343,20 +394,94 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/tj-django/django-migration-fixer/edit/master/docs/utils.md" title="Edit this page" class="md-content__button md-icon">
+                  <a href="https://github.com/tj-django/django-migration-fixer/edit/master/docs/more-examples.md" title="Edit this page" class="md-content__button md-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
                   </a>
                 
                 
-                <h1 id="utility-functions">Utility Functions</h1>
-<div class="autodoc">
-<div class="autodoc-signature"><code>migration_fixer.utils.<strong>fix_numbered_migration</strong></code><span class="autodoc-punctuation">(</span><em class="autodoc-param">*</em><span class="autodoc-punctuation">, </span><em class="autodoc-param">app_label</em><span class="autodoc-punctuation">, </span><em class="autodoc-param">migration_path</em><span class="autodoc-punctuation">, </span><em class="autodoc-param">seed</em><span class="autodoc-punctuation">, </span><em class="autodoc-param">start_name</em><span class="autodoc-punctuation">, </span><em class="autodoc-param">changed_files</em><span class="autodoc-punctuation">, </span><em class="autodoc-param">writer</em><span class="autodoc-punctuation">)</span></div>
-<div class="autodoc-docstring"><p>Resolve migration conflicts for numbered migrations.</p></div>
-</div>
-<div class="autodoc">
-<div class="autodoc-signature"><code>migration_fixer.utils.<strong>no_translations</strong></code><span class="autodoc-punctuation">(</span><em class="autodoc-param">handle_func</em><span class="autodoc-punctuation">)</span></div>
-<div class="autodoc-docstring"><p>Decorator that forces a command to run with translations deactivated.</p></div>
-</div>
+                  <h1>More Examples</h1>
+                
+                <h3 id="more-examples">More Examples</h3>
+<p><strong>Branch:</strong> <code>main</code></p>
+<div class="highlight"><pre><span></span><code>├── app
+│   ├── migrations
+│   ├── 0001_initial.py
+│   ├── 0002_auto_20210521_2328.py  
+</code></pre></div>
+<p><strong>Branch:</strong> <code>feature/test-a</code></p>
+<div class="highlight"><pre><span></span><code>├── app
+│   ├── migrations
+│   ├── 0001_initial.py
+│   ├── 0002_auto_20210521_2328.py
+│   ├── 0003_auto_20210522_1128.py 
+</code></pre></div>
+<p><strong>Branch:</strong><code>feature/test-b</code></p>
+<div class="highlight"><pre><span></span><code>├── app
+│   ├── migrations
+│   ├── 0001_initial.py
+│   ├── 0002_auto_20210521_2328.py
+│   ├── 0003_auto_20210522_1228.py 
+</code></pre></div>
+<p>Both <code>feature/test-a</code> and <code>feature/test-b</code> share the last migration on <code>main</code> (<code>0002_auto_20210521_2328.py</code>)</p>
+<p>Once <code>feature/test-a</code> is merged into <code>main</code> you run into the problem of resolving migrations on <code>feature/test-b</code> which was dependent on <code>0002_auto_20210521_2328.py</code></p>
+<p><strong>Branch:</strong> <code>main</code></p>
+<div class="highlight"><pre><span></span><code>├── app
+│   ├── migrations
+│   ├── 0001_initial.py
+│   ├── 0002_auto_20210521_2328.py
+│   ├── 0003_auto_20210522_1128.py 
+</code></pre></div>
+<p><strong>Branch:</strong> <code>feature/test-b</code></p>
+<div class="highlight"><pre><span></span><code>├── app
+│   ├── migrations
+│   ├── 0001_initial.py
+│   ├── 0002_auto_20210521_2328.py
+│   ├── 0003_auto_20210522_1128.py <span class="se">\_</span>__________________ Both dependent on 0002_auto_20210521_2328.py
+│   ├── 0003_auto_20210522_1228.py /
+</code></pre></div>
+<p>Running <a href="https://docs.djangoproject.com/en/3.2/ref/django-admin/#django-admin-makemigrations"><code>makemigrations</code></a> fails with the following error:</p>
+<div class="highlight"><pre><span></span><code>CommandError: Conflicting migrations detected; multiple leaf nodes in the migration graph: (0003_auto_20210522_1128, 0003_auto_20210522_1228 in app).
+To fix them run &#39;python manage.py makemigrations --merge&#39;
+</code></pre></div>
+<p>Using the <a href="https://docs.djangoproject.com/en/3.2/ref/django-admin/#cmdoption-makemigrations-merge"><code>--merge</code></a> option creates a new migration file which might not be desired.</p>
+<h2 id="solution">Solution</h2>
+<p><code>django-migration-fixer</code> identifies changes between the default branch <code>main</code>, and the feature branch <code>feature/test-b</code> and maintains a consistent dependency history as shown below:</p>
+<p><strong>Branch:</strong> <code>feature/test-b</code></p>
+<div class="highlight"><pre><span></span><code>├── app
+│   ├── migrations
+│   ├── 0001_initial.py
+│   ├── 0002_auto_20210521_2328.py
+│   ├── 0003_auto_20210522_1128.py
+│   ├── 0004_auto_20210522_1228.py  <span class="c1"># Renames: &#39;0003_auto_20210522_1228.py&#39; → &#39;0004_auto_20210522_1228.py&#39;</span>
+</code></pre></div>
+<p><code>0004_auto_20210522_1228.py</code></p>
+<div class="highlight"><pre><span></span><code><span class="o">...</span>
+<span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">migrations</span><span class="p">,</span> <span class="n">models</span>
+
+
+<span class="k">class</span> <span class="nc">Migration</span><span class="p">(</span><span class="n">migrations</span><span class="o">.</span><span class="n">Migration</span><span class="p">):</span>
+
+    <span class="n">dependencies</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">(</span><span class="s1">&#39;app&#39;</span><span class="p">,</span> <span class="s1">&#39;0003_auto_20210522_1128&#39;</span><span class="p">),</span>  <span class="c1"># Replaced &#39;0002_auto_20210521_2328&#39; → &#39;0003_auto_20210522_1128&#39;</span>
+    <span class="p">]</span>
+
+    <span class="n">operations</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="o">...</span>
+    <span class="p">]</span>
+</code></pre></div>
+<blockquote>
+<p>NOTE: :warning:</p>
+<ul>
+<li>
+<p>This also works when there are conflicts detected on the default branch.</p>
+<p>i.e You can run <code>python manage.py makemigrations --fix</code> on the <code>main</code> branch
+which relies on primitively picking the first migration file.</p>
+<p>e.g <code>(0003_auto_20210522_1128, 0003_auto_20210522_1228 in app)</code>
+would result in <code>0003_auto_20210522_1128.py</code> being picked as the
+base migration which might not be accurate in every case and is not recommended.</p>
+</li>
+</ul>
+</blockquote>
                 
               
               
@@ -376,7 +501,7 @@
     <nav class="md-footer__inner md-grid" aria-label="Footer">
       
         
-        <a href="../makemigrations/" class="md-footer__link md-footer__link--prev" aria-label="Previous: management" rel="prev">
+        <a href="../utils/" class="md-footer__link md-footer__link--prev" aria-label="Previous: utils" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
           </div>
@@ -385,20 +510,20 @@
               <span class="md-footer__direction">
                 Previous
               </span>
-              management
+              utils
             </div>
           </div>
         </a>
       
       
         
-        <a href="../more-examples/" class="md-footer__link md-footer__link--next" aria-label="Next: More Examples" rel="next">
+        <a href="../CHANGELOG/" class="md-footer__link md-footer__link--next" aria-label="Next: ChangeLog" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Next
               </span>
-              More Examples
+              ChangeLog
             </div>
           </div>
           <div class="md-footer__button md-icon">

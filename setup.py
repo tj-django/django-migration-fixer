@@ -10,8 +10,6 @@ with open("README.md") as readme_file:
 deploy_requires = [
     "bump2version",
     "readme_renderer[md]",
-    "changes",
-    "git-changelog",
 ]
 
 docs_requires = [

@@ -136,7 +136,6 @@ jobs:
 
 ![Screen Shot 2021-07-06 at 2 22 31 PM](https://user-images.githubusercontent.com/17484350/124649105-0feaab00-de66-11eb-80f3-7987d67b361d.png)
 
-
 ### Assumptions
 
 The final migration on the default branch would be used as the base for all subsequent migrations.

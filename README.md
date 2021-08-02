@@ -75,8 +75,6 @@ $ python manage.py makemigrations -b master --fix
 > NOTE: :warning:
 >
 > *   To get this action to work you'll need to install [django-migration-fixer](#installation) and update your `INSTALLED_APPS` setting.
->
->     See: https://github.com/tj-django/django-clone for an example setup.
 
 ```yaml
 name: Fix django migrations
@@ -134,6 +132,8 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: ${{ github.ref }}
 ```
+
+See: https://github.com/tj-django/django-clone for a working example.
 
 ## Test Platforms
 

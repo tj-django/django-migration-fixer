@@ -35,7 +35,6 @@ Resolve django makemigrations `multiple leaf nodes in the migration graph` by en
 
 The final migration on the default branch would be used as the base for all subsequent migrations.
 
-
 ## Installation
 
 ```bash
@@ -140,7 +139,6 @@ jobs:
 *   [`ubuntu-*`](https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on)
 *   [`macos-*`](https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on)
 *   [`windows-*`](https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on)
-
 
 ## Found a Bug?
 

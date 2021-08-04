@@ -213,8 +213,8 @@ class Command(BaseCommand):
                                     path
                                     for path in sorted_changed_files
                                     if (
+                                        int(get_filename(path).split("_")[0]) >=
                                         int(conflict_base.split("_")[0])
-                                        >= int(get_filename(path).split("_")[0])
                                     )
                                 ]
 

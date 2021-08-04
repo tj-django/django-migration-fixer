@@ -47,6 +47,12 @@ class Command(BaseCommand):
             default="main",
         )
         parser.add_argument(
+            "-r",
+            "--remote",
+            help="Git remote.",
+            default="origin",
+        )
+        parser.add_argument(
             "-f",
             "--force-update",
             help="Force update the default branch.",
@@ -60,6 +66,7 @@ class Command(BaseCommand):
         self.fix = options["fix"]
         self.force_update = options["force_update"]
         self.default_branch = options["default_branch"]
+        self.remote = options["remote"]
 
         if self.fix:
             try:
@@ -105,17 +112,17 @@ class Command(BaseCommand):
                         )
 
                     if current_branch == self.default_branch:  # pragma: no cover
-                        for remote in self.repo.remotes:
-                            remote.pull(
-                                self.default_branch,
-                                force=self.force_update,
-                            )
+                        remote = self.repo.remotes[self.remote]
+                        remote.pull(
+                            self.default_branch,
+                            force=self.force_update,
+                        )
                     else:
-                        for remote in self.repo.remotes:
-                            remote.fetch(
-                                f"{self.default_branch}:{self.default_branch}",
-                                force=self.force_update,
-                            )
+                        remote = self.repo.remotes[self.remote]
+                        remote.fetch(
+                            f"{self.default_branch}:{self.default_branch}",
+                            force=self.force_update,
+                        )
 
                     if self.verbosity >= 2:
                         self.stdout.write(

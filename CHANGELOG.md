@@ -1,11 +1,20 @@
 # Changelog
 
-## [Unreleased](https://github.com/tj-django/django-migration-fixer/tree/HEAD)
+## [v1.1.4](https://github.com/tj-django/django-migration-fixer/tree/v1.1.4) (2021-08-04)
 
-[Full Changelog](https://github.com/tj-django/django-migration-fixer/compare/v1.1.3...HEAD)
+[Full Changelog](https://github.com/tj-django/django-migration-fixer/compare/v1.1.3...v1.1.4)
+
+**Fixed bugs:**
+
+- \[BUG\] Doesn't work with multiple remotes [\#117](https://github.com/tj-django/django-migration-fixer/issues/117)
 
 **Merged pull requests:**
 
+- Pull changes from a specific remote defaults to origin [\#118](https://github.com/tj-django/django-migration-fixer/pull/118) ([jackton1](https://github.com/jackton1))
+- Updated README.md [\#116](https://github.com/tj-django/django-migration-fixer/pull/116) ([jackton1](https://github.com/jackton1))
+- Updated README.md [\#115](https://github.com/tj-django/django-migration-fixer/pull/115) ([jackton1](https://github.com/jackton1))
+- Upgraded v1.1.2 → v1.1.3 [\#114](https://github.com/tj-django/django-migration-fixer/pull/114) ([jackton1](https://github.com/jackton1))
+- Updated README.md [\#113](https://github.com/tj-django/django-migration-fixer/pull/113) ([jackton1](https://github.com/jackton1))
 - Updated README.md [\#112](https://github.com/tj-django/django-migration-fixer/pull/112) ([jackton1](https://github.com/jackton1))
 
 ## [v1.1.3](https://github.com/tj-django/django-migration-fixer/tree/v1.1.3) (2021-08-02)

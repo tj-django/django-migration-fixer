@@ -1,5 +1,15 @@
 # Changelog
 
+## [v1.2.0](https://github.com/tj-django/django-migration-fixer/tree/v1.2.0) (2021-08-08)
+
+[Full Changelog](https://github.com/tj-django/django-migration-fixer/compare/v1.1.4...v1.2.0)
+
+**Merged pull requests:**
+
+- Increased test coverage. [\#121](https://github.com/tj-django/django-migration-fixer/pull/121) ([jackton1](https://github.com/jackton1))
+- Fix bug editing previous migration files. [\#120](https://github.com/tj-django/django-migration-fixer/pull/120) ([jackton1](https://github.com/jackton1))
+- Upgraded v1.1.3 → v1.1.4 [\#119](https://github.com/tj-django/django-migration-fixer/pull/119) ([jackton1](https://github.com/jackton1))
+
 ## [v1.1.4](https://github.com/tj-django/django-migration-fixer/tree/v1.1.4) (2021-08-04)
 
 [Full Changelog](https://github.com/tj-django/django-migration-fixer/compare/v1.1.3...v1.1.4)

@@ -606,11 +606,11 @@
 <h2 id="features">Features</h2>
 <ul>
 <li>100% test coverage.</li>
-<li>Maintain a consistent migration history when conflicts occur as a result of changes made using different versions of the default branch.</li>
-<li>Resolve migration conflicts on PR branches</li>
+<li>Maintain a consistent migration history when conflicts occur as a result of changes made using different versions of the target branch.</li>
+<li>Resolve migration conflicts on Pull Request branches</li>
 <li>Resolve migration conflicts on the default branch <strong>(NOT RECOMMENDED)</strong></li>
 <li>Supports default migration modules i.e (<code>0001_....py</code>)</li>
-<li>Re-number all migrations using the last migration on the default branch i.e <code>main|master|develop</code> depending on your setup.</li>
+<li>Re-number all migrations using the last migration on the target branch.</li>
 </ul>
 <h2 id="example">Example</h2>
 <h4 id="after-merging-the-default-branch">After merging the default branch</h4>

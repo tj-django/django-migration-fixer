@@ -28,6 +28,7 @@ nav:
   - API Reference:
       management: makemigrations.md
       utils: utils.md
+  - More Examples: more-examples.md
   - ChangeLog: CHANGELOG.md
 
 extra_css:

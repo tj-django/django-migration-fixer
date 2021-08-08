@@ -38,7 +38,7 @@ clean-pyc:  ## remove Python file artifacts
 	@find . -name '*.pyc' -exec rm -f {} +
 	@find . -name '*.pyo' -exec rm -f {} +
 	@find . -name '*~' -exec rm -f {} +
-	@find . -name '__pycache__' -exec rm -fr {} +
+	@find . -name '__pycache__' -exec rm -fr {} + || true
 
 clean-test:  ## remove test and coverage artifacts
 	@rm -fr .tox/
@@ -105,7 +105,9 @@ install-deploy: install-wheel
 	@pip install -e .'[deploy]'
 
 test: install-test
-	@pytest --basetemp={envtmpdir}
+	@pytest -E invalid_repo
+	@pytest -E utils
+
 
 migrations:
 	@python manage.py makemigrations

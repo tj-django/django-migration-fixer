@@ -10,12 +10,10 @@ with open("README.md") as readme_file:
 deploy_requires = [
     "bump2version",
     "readme_renderer[md]",
-    "changes",
-    "git-changelog",
 ]
 
 docs_requires = [
-    "mkdocs==1.2.1",
+    "mkdocs==1.2.2",
     "mkautodoc",
     "portray==1.7.0",
 ]
@@ -23,6 +21,7 @@ docs_requires = [
 install_requires = [
     "django",
     "GitPython",
+    "typing_extensions>=3.10.0.0",
 ]
 
 test_requires = [
@@ -106,6 +105,6 @@ setup(
         "Source": "https://github.com/tj-django/django-migration-fixer",
         "Documentation": "https://tj-django.github.io/django-migration-fixer",
     },
-    version="1.1.0",
+    version="1.1.4",
     zip_safe=False,
 )

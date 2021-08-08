@@ -123,3 +123,21 @@ def no_translations(handle_func):
 def get_filename(path: str) -> str:
     """Return the file name from a path."""
     return os.path.splitext(os.path.basename(path))[0]
+
+
+def sibling_nodes(graph, app_name=None):
+    """
+    Return all sibling nodes that have the same parent
+    - it's usually the result of a VCS merge and needs some user input.
+    """
+    siblings = set()
+
+    for node in graph.nodes:
+        if (
+            len(graph.node_map[node].children) > 1
+            and (not app_name or app_name == node[0])
+        ):
+            for child in graph.node_map[node].children:
+                siblings.add(child[-1])
+
+    return sorted(siblings)

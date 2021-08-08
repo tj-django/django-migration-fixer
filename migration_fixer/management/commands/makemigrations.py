@@ -4,6 +4,7 @@ Create a new django migration with support for fixing conflicts.
 
 import os
 import pathlib
+from collections import defaultdict
 from functools import partial
 
 from django.apps import apps
@@ -18,7 +19,7 @@ from migration_fixer.utils import (
     fix_numbered_migration,
     get_filename,
     migration_sorter,
-    no_translations,
+    no_translations, sibling_nodes,
 )
 
 
@@ -161,9 +162,10 @@ class Command(BaseCommand):
                         ):
                             loader.check_consistent_history(connection)
 
-                    # Before anything else, see if there's conflicting apps and drop out
-                    # hard if there are any and they don't want to merge
-                    conflicts = loader.detect_conflicts()
+                    conflicts = {
+                        app_name: sibling_nodes(loader.graph, app_name)
+                        for app_name in loader.detect_conflicts()
+                    }
 
                     for app_label in conflicts:
                         conflict = conflicts.get(app_label)

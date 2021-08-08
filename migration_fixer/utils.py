@@ -133,9 +133,8 @@ def sibling_nodes(graph, app_name=None):
     siblings = set()
 
     for node in graph.nodes:
-        if (
-            len(graph.node_map[node].children) > 1
-            and (not app_name or app_name == node[0])
+        if len(graph.node_map[node].children) > 1 and (
+            not app_name or app_name == node[0]
         ):
             for child in graph.node_map[node].children:
                 siblings.add(child[-1])

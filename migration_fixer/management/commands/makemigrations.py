@@ -4,7 +4,6 @@ Create a new django migration with support for fixing conflicts.
 
 import os
 import pathlib
-from collections import defaultdict
 from functools import partial
 
 from django.apps import apps
@@ -19,7 +18,8 @@ from migration_fixer.utils import (
     fix_numbered_migration,
     get_filename,
     migration_sorter,
-    no_translations, sibling_nodes,
+    no_translations,
+    sibling_nodes,
 )
 
 

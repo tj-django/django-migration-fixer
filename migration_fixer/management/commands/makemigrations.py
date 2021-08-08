@@ -19,6 +19,7 @@ from migration_fixer.utils import (
     get_filename,
     migration_sorter,
     no_translations,
+    sibling_nodes,
 )
 
 
@@ -161,9 +162,10 @@ class Command(BaseCommand):
                         ):
                             loader.check_consistent_history(connection)
 
-                    # Before anything else, see if there's conflicting apps and drop out
-                    # hard if there are any and they don't want to merge
-                    conflicts = loader.detect_conflicts()
+                    conflicts = {
+                        app_name: sibling_nodes(loader.graph, app_name)
+                        for app_name in loader.detect_conflicts()
+                    }
 
                     for app_label in conflicts:
                         conflict = conflicts.get(app_label)
@@ -213,8 +215,8 @@ class Command(BaseCommand):
                                     path
                                     for path in sorted_changed_files
                                     if (
-                                        int(conflict_base.split("_")[0])
-                                        >= int(get_filename(path).split("_")[0])
+                                        int(get_filename(path).split("_")[0])
+                                        >= int(conflict_base.split("_")[0])
                                     )
                                 ]
 

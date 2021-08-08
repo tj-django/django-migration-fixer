@@ -15,11 +15,11 @@ Resolve django makemigrations `multiple leaf nodes in the migration graph` by en
 ## Features
 
 *   100% test coverage.
-*   Maintain a consistent migration history when conflicts occur as a result of changes made using different versions of the default branch.
-*   Resolve migration conflicts on PR branches
+*   Maintain a consistent migration history when conflicts occur as a result of changes made using different versions of the target branch.
+*   Resolve migration conflicts on Pull Request branches
 *   Resolve migration conflicts on the default branch **(NOT RECOMMENDED)**
 *   Supports default migration modules i.e (`0001_....py`)
-*   Re-number all migrations using the last migration on the default branch i.e `main|master|develop` depending on your setup.
+*   Re-number all migrations using the last migration on the target branch.
 
 ## Example
 

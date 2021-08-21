@@ -51,7 +51,7 @@ class Command(BaseCommand):
             "-s",
             "--skip-default-branch-update",
             help="Skip pulling the latest changes from the default branch.",
-            action="store_false",
+            action="store_true",
         )
         parser.add_argument(
             "-r",

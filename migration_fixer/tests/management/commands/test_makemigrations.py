@@ -137,7 +137,9 @@ def test_run_makemigrations_with_fix_and_skip_update_is_valid_for_conflicts(git_
 
 @pytest.mark.env("test_02")
 @pytest.mark.django_db
-def test_run_makemigrations_with_fix_is_valid_for_conflicts_verbose(git_repo):
+def test_run_makemigrations_with_fix_and_skip_update_is_valid_for_conflicts_verbose(
+    git_repo,
+):
     cmd = Command(repo=git_repo.api)
     expected_output = f"""Verifying git repository...
 Retrieving the current branch...

@@ -51,7 +51,7 @@ class Command(BaseCommand):
             "-s",
             "--skip-default-branch-update",
             help="Skip pulling the latest changes from the default branch.",
-            action="store_true",
+            action="store_false",
         )
         parser.add_argument(
             "-r",
@@ -114,7 +114,7 @@ class Command(BaseCommand):
                             )
                         )
 
-                    if self.skip_default_branch_update:
+                    if not self.skip_default_branch_update:
                         if self.verbosity >= 2:
                             self.stdout.write(
                                 f"Fetching git remote {self.remote} changes on: {self.default_branch}"

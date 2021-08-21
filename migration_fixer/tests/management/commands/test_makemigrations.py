@@ -114,6 +114,59 @@ Successfully fixed migrations.
     assert output == expected_output
 
 
+@pytest.mark.env("test_02")
+@pytest.mark.django_db
+def test_run_makemigrations_with_fix_and_skip_update_is_valid_for_conflicts(git_repo):
+    cmd = Command(repo=git_repo.api)
+
+    with temporary_checkout(
+        git_repo,
+        default_branch_name=TEST_01_MIGRATION_BRANCH,
+        target_branch_name=TEST_02_MIGRATION_BRANCH,
+    ) as target_branch:
+        output = execute_command(
+            cmd,
+            default_branch=TEST_01_MIGRATION_BRANCH,
+            fix=True,
+            skip_default_branch_update=True,
+        )
+
+    assert target_branch.name == TEST_02_MIGRATION_BRANCH
+    assert output == f"{cmd.success_msg}\n"
+
+
+@pytest.mark.env("test_02")
+@pytest.mark.django_db
+def test_run_makemigrations_with_fix_is_valid_for_conflicts_verbose(git_repo):
+    cmd = Command(repo=git_repo.api)
+    expected_output = f"""Verifying git repository...
+Retrieving the current branch...
+Retrieving the last commit sha on: {TEST_01_MIGRATION_BRANCH}
+Retrieving changed files between the current branch and {TEST_01_MIGRATION_BRANCH}
+Retrieving the last migration on: {TEST_01_MIGRATION_BRANCH}
+Fixing numbered migration...
+Updating migration "0002_alter_testmodel_active.py" dependency to 0002_alter_testmodel_age
+Renaming migration "0002_alter_testmodel_active.py" to "0003_alter_testmodel_active.py"
+Successfully fixed migrations.
+"""
+
+    with temporary_checkout(
+        git_repo,
+        default_branch_name=TEST_01_MIGRATION_BRANCH,
+        target_branch_name=TEST_02_MIGRATION_BRANCH,
+    ) as target_branch:
+        output = execute_command(
+            cmd,
+            default_branch=TEST_01_MIGRATION_BRANCH,
+            verbosity=2,
+            fix=True,
+            skip_default_branch_update=True,
+        )
+
+    assert target_branch.name == TEST_02_MIGRATION_BRANCH
+    assert output == expected_output
+
+
 @pytest.mark.env("test_03")
 @pytest.mark.django_db
 def test_run_makemigrations_with_fix_is_valid_for_multiple_file_conflicts(git_repo):

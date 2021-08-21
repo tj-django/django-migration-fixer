@@ -48,6 +48,12 @@ class Command(BaseCommand):
             default="main",
         )
         parser.add_argument(
+            "-s",
+            "--skip-default-branch-update",
+            help="Skip pulling the latest changes from the default branch.",
+            action="store_true",
+        )
+        parser.add_argument(
             "-r",
             "--remote",
             help="Git remote.",
@@ -66,6 +72,7 @@ class Command(BaseCommand):
         self.merge = options["merge"]
         self.fix = options["fix"]
         self.force_update = options["force_update"]
+        self.skip_default_branch_update = options["skip-default-branch-update"]
         self.default_branch = options["default_branch"]
         self.remote = options["remote"]
 
@@ -107,23 +114,24 @@ class Command(BaseCommand):
                             )
                         )
 
-                    if self.verbosity >= 2:
-                        self.stdout.write(
-                            f"Fetching git remote origin changes on: {self.default_branch}"
-                        )
+                    if self.skip_default_branch_update:
+                        if self.verbosity >= 2:
+                            self.stdout.write(
+                                f"Fetching git remote {self.remote} changes on: {self.default_branch}"
+                            )
 
-                    if current_branch == self.default_branch:  # pragma: no cover
-                        remote = self.repo.remotes[self.remote]
-                        remote.pull(
-                            self.default_branch,
-                            force=self.force_update,
-                        )
-                    else:
-                        remote = self.repo.remotes[self.remote]
-                        remote.fetch(
-                            f"{self.default_branch}:{self.default_branch}",
-                            force=self.force_update,
-                        )
+                        if current_branch == self.default_branch:  # pragma: no cover
+                            remote = self.repo.remotes[self.remote]
+                            remote.pull(
+                                self.default_branch,
+                                force=self.force_update,
+                            )
+                        else:
+                            remote = self.repo.remotes[self.remote]
+                            remote.fetch(
+                                f"{self.default_branch}:{self.default_branch}",
+                                force=self.force_update,
+                            )
 
                     if self.verbosity >= 2:
                         self.stdout.write(
@@ -168,7 +176,7 @@ class Command(BaseCommand):
                     }
 
                     for app_label in conflicts:
-                        conflict = conflicts.get(app_label)
+                        conflict = conflicts[app_label]
                         migration_module, _ = loader.migrations_module(app_label)
                         migration_absolute_path = os.path.join(
                             *migration_module.split(".")
@@ -269,7 +277,7 @@ class Command(BaseCommand):
                                         start_name=last_remote_filename,
                                         changed_files=changed_files,
                                         writer=(
-                                            lambda message: self.stdout.write(message)
+                                            lambda m: self.stdout.write(m)
                                             if self.verbosity >= 2
                                             else lambda x: x
                                         ),

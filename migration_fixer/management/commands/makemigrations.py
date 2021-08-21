@@ -72,7 +72,7 @@ class Command(BaseCommand):
         self.merge = options["merge"]
         self.fix = options["fix"]
         self.force_update = options["force_update"]
-        self.skip_default_branch_update = options["skip-default-branch-update"]
+        self.skip_default_branch_update = options["skip_default_branch_update"]
         self.default_branch = options["default_branch"]
         self.remote = options["remote"]
 

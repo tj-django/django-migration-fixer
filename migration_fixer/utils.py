@@ -2,7 +2,9 @@ import os
 import re
 from itertools import count
 from pathlib import Path
-from typing import Callable, List
+from typing import Callable, List, Optional
+
+from django.db.migrations.graph import MigrationGraph
 
 DEFAULT_TIMEOUT = 120
 MIGRATION_REGEX = "\\((?P<comma>['\"]){app_label}(['\"]),\\s(['\"])(?P<conflict_migration>.*)(['\"])\\),"
@@ -125,7 +127,7 @@ def get_filename(path: str) -> str:
     return os.path.splitext(os.path.basename(path))[0]
 
 
-def sibling_nodes(graph, app_name=None):
+def sibling_nodes(graph: MigrationGraph, app_name: Optional[str] = None) -> List[str]:
     """
     Return all sibling nodes that have the same parent
     - it's usually the result of a VCS merge and needs some user input.

@@ -1,5 +1,20 @@
 # Changelog
 
+## [v1.2.1](https://github.com/tj-django/django-migration-fixer/tree/v1.2.1) (2021-08-22)
+
+[Full Changelog](https://github.com/tj-django/django-migration-fixer/compare/v1.2.0...v1.2.1)
+
+**Implemented enhancements:**
+
+- Support fix without fetch/pull [\#125](https://github.com/tj-django/django-migration-fixer/issues/125)
+
+**Merged pull requests:**
+
+- Added support to skip pulling remote changes. [\#127](https://github.com/tj-django/django-migration-fixer/pull/127) ([jackton1](https://github.com/jackton1))
+- Bump tox from 3.24.1 to 3.24.2 [\#124](https://github.com/tj-django/django-migration-fixer/pull/124) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump wheel from 0.36.2 to 0.37.0 [\#123](https://github.com/tj-django/django-migration-fixer/pull/123) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Upgraded v1.1.4 → v1.2.0 [\#122](https://github.com/tj-django/django-migration-fixer/pull/122) ([jackton1](https://github.com/jackton1))
+
 ## [v1.2.0](https://github.com/tj-django/django-migration-fixer/tree/v1.2.0) (2021-08-08)
 
 [Full Changelog](https://github.com/tj-django/django-migration-fixer/compare/v1.1.4...v1.2.0)

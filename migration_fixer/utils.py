@@ -1,5 +1,6 @@
 import os
 import re
+from importlib import import_module
 from itertools import count
 from pathlib import Path
 from typing import Callable, List, Optional
@@ -125,6 +126,20 @@ def no_translations(handle_func):
 def get_filename(path: str) -> str:
     """Return the file name from a path."""
     return os.path.splitext(os.path.basename(path))[0]
+
+
+def get_migration_module_path(migration_module_path: str) -> Path:
+    try:
+        migration_module = import_module(migration_module_path)
+    except ImportError as e:
+        if "bad magic number" in str(e):
+            raise ImportError(
+                f"Couldn't import {migration_module_path} as it appears to be a stale .pyc file."
+            ) from e
+        else:
+            raise
+
+    return Path(os.path.abspath(migration_module.__file__))
 
 
 def sibling_nodes(graph: MigrationGraph, app_name: Optional[str] = None) -> List[str]:

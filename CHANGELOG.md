@@ -1,5 +1,24 @@
 # Changelog
 
+## [v1.2.2](https://github.com/tj-django/django-migration-fixer/tree/v1.2.2) (2021-08-23)
+
+[Full Changelog](https://github.com/tj-django/django-migration-fixer/compare/v1.2.1...v1.2.2)
+
+**Fixed bugs:**
+
+- Support custom migrations base paths [\#126](https://github.com/tj-django/django-migration-fixer/issues/126)
+
+**Closed issues:**
+
+- Dependency Dashboard [\#40](https://github.com/tj-django/django-migration-fixer/issues/40)
+
+**Merged pull requests:**
+
+- Bump tox from 3.24.2 to 3.24.3 [\#131](https://github.com/tj-django/django-migration-fixer/pull/131) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Update tj-actions/remark action to v1.7 [\#130](https://github.com/tj-django/django-migration-fixer/pull/130) ([renovate[bot]](https://github.com/apps/renovate))
+- Upgraded v1.2.0 → v1.2.1 [\#129](https://github.com/tj-django/django-migration-fixer/pull/129) ([jackton1](https://github.com/jackton1))
+- Fix migration path. [\#128](https://github.com/tj-django/django-migration-fixer/pull/128) ([jackton1](https://github.com/jackton1))
+
 ## [v1.2.1](https://github.com/tj-django/django-migration-fixer/tree/v1.2.1) (2021-08-22)
 
 [Full Changelog](https://github.com/tj-django/django-migration-fixer/compare/v1.2.0...v1.2.1)
@@ -45,10 +64,6 @@
 ## [v1.1.3](https://github.com/tj-django/django-migration-fixer/tree/v1.1.3) (2021-08-02)
 
 [Full Changelog](https://github.com/tj-django/django-migration-fixer/compare/v1.1.2...v1.1.3)
-
-**Closed issues:**
-
-- Dependency Dashboard [\#40](https://github.com/tj-django/django-migration-fixer/issues/40)
 
 **Merged pull requests:**
 

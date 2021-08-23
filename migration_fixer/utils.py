@@ -139,7 +139,7 @@ def get_migration_module_path(migration_module_path: str) -> Path:
         else:
             raise
 
-    return Path(os.path.abspath(migration_module.__file__))
+    return Path(os.path.dirname(os.path.abspath(migration_module.__file__)))
 
 
 def sibling_nodes(graph: MigrationGraph, app_name: Optional[str] = None) -> List[str]:

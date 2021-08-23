@@ -195,9 +195,9 @@ class Command(BaseCommand):
                                     diff.b_path
                                     for diff in diff_index
                                     if (
-                                        migration_path
+                                        str(migration_path)
                                         in getattr(diff.a_blob, "abspath", "")
-                                        or migration_path
+                                        or str(migration_path)
                                         in getattr(diff.b_blob, "abspath", "")
                                     )
                                 ]

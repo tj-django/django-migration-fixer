@@ -81,8 +81,6 @@ def test_run_makemigrations_with_fix_is_valid_for_conflicts(git_repo):
     ) as target_branch:
         output = execute_command(cmd, default_branch=TEST_01_MIGRATION_BRANCH, fix=True)
 
-    print(output)
-
     assert target_branch.name == TEST_02_MIGRATION_BRANCH
     assert output == f"{cmd.success_msg}\n"
 
@@ -112,8 +110,6 @@ Successfully fixed migrations.
             cmd, default_branch=TEST_01_MIGRATION_BRANCH, verbosity=2, fix=True
         )
 
-    print(output)
-
     assert target_branch.name == TEST_02_MIGRATION_BRANCH
     assert output == expected_output
 
@@ -134,8 +130,6 @@ def test_run_makemigrations_with_fix_and_skip_update_is_valid_for_conflicts(git_
             fix=True,
             skip_default_branch_update=True,
         )
-
-    print(output)
 
     assert target_branch.name == TEST_02_MIGRATION_BRANCH
     assert output == f"{cmd.success_msg}\n"
@@ -170,8 +164,6 @@ Successfully fixed migrations.
             fix=True,
             skip_default_branch_update=True,
         )
-
-    print(output)
 
     assert target_branch.name == TEST_02_MIGRATION_BRANCH
     assert output == expected_output

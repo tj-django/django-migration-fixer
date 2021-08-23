@@ -3,7 +3,6 @@ Create a new django migration with support for fixing conflicts.
 """
 
 import os
-import pathlib
 from functools import partial
 
 from django.apps import apps
@@ -17,6 +16,7 @@ from git import InvalidGitRepositoryError, Repo
 from migration_fixer.utils import (
     fix_numbered_migration,
     get_filename,
+    get_migration_module_path,
     migration_sorter,
     no_translations,
     sibling_nodes,
@@ -178,12 +178,7 @@ class Command(BaseCommand):
                     for app_label in conflicts:
                         conflict = conflicts[app_label]
                         migration_module, _ = loader.migrations_module(app_label)
-                        migration_absolute_path = os.path.join(
-                            *migration_module.split(".")
-                        )
-                        migration_path = pathlib.Path(
-                            os.path.join(settings.BASE_DIR, migration_absolute_path)
-                        )
+                        migration_path = get_migration_module_path(migration_module)
 
                         with migration_path:
                             if self.verbosity >= 2:
@@ -200,9 +195,9 @@ class Command(BaseCommand):
                                     diff.b_path
                                     for diff in diff_index
                                     if (
-                                        migration_absolute_path
+                                        str(migration_path)
                                         in getattr(diff.a_blob, "abspath", "")
-                                        or migration_absolute_path
+                                        or str(migration_path)
                                         in getattr(diff.b_blob, "abspath", "")
                                     )
                                 ]

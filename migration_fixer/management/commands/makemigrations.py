@@ -178,7 +178,7 @@ class Command(BaseCommand):
                     for app_label in conflicts:
                         conflict = conflicts[app_label]
                         migration_module, _ = loader.migrations_module(app_label)
-                        migration_name = migration_module.split(".")[-1]
+                        migration_module.split(".")[-1]
                         migration_path = get_migration_module_path(migration_module)
 
                         with migration_path:

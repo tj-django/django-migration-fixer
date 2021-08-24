@@ -29,7 +29,7 @@ runs:
         if [[ '${{ inputs.force-update }}' == 'true'  ]]; then
           EXTRA_ARGS+=" -f"
         fi
-        
+
         if [[ '${{ inputs.skip-default-branch-update }}' == 'true'  ]]; then
           EXTRA_ARGS+=" -s"
         fi

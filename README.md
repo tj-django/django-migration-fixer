@@ -23,6 +23,8 @@ Resolve django makemigrations `multiple leaf nodes in the migration graph` by en
 
 ## Example
 
+
+
 #### After merging the default branch
 
 ![Screen Shot 2021-07-06 at 2 21 46 PM](https://user-images.githubusercontent.com/17484350/124648930-d7e36800-de65-11eb-99a3-bf806ecfd32b.png)

@@ -27,6 +27,7 @@ install_requires = [
 test_requires = [
     "pytest>=3",
     "pytest-django",
+    "bump2version",
     "pytest-sugar",
     "pytest-mock",
     "pytest-git",

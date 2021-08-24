@@ -13,6 +13,9 @@ inputs:
   force-update:
     description: 'Force update the target branch locally when git fetch fails.'
     required: false
+  skip-default-branch-update:
+    description: 'Skip pulling the latest changes from the default branch.'
+    required: false
 
 runs:
   using: 'composite'
@@ -25,6 +28,10 @@ runs:
 
         if [[ '${{ inputs.force-update }}' == 'true'  ]]; then
           EXTRA_ARGS+=" -f"
+        fi
+        
+        if [[ '${{ inputs.skip-default-branch-update }}' == 'true'  ]]; then
+          EXTRA_ARGS+=" -s"
         fi
 
         python ${{ inputs.managepy-path }} makemigrations $EXTRA_ARGS -b "${TARGET_BRANCH/refs\/heads\//}"

@@ -90,7 +90,7 @@ install: requirements.txt install-wheel  ## install the package to the active Py
 	@pip install -r requirements.txt
 
 install-dev: requirements_dev.txt install-wheel  ## Install local dev packages
-	@pip install -e .'[development]' -r requirements_dev.txt
+	@pip install -e .'[development]'
 
 install-docs: install-wheel
 	@pip install -e .'[docs]'

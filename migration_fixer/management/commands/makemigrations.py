@@ -11,7 +11,7 @@ from django.core.management.base import CommandError
 from django.core.management.commands.makemigrations import Command as BaseCommand
 from django.db import DEFAULT_DB_ALIAS, connections, router
 from django.db.migrations.loader import MigrationLoader
-from git import InvalidGitRepositoryError, Repo
+from git import InvalidGitRepositoryError, Repo, GitCommandError
 
 from migration_fixer.utils import (
     fix_numbered_migration,
@@ -127,11 +127,19 @@ class Command(BaseCommand):
                                 force=self.force_update,
                             )
                         else:
-                            remote = self.repo.remotes[self.remote]
-                            remote.fetch(
-                                f"{self.default_branch}:{self.default_branch}",
-                                force=self.force_update,
-                            )
+                            try:
+                                remote = self.repo.remotes[self.remote]
+                                remote.fetch(
+                                    f"{self.default_branch}:{self.default_branch}",
+                                    force=self.force_update,
+                                )
+                            except GitCommandError as e:
+                                raise CommandError(
+                                    self.style.ERROR(
+                                        f"Unable to fetch {self.remote} branch "
+                                        f"'{self.default_branch}': {e.stderr}",
+                                    ),
+                                )
 
                     if self.verbosity >= 2:
                         self.stdout.write(

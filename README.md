@@ -69,13 +69,13 @@ Run:
 $ python manage.py makemigrations -b master --fix
 ```
 
-### Setup using Github Actions
+## Setup using Github Actions
 
 > NOTE: :warning:
 >
 > *   To get this action to work you'll need to install [django-migration-fixer](#installation) and update your `INSTALLED_APPS` setting.
 
-## Inputs
+### Inputs
 
 |   Input       |    type     |  required      |  default                      |  description               |
 |:-------------:|:-----------:|:--------------:|:-----------------------------:|:--------------------------:|

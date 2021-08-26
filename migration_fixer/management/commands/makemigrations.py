@@ -232,10 +232,6 @@ class Command(BaseCommand):
                                     key=partial(migration_sorter, app_label=app_label),
                                 )
 
-                                # Local migration
-                                local_filenames = [
-                                    get_filename(p) for p in sorted_changed_files
-                                ]
                                 if self.verbosity >= 2:
                                     self.stdout.write(
                                         f"Retrieving the last migration on: {self.default_branch}"

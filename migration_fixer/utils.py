@@ -155,7 +155,9 @@ def get_sibling_nodes_and_conflict_bases(
     conflict_bases = set()
 
     for node in graph.nodes:
-        if (not app_name or app_name == node[0]) and len(graph.node_map[node].children) > 1:
+        if (not app_name or app_name == node[0]) and len(
+            graph.node_map[node].children
+        ) > 1:
             children = set(
                 child[-1]
                 for child in graph.node_map[node].children

@@ -142,7 +142,9 @@ def get_migration_module_path(migration_module_path: str) -> Path:
     return Path(os.path.dirname(os.path.abspath(migration_module.__file__)))
 
 
-def sibling_nodes(graph: MigrationGraph, leaf_nodes: Set[str], app_name: Optional[str] = None) -> Tuple[List[str], str]:
+def sibling_nodes(
+    graph: MigrationGraph, leaf_nodes: Set[str], app_name: Optional[str] = None
+) -> Tuple[List[str], str]:
     """
     Return all sibling nodes that have the same parent
     - it's usually the result of a VCS merge and needs some user input.
@@ -151,7 +153,9 @@ def sibling_nodes(graph: MigrationGraph, leaf_nodes: Set[str], app_name: Optiona
     conflict_base = set()
 
     for node in graph.nodes:
-        if (not app_name or app_name == node[0]) and len(graph.node_map[node].children) > 1:
+        if (not app_name or app_name == node[0]) and len(
+            graph.node_map[node].children
+        ) > 1:
             children = set(
                 child[-1]
                 for child in graph.node_map[node].children

@@ -11,7 +11,7 @@ from django.core.management.base import CommandError
 from django.core.management.commands.makemigrations import Command as BaseCommand
 from django.db import DEFAULT_DB_ALIAS, connections, router
 from django.db.migrations.loader import MigrationLoader
-from git import GitCommandError, InvalidGitRepositoryError, Repo
+from git import InvalidGitRepositoryError, Repo, GitCommandError
 
 from migration_fixer.utils import (
     fix_numbered_migration,
@@ -177,16 +177,28 @@ class Command(BaseCommand):
                             for model in apps.get_app_config(app_label).get_models()
                         ):
                             loader.check_consistent_history(connection)
-
+                    conflicts_leaf_nodes = loader.detect_conflicts()
                     conflicts = {
-                        app_name: sibling_nodes(loader.graph, app_name)
-                        for app_name in loader.detect_conflicts()
+                        app_name: sibling_nodes(loader.graph, leaf_nodes, app_name)
+                        for app_name, leaf_nodes in conflicts_leaf_nodes.items()
                     }
 
                     for app_label in conflicts:
-                        conflict = conflicts[app_label]
+                        conflict, conflict_bases = conflicts[app_label]
                         migration_module, _ = loader.migrations_module(app_label)
                         migration_path = get_migration_module_path(migration_module)
+
+                        if not conflict_bases:  # pragma: no cover
+                            raise CommandError(
+                                self.style.ERROR(
+                                    f"Unable to determine the last migration on: "
+                                    f"{self.default_branch}. "
+                                    "Please verify the target branch using"
+                                    '"-b [target branch]".',
+                                )
+                            )
+
+                        conflict_base = conflict_bases.pop()
 
                         with migration_path:
                             if self.verbosity >= 2:
@@ -210,58 +222,21 @@ class Command(BaseCommand):
                                     )
                                 ]
 
-                                # Only consider files from the current conflict.
-                                conflict_base = [
-                                    get_filename(path)
-                                    for path in changed_files
-                                    if get_filename(path) in conflict
-                                ][0]
-
                                 sorted_changed_files = sorted(
                                     changed_files,
                                     key=partial(migration_sorter, app_label=app_label),
                                 )
 
-                                changed_files = [
-                                    path
-                                    for path in sorted_changed_files
-                                    if (
-                                        int(get_filename(path).split("_")[0])
-                                        >= int(conflict_base.split("_")[0])
-                                    )
-                                ]
-
                                 # Local migration
                                 local_filenames = [
-                                    get_filename(p) for p in changed_files
+                                    get_filename(p) for p in sorted_changed_files
                                 ]
                                 if self.verbosity >= 2:
                                     self.stdout.write(
                                         f"Retrieving the last migration on: {self.default_branch}"
                                     )
 
-                                last_remote = [
-                                    name
-                                    for name in conflict
-                                    if name not in local_filenames
-                                ]
-
-                                if not last_remote:  # pragma: no cover
-                                    raise CommandError(
-                                        self.style.ERROR(
-                                            f"Unable to determine the last migration on: "
-                                            f"{self.default_branch}. "
-                                            "Please verify the target branch using"
-                                            '"-b [target branch]".',
-                                        )
-                                    )
-
-                                last_remote_filename, *rest = last_remote
-                                changed_files = changed_files or [
-                                    f"{fname}.py" for fname in rest
-                                ]
-
-                                seed_split = last_remote_filename.split("_")
+                                seed_split = conflict_base.split("_")
 
                                 if (
                                     seed_split
@@ -277,8 +252,8 @@ class Command(BaseCommand):
                                         app_label=app_label,
                                         migration_path=migration_path,
                                         seed=int(seed_split[0]),
-                                        start_name=last_remote_filename,
-                                        changed_files=changed_files,
+                                        start_name=f'{conflict_base}.py',
+                                        changed_files=sorted_changed_files,
                                         writer=(
                                             lambda m: self.stdout.write(m)
                                             if self.verbosity >= 2

@@ -152,11 +152,10 @@ def get_sibling_nodes_and_conflict_bases(
     - it's usually the result of a VCS merge and needs some user input.
     """
     siblings = set()
+    conflict_bases = set()
 
     for node in graph.nodes:
-        if (not app_name or app_name == node[0]) and len(
-            graph.node_map[node].children
-        ) > 1:
+        if (not app_name or app_name == node[0]) and len(graph.node_map[node].children) > 1:
             children = set(
                 child[-1]
                 for child in graph.node_map[node].children
@@ -164,7 +163,7 @@ def get_sibling_nodes_and_conflict_bases(
             )
 
             if len(children) > 1 and leaf_nodes.intersection(children):
-                leaf_nodes.difference(children)
+                conflict_bases = leaf_nodes.difference(children)
                 siblings |= children
                 break
 

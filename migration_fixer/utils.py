@@ -3,7 +3,7 @@ import re
 from importlib import import_module
 from itertools import count
 from pathlib import Path
-from typing import Callable, List, Optional
+from typing import Callable, List, Optional, Set, Tuple
 
 from django.db.migrations.graph import MigrationGraph
 
@@ -142,18 +142,24 @@ def get_migration_module_path(migration_module_path: str) -> Path:
     return Path(os.path.dirname(os.path.abspath(migration_module.__file__)))
 
 
-def sibling_nodes(graph: MigrationGraph, app_name: Optional[str] = None) -> List[str]:
+def sibling_nodes(graph: MigrationGraph, leaf_nodes: Set[str], app_name: Optional[str] = None) -> Tuple[List[str], str]:
     """
     Return all sibling nodes that have the same parent
     - it's usually the result of a VCS merge and needs some user input.
     """
     siblings = set()
+    conflict_base = set()
 
     for node in graph.nodes:
-        if len(graph.node_map[node].children) > 1 and (
-            not app_name or app_name == node[0]
-        ):
-            for child in graph.node_map[node].children:
-                siblings.add(child[-1])
+        if (not app_name or app_name == node[0]) and len(graph.node_map[node].children) > 1:
+            children = set(
+                child[-1]
+                for child in graph.node_map[node].children
+                if (not app_name or app_name == child[0])
+            )
 
-    return sorted(siblings)
+            if len(children) > 1 and leaf_nodes.intersection(children):
+                conflict_base = leaf_nodes.difference(children)
+                siblings |= children
+
+    return sorted(siblings), conflict_base

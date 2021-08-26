@@ -16,7 +16,7 @@ from git import GitCommandError, InvalidGitRepositoryError, Repo
 from migration_fixer.utils import (
     fix_numbered_migration,
     get_migration_module_path,
-    get_sibling_nodes_and_conflict_bases,
+    get_conflict_bases,
     migration_sorter,
     no_translations,
 )
@@ -180,14 +180,12 @@ class Command(BaseCommand):
                     conflict_leaf_nodes = loader.detect_conflicts()
 
                     conflicts = {
-                        app_name: get_sibling_nodes_and_conflict_bases(
-                            loader.graph, leaf_nodes, app_name
-                        )
+                        app_name: get_conflict_bases(loader.graph, leaf_nodes, app_name)
                         for app_name, leaf_nodes in conflict_leaf_nodes.items()
                     }
 
                     for app_label in conflicts:
-                        conflict, conflict_bases = conflicts[app_label]
+                        conflict_bases = conflicts[app_label]
                         migration_module, _ = loader.migrations_module(app_label)
                         migration_path = get_migration_module_path(migration_module)
 

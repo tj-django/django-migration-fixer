@@ -11,7 +11,7 @@ from django.core.management.base import CommandError
 from django.core.management.commands.makemigrations import Command as BaseCommand
 from django.db import DEFAULT_DB_ALIAS, connections, router
 from django.db.migrations.loader import MigrationLoader
-from git import GitCommandError, InvalidGitRepositoryError, Repo
+from git import InvalidGitRepositoryError, Repo, GitCommandError
 
 from migration_fixer.utils import (
     fix_numbered_migration,
@@ -19,7 +19,7 @@ from migration_fixer.utils import (
     get_migration_module_path,
     migration_sorter,
     no_translations,
-    sibling_nodes,
+    get_sibling_nodes_and_conflict_bases,
 )
 
 
@@ -179,7 +179,7 @@ class Command(BaseCommand):
                             loader.check_consistent_history(connection)
                     conflicts_leaf_nodes = loader.detect_conflicts()
                     conflicts = {
-                        app_name: sibling_nodes(loader.graph, leaf_nodes, app_name)
+                        app_name: get_sibling_nodes_and_conflict_bases(loader.graph, leaf_nodes, app_name)
                         for app_name, leaf_nodes in conflicts_leaf_nodes.items()
                     }
 
@@ -252,7 +252,7 @@ class Command(BaseCommand):
                                         app_label=app_label,
                                         migration_path=migration_path,
                                         seed=int(seed_split[0]),
-                                        start_name=f"{conflict_base}.py",
+                                        start_name=f'{conflict_base}.py',
                                         changed_files=sorted_changed_files,
                                         writer=(
                                             lambda m: self.stdout.write(m)

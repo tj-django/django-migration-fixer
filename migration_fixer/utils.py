@@ -143,12 +143,13 @@ def get_migration_module_path(migration_module_path: str) -> Path:
 
 
 def get_conflict_bases(
-    graph: MigrationGraph, leaf_nodes: Set[str], app_name: Optional[str] = None
+    graph: MigrationGraph, leaf_nodes: List[str], app_name: Optional[str] = None
 ) -> Set[str]:
     """
     Return the last migration node on the target branch.
     - it's usually the result of a VCS merge and needs some user input.
     """
+    leaf_nodes = set(leaf_nodes)
     conflict_bases = set()
 
     for node in graph.nodes:

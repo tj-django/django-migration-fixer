@@ -156,11 +156,11 @@ def get_conflict_bases(
         if (not app_name or app_name == node[0]) and (
             len(graph.node_map[node].children) > 1
         ):
-            children = set(
+            children = [
                 child[-1]
                 for child in graph.node_map[node].children
                 if (not app_name or app_name == child[0])
-            )
+            ]
 
             if len(children) > 1 and leaf_nodes.intersection(children):
                 conflict_bases = leaf_nodes.difference(children)

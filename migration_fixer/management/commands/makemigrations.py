@@ -11,7 +11,7 @@ from django.core.management.base import CommandError
 from django.core.management.commands.makemigrations import Command as BaseCommand
 from django.db import DEFAULT_DB_ALIAS, connections, router
 from django.db.migrations.loader import MigrationLoader
-from git import InvalidGitRepositoryError, Repo, GitCommandError
+from git import GitCommandError, InvalidGitRepositoryError, Repo
 
 from migration_fixer.utils import (
     fix_numbered_migration,
@@ -252,7 +252,7 @@ class Command(BaseCommand):
                                         app_label=app_label,
                                         migration_path=migration_path,
                                         seed=int(seed_split[0]),
-                                        start_name=f'{conflict_base}.py',
+                                        start_name=f"{conflict_base}.py",
                                         changed_files=sorted_changed_files,
                                         writer=(
                                             lambda m: self.stdout.write(m)

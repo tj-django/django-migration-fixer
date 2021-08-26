@@ -179,7 +179,9 @@ class Command(BaseCommand):
                             loader.check_consistent_history(connection)
                     conflicts_leaf_nodes = loader.detect_conflicts()
                     conflicts = {
-                        app_name: get_sibling_nodes_and_conflict_bases(loader.graph, leaf_nodes, app_name)
+                        app_name: get_sibling_nodes_and_conflict_bases(
+                            loader.graph, leaf_nodes, app_name
+                        )
                         for app_name, leaf_nodes in conflicts_leaf_nodes.items()
                     }
 
@@ -252,7 +254,7 @@ class Command(BaseCommand):
                                         app_label=app_label,
                                         migration_path=migration_path,
                                         seed=int(seed_split[0]),
-                                        start_name=f'{conflict_base}.py',
+                                        start_name=f"{conflict_base}.py",
                                         changed_files=sorted_changed_files,
                                         writer=(
                                             lambda m: self.stdout.write(m)

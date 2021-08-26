@@ -177,12 +177,14 @@ class Command(BaseCommand):
                             for model in apps.get_app_config(app_label).get_models()
                         ):
                             loader.check_consistent_history(connection)
-                    conflicts_leaf_nodes = loader.detect_conflicts()
+                    
+                    conflict_leaf_nodes = loader.detect_conflicts()
+                    
                     conflicts = {
                         app_name: get_sibling_nodes_and_conflict_bases(
                             loader.graph, leaf_nodes, app_name
                         )
-                        for app_name, leaf_nodes in conflicts_leaf_nodes.items()
+                        for app_name, leaf_nodes in conflict_leaf_nodes.items()
                     }
 
                     for app_label in conflicts:
@@ -201,6 +203,7 @@ class Command(BaseCommand):
                             )
 
                         conflict_base = conflict_bases.pop()
+                        conflict_base = f"{conflict_base}.py"
 
                         with migration_path:
                             if self.verbosity >= 2:
@@ -254,7 +257,7 @@ class Command(BaseCommand):
                                         app_label=app_label,
                                         migration_path=migration_path,
                                         seed=int(seed_split[0]),
-                                        start_name=f"{conflict_base}.py",
+                                        start_name=conflict_base,
                                         changed_files=sorted_changed_files,
                                         writer=(
                                             lambda m: self.stdout.write(m)
@@ -264,7 +267,7 @@ class Command(BaseCommand):
                                     )
                                 else:  # pragma: no cover
                                     raise ValueError(
-                                        f"Unable to fix migration: {last_remote_filename}. \n"
+                                        f"Unable to fix migration: {conflict_base}. \n"
                                         f"NOTE: It needs to begin with a number. eg. 0001_*",
                                     )
                             except (ValueError, IndexError, TypeError) as e:

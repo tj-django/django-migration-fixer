@@ -15,7 +15,6 @@ from git import GitCommandError, InvalidGitRepositoryError, Repo
 
 from migration_fixer.utils import (
     fix_numbered_migration,
-    get_filename,
     get_migration_module_path,
     get_sibling_nodes_and_conflict_bases,
     migration_sorter,

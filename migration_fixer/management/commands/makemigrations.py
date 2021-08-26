@@ -200,7 +200,6 @@ class Command(BaseCommand):
                             )
 
                         conflict_base = conflict_bases.pop()
-                        conflict_base = f"{conflict_base}.py"
 
                         with migration_path:
                             if self.verbosity >= 2:
@@ -250,7 +249,7 @@ class Command(BaseCommand):
                                         app_label=app_label,
                                         migration_path=migration_path,
                                         seed=int(seed_split[0]),
-                                        start_name=conflict_base,
+                                        start_name=f"{conflict_base}.py",
                                         changed_files=sorted_changed_files,
                                         writer=(
                                             lambda m: self.stdout.write(m)

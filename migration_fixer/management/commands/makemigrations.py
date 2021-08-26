@@ -249,7 +249,7 @@ class Command(BaseCommand):
                                         app_label=app_label,
                                         migration_path=migration_path,
                                         seed=int(seed_split[0]),
-                                        start_name=f"{conflict_base}.py",
+                                        start_name=conflict_base,
                                         changed_files=sorted_changed_files,
                                         writer=(
                                             lambda m: self.stdout.write(m)

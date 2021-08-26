@@ -177,9 +177,9 @@ class Command(BaseCommand):
                             for model in apps.get_app_config(app_label).get_models()
                         ):
                             loader.check_consistent_history(connection)
-                    
+
                     conflict_leaf_nodes = loader.detect_conflicts()
-                    
+
                     conflicts = {
                         app_name: get_sibling_nodes_and_conflict_bases(
                             loader.graph, leaf_nodes, app_name

@@ -168,4 +168,4 @@ def get_sibling_nodes_and_conflict_bases(
                 siblings |= children
                 break
 
-    return sorted(siblings), conflict_base
+    return sorted(siblings), conflict_bases

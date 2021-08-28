@@ -1,5 +1,24 @@
 # Changelog
 
+## [v1.3.0](https://github.com/tj-django/django-migration-fixer/tree/v1.3.0) (2021-08-28)
+
+[Full Changelog](https://github.com/tj-django/django-migration-fixer/compare/v1.2.2...v1.3.0)
+
+**Fixed bugs:**
+
+- Resolve bug with reseeding migrations. [\#136](https://github.com/tj-django/django-migration-fixer/pull/136) ([jackton1](https://github.com/jackton1))
+
+**Closed issues:**
+
+- Dependency Dashboard [\#40](https://github.com/tj-django/django-migration-fixer/issues/40)
+
+**Merged pull requests:**
+
+- Update codecov/codecov-action action to v2.0.3 [\#135](https://github.com/tj-django/django-migration-fixer/pull/135) ([renovate[bot]](https://github.com/apps/renovate))
+- Updated README.md [\#134](https://github.com/tj-django/django-migration-fixer/pull/134) ([jackton1](https://github.com/jackton1))
+- Update README.md [\#133](https://github.com/tj-django/django-migration-fixer/pull/133) ([jackton1](https://github.com/jackton1))
+- Upgraded v1.2.1 → v1.2.2 [\#132](https://github.com/tj-django/django-migration-fixer/pull/132) ([jackton1](https://github.com/jackton1))
+
 ## [v1.2.2](https://github.com/tj-django/django-migration-fixer/tree/v1.2.2) (2021-08-23)
 
 [Full Changelog](https://github.com/tj-django/django-migration-fixer/compare/v1.2.1...v1.2.2)
@@ -8,16 +27,12 @@
 
 - Support custom migrations base paths [\#126](https://github.com/tj-django/django-migration-fixer/issues/126)
 
-**Closed issues:**
-
-- Dependency Dashboard [\#40](https://github.com/tj-django/django-migration-fixer/issues/40)
-
 **Merged pull requests:**
 
 - Bump tox from 3.24.2 to 3.24.3 [\#131](https://github.com/tj-django/django-migration-fixer/pull/131) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Update tj-actions/remark action to v1.7 [\#130](https://github.com/tj-django/django-migration-fixer/pull/130) ([renovate[bot]](https://github.com/apps/renovate))
 - Upgraded v1.2.0 → v1.2.1 [\#129](https://github.com/tj-django/django-migration-fixer/pull/129) ([jackton1](https://github.com/jackton1))
-- Fix migration path. [\#128](https://github.com/tj-django/django-migration-fixer/pull/128) ([jackton1](https://github.com/jackton1))
+- Fix migration path logic for custom migration locations. [\#128](https://github.com/tj-django/django-migration-fixer/pull/128) ([jackton1](https://github.com/jackton1))
 
 ## [v1.2.1](https://github.com/tj-django/django-migration-fixer/tree/v1.2.1) (2021-08-22)
 

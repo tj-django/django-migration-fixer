@@ -113,7 +113,7 @@ jobs:
           make install
 
       - name: Run django-migration-fixer
-        uses: tj-django/django-migration-fixer@v1.2.2
+        uses: tj-django/django-migration-fixer@v1.3.0
         with:
           managepy-path: /path/to/manage.py
 

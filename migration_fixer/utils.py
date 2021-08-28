@@ -3,9 +3,7 @@ import re
 from importlib import import_module
 from itertools import count
 from pathlib import Path
-from typing import Callable, List, Optional
-
-from django.db.migrations.graph import MigrationGraph
+from typing import Callable, List
 
 DEFAULT_TIMEOUT = 120
 MIGRATION_REGEX = "\\((?P<comma>['\"]){app_label}(['\"]),\\s(['\"])(?P<conflict_migration>.*)(['\"])\\),"
@@ -140,20 +138,3 @@ def get_migration_module_path(migration_module_path: str) -> Path:
             raise
 
     return Path(os.path.dirname(os.path.abspath(migration_module.__file__)))
-
-
-def sibling_nodes(graph: MigrationGraph, app_name: Optional[str] = None) -> List[str]:
-    """
-    Return all sibling nodes that have the same parent
-    - it's usually the result of a VCS merge and needs some user input.
-    """
-    siblings = set()
-
-    for node in graph.nodes:
-        if len(graph.node_map[node].children) > 1 and (
-            not app_name or app_name == node[0]
-        ):
-            for child in graph.node_map[node].children:
-                siblings.add(child[-1])
-
-    return sorted(siblings)

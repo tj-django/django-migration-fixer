@@ -11,7 +11,7 @@ from django.core.management.base import CommandError
 from django.core.management.commands.makemigrations import Command as BaseCommand
 from django.db import DEFAULT_DB_ALIAS, connections, router
 from django.db.migrations.loader import MigrationLoader
-from git import InvalidGitRepositoryError, Repo
+from git import GitCommandError, InvalidGitRepositoryError, Repo
 
 from migration_fixer.utils import (
     fix_numbered_migration,
@@ -19,7 +19,6 @@ from migration_fixer.utils import (
     get_migration_module_path,
     migration_sorter,
     no_translations,
-    sibling_nodes,
 )
 
 
@@ -127,11 +126,19 @@ class Command(BaseCommand):
                                 force=self.force_update,
                             )
                         else:
-                            remote = self.repo.remotes[self.remote]
-                            remote.fetch(
-                                f"{self.default_branch}:{self.default_branch}",
-                                force=self.force_update,
-                            )
+                            try:
+                                remote = self.repo.remotes[self.remote]
+                                remote.fetch(
+                                    f"{self.default_branch}:{self.default_branch}",
+                                    force=self.force_update,
+                                )
+                            except GitCommandError as e:  # pragma: no cover
+                                raise CommandError(
+                                    self.style.ERROR(
+                                        f"Unable to fetch {self.remote} branch "
+                                        f"'{self.default_branch}': {e.stderr}",
+                                    ),
+                                )
 
                     if self.verbosity >= 2:
                         self.stdout.write(
@@ -170,13 +177,9 @@ class Command(BaseCommand):
                         ):
                             loader.check_consistent_history(connection)
 
-                    conflicts = {
-                        app_name: sibling_nodes(loader.graph, app_name)
-                        for app_name in loader.detect_conflicts()
-                    }
+                    conflict_leaf_nodes = loader.detect_conflicts()
 
-                    for app_label in conflicts:
-                        conflict = conflicts[app_label]
+                    for app_label, leaf_nodes in conflict_leaf_nodes.items():
                         migration_module, _ = loader.migrations_module(app_label)
                         migration_path = get_migration_module_path(migration_module)
 
@@ -202,43 +205,24 @@ class Command(BaseCommand):
                                     )
                                 ]
 
-                                # Only consider files from the current conflict.
-                                conflict_base = [
-                                    get_filename(path)
-                                    for path in changed_files
-                                    if get_filename(path) in conflict
-                                ][0]
-
                                 sorted_changed_files = sorted(
                                     changed_files,
                                     key=partial(migration_sorter, app_label=app_label),
                                 )
 
-                                changed_files = [
-                                    path
-                                    for path in sorted_changed_files
-                                    if (
-                                        int(get_filename(path).split("_")[0])
-                                        >= int(conflict_base.split("_")[0])
-                                    )
-                                ]
-
                                 # Local migration
                                 local_filenames = [
-                                    get_filename(p) for p in changed_files
+                                    get_filename(p) for p in sorted_changed_files
                                 ]
-                                if self.verbosity >= 2:
-                                    self.stdout.write(
-                                        f"Retrieving the last migration on: {self.default_branch}"
-                                    )
 
-                                last_remote = [
+                                # Calculate the last changed file on the default branch
+                                conflict_bases = [
                                     name
-                                    for name in conflict
+                                    for name in leaf_nodes
                                     if name not in local_filenames
                                 ]
 
-                                if not last_remote:  # pragma: no cover
+                                if not conflict_bases:  # pragma: no cover
                                     raise CommandError(
                                         self.style.ERROR(
                                             f"Unable to determine the last migration on: "
@@ -248,12 +232,14 @@ class Command(BaseCommand):
                                         )
                                     )
 
-                                last_remote_filename, *rest = last_remote
-                                changed_files = changed_files or [
-                                    f"{fname}.py" for fname in rest
-                                ]
+                                conflict_base = conflict_bases[0]
 
-                                seed_split = last_remote_filename.split("_")
+                                if self.verbosity >= 2:
+                                    self.stdout.write(
+                                        f"Retrieving the last migration on: {self.default_branch}"
+                                    )
+
+                                seed_split = conflict_base.split("_")
 
                                 if (
                                     seed_split
@@ -269,8 +255,8 @@ class Command(BaseCommand):
                                         app_label=app_label,
                                         migration_path=migration_path,
                                         seed=int(seed_split[0]),
-                                        start_name=last_remote_filename,
-                                        changed_files=changed_files,
+                                        start_name=conflict_base,
+                                        changed_files=sorted_changed_files,
                                         writer=(
                                             lambda m: self.stdout.write(m)
                                             if self.verbosity >= 2
@@ -279,7 +265,7 @@ class Command(BaseCommand):
                                     )
                                 else:  # pragma: no cover
                                     raise ValueError(
-                                        f"Unable to fix migration: {last_remote_filename}. \n"
+                                        f"Unable to fix migration: {conflict_base}. \n"
                                         f"NOTE: It needs to begin with a number. eg. 0001_*",
                                     )
                             except (ValueError, IndexError, TypeError) as e:

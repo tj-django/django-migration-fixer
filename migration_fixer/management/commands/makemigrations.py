@@ -15,7 +15,7 @@ from git import GitCommandError, InvalidGitRepositoryError, Repo
 
 from migration_fixer.utils import (
     fix_numbered_migration,
-    get_conflict_bases,
+    get_filename,
     get_migration_module_path,
     migration_sorter,
     no_translations,
@@ -179,27 +179,9 @@ class Command(BaseCommand):
 
                     conflict_leaf_nodes = loader.detect_conflicts()
 
-                    conflicts = {
-                        app_name: get_conflict_bases(loader.graph, leaf_nodes, app_name)
-                        for app_name, leaf_nodes in conflict_leaf_nodes.items()
-                    }
-
-                    for app_label in conflicts:
-                        conflict_bases = conflicts[app_label]
-                        migration_module, _ = loader.migrations_module(app_label)
+                    for app_name, leaf_nodes in conflict_leaf_nodes.items():
+                        migration_module, _ = loader.migrations_module(app_name)
                         migration_path = get_migration_module_path(migration_module)
-
-                        if not conflict_bases:  # pragma: no cover
-                            raise CommandError(
-                                self.style.ERROR(
-                                    f"Unable to determine the last migration on: "
-                                    f"{self.default_branch}. "
-                                    "Please verify the target branch using"
-                                    '"-b [target branch]".',
-                                )
-                            )
-
-                        conflict_base = conflict_bases.pop()
 
                         with migration_path:
                             if self.verbosity >= 2:
@@ -225,8 +207,32 @@ class Command(BaseCommand):
 
                                 sorted_changed_files = sorted(
                                     changed_files,
-                                    key=partial(migration_sorter, app_label=app_label),
+                                    key=partial(migration_sorter, app_label=app_name),
                                 )
+
+                                # Local migration
+                                local_filenames = [
+                                    get_filename(p) for p in sorted_changed_files
+                                ]
+
+                                # Calculate the last changed file on the default branch
+                                conflict_bases = [
+                                    name
+                                    for name in leaf_nodes
+                                    if f"{name}.py" not in local_filenames
+                                ]
+
+                                if not conflict_bases:  # pragma: no cover
+                                    raise CommandError(
+                                        self.style.ERROR(
+                                            f"Unable to determine the last migration on: "
+                                            f"{self.default_branch}. "
+                                            "Please verify the target branch using"
+                                            '"-b [target branch]".',
+                                        )
+                                    )
+
+                                conflict_base = conflict_bases[0]
 
                                 if self.verbosity >= 2:
                                     self.stdout.write(
@@ -246,7 +252,7 @@ class Command(BaseCommand):
                                         )
 
                                     fix_numbered_migration(
-                                        app_label=app_label,
+                                        app_label=app_name,
                                         migration_path=migration_path,
                                         seed=int(seed_split[0]),
                                         start_name=conflict_base,

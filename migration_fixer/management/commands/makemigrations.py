@@ -179,8 +179,8 @@ class Command(BaseCommand):
 
                     conflict_leaf_nodes = loader.detect_conflicts()
 
-                    for app_name, leaf_nodes in conflict_leaf_nodes.items():
-                        migration_module, _ = loader.migrations_module(app_name)
+                    for app_label, leaf_nodes in conflict_leaf_nodes.items():
+                        migration_module, _ = loader.migrations_module(app_label)
                         migration_path = get_migration_module_path(migration_module)
 
                         with migration_path:
@@ -207,7 +207,7 @@ class Command(BaseCommand):
 
                                 sorted_changed_files = sorted(
                                     changed_files,
-                                    key=partial(migration_sorter, app_label=app_name),
+                                    key=partial(migration_sorter, app_label=app_label),
                                 )
 
                                 # Local migration
@@ -252,7 +252,7 @@ class Command(BaseCommand):
                                         )
 
                                     fix_numbered_migration(
-                                        app_label=app_name,
+                                        app_label=app_label,
                                         migration_path=migration_path,
                                         seed=int(seed_split[0]),
                                         start_name=conflict_base,

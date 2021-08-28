@@ -219,7 +219,7 @@ class Command(BaseCommand):
                                 conflict_bases = [
                                     name
                                     for name in leaf_nodes
-                                    if f"{name}.py" not in local_filenames
+                                    if name not in local_filenames
                                 ]
 
                                 if not conflict_bases:  # pragma: no cover

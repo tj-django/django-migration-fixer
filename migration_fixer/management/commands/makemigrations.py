@@ -132,7 +132,7 @@ class Command(BaseCommand):
                                     f"{self.default_branch}:{self.default_branch}",
                                     force=self.force_update,
                                 )
-                            except GitCommandError as e:
+                            except GitCommandError as e:  # pragma: no cover
                                 raise CommandError(
                                     self.style.ERROR(
                                         f"Unable to fetch {self.remote} branch "

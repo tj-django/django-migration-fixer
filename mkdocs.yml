@@ -25,6 +25,7 @@ markdown_extensions:
   - mkautodoc
 nav:
   - Home: README.md
+  - Command Options: command-options.md
   - API Reference:
       management: makemigrations.md
       utils: utils.md

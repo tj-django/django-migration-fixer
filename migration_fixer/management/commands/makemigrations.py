@@ -28,6 +28,7 @@ class Command(BaseCommand):
     Create a new django migration with support for fixing conflicts.
     """
 
+    help = "Creates new migration(s) for apps and fix conflicts."
     success_msg = "Successfully fixed migrations."
 
     def __init__(self, *args, repo=None, **kwargs):

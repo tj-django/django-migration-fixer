@@ -22,7 +22,7 @@ runs:
   steps:
     - id: migration-fixer
       run: |
-        TARGET_BRANCH="${{ inputs.default-branch }}"
+        DEFAULT_BRANCH="${{ inputs.default-branch }}"
 
         EXTRA_ARGS="--fix"
 
@@ -34,7 +34,7 @@ runs:
           EXTRA_ARGS+=" -s"
         fi
 
-        python ${{ inputs.managepy-path }} makemigrations $EXTRA_ARGS -b "${TARGET_BRANCH/refs\/heads\//}"
+        python ${{ inputs.managepy-path }} makemigrations $EXTRA_ARGS -b "${DEFAULT_BRANCH}"
       shell: bash
 branding:
   icon: check

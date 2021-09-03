@@ -112,14 +112,15 @@ class Command(BaseCommand):
                             )
                         )
 
+                    default_branch_commit = self.repo.commit(self.default_branch)
+
+                    current_commit = self.repo.head.commit
+
                     if not self.skip_default_branch_update:
                         if self.verbosity >= 2:
                             self.stdout.write(
                                 f"Fetching git remote {self.remote} changes on: {self.default_branch}"
                             )
-                        default_branch_commit = self.repo.commit(self.default_branch)
-
-                        current_commit = self.repo.head.commit
 
                         if current_commit == default_branch_commit:  # pragma: no cover
                             remote = self.repo.remotes[self.remote]

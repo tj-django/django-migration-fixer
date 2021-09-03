@@ -1,12 +1,26 @@
 # Changelog
 
-## [v1.3.1](https://github.com/tj-django/django-migration-fixer/tree/v1.3.1) (2021-09-03)
+## [Unreleased](https://github.com/tj-django/django-migration-fixer/tree/HEAD)
 
-[Full Changelog](https://github.com/tj-django/django-migration-fixer/compare/v1.3.0...v1.3.1)
+[Full Changelog](https://github.com/tj-django/django-migration-fixer/compare/v1.3.2...HEAD)
 
 **Closed issues:**
 
 - Dependency Dashboard [\#40](https://github.com/tj-django/django-migration-fixer/issues/40)
+
+## [v1.3.2](https://github.com/tj-django/django-migration-fixer/tree/v1.3.2) (2021-09-03)
+
+[Full Changelog](https://github.com/tj-django/django-migration-fixer/compare/v1.3.1...v1.3.2)
+
+**Merged pull requests:**
+
+- Update pascalgn/automerge-action action to v0.14.3 [\#145](https://github.com/tj-django/django-migration-fixer/pull/145) ([renovate[bot]](https://github.com/apps/renovate))
+- Update checking if running on the current branch [\#144](https://github.com/tj-django/django-migration-fixer/pull/144) ([jackton1](https://github.com/jackton1))
+- Upgraded v1.3.0 → v1.3.1 [\#143](https://github.com/tj-django/django-migration-fixer/pull/143) ([jackton1](https://github.com/jackton1))
+
+## [v1.3.1](https://github.com/tj-django/django-migration-fixer/tree/v1.3.1) (2021-09-03)
+
+[Full Changelog](https://github.com/tj-django/django-migration-fixer/compare/v1.3.0...v1.3.1)
 
 **Merged pull requests:**
 

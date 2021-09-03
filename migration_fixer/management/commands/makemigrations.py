@@ -104,7 +104,7 @@ class Command(BaseCommand):
                     if self.verbosity >= 2:
                         self.stdout.write("Retrieving the current branch...")
 
-                    current_branch = self.repo.head.ref.name
+                    current_branch = self.repo.active_branch.name
 
                     if self.repo.is_dirty():  # pragma: no cover
                         raise CommandError(

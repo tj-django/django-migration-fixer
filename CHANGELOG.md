@@ -1,5 +1,22 @@
 # Changelog
 
+## [v1.3.1](https://github.com/tj-django/django-migration-fixer/tree/v1.3.1) (2021-09-03)
+
+[Full Changelog](https://github.com/tj-django/django-migration-fixer/compare/v1.3.0...v1.3.1)
+
+**Closed issues:**
+
+- Dependency Dashboard [\#40](https://github.com/tj-django/django-migration-fixer/issues/40)
+
+**Merged pull requests:**
+
+- Update test.yml [\#142](https://github.com/tj-django/django-migration-fixer/pull/142) ([jackton1](https://github.com/jackton1))
+- Update retrieving the current branch name [\#141](https://github.com/tj-django/django-migration-fixer/pull/141) ([jackton1](https://github.com/jackton1))
+- Update docs. [\#140](https://github.com/tj-django/django-migration-fixer/pull/140) ([jackton1](https://github.com/jackton1))
+- Update dependency Django to v3.2.7 [\#139](https://github.com/tj-django/django-migration-fixer/pull/139) ([renovate[bot]](https://github.com/apps/renovate))
+- \[pre-commit.ci\] pre-commit autoupdate [\#138](https://github.com/tj-django/django-migration-fixer/pull/138) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- Upgraded v1.2.2 → v1.3.0 [\#137](https://github.com/tj-django/django-migration-fixer/pull/137) ([jackton1](https://github.com/jackton1))
+
 ## [v1.3.0](https://github.com/tj-django/django-migration-fixer/tree/v1.3.0) (2021-08-28)
 
 [Full Changelog](https://github.com/tj-django/django-migration-fixer/compare/v1.2.2...v1.3.0)
@@ -7,10 +24,6 @@
 **Fixed bugs:**
 
 - Resolve bug with reseeding migrations. [\#136](https://github.com/tj-django/django-migration-fixer/pull/136) ([jackton1](https://github.com/jackton1))
-
-**Closed issues:**
-
-- Dependency Dashboard [\#40](https://github.com/tj-django/django-migration-fixer/issues/40)
 
 **Merged pull requests:**
 

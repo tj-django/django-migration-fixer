@@ -104,8 +104,6 @@ class Command(BaseCommand):
                     if self.verbosity >= 2:
                         self.stdout.write("Retrieving the current branch...")
 
-                    current_branch = self.repo.active_branch.name
-
                     if self.repo.is_dirty():  # pragma: no cover
                         raise CommandError(
                             self.style.ERROR(
@@ -119,8 +117,11 @@ class Command(BaseCommand):
                             self.stdout.write(
                                 f"Fetching git remote {self.remote} changes on: {self.default_branch}"
                             )
+                        default_branch_commit = self.repo.commit(self.default_branch)
 
-                        if current_branch == self.default_branch:  # pragma: no cover
+                        current_commit = self.repo.head.commit
+
+                        if current_commit == default_branch_commit:  # pragma: no cover
                             remote = self.repo.remotes[self.remote]
                             remote.pull(
                                 self.default_branch,
@@ -145,10 +146,6 @@ class Command(BaseCommand):
                         self.stdout.write(
                             f"Retrieving the last commit sha on: {self.default_branch}"
                         )
-
-                    default_branch_commit = self.repo.commit(self.default_branch)
-
-                    current_commit = self.repo.commit(current_branch)
 
                     # Load the current graph state. Pass in None for the connection so
                     # the loader doesn't try to resolve replaced migrations from DB.

@@ -112,36 +112,35 @@ class Command(BaseCommand):
                             )
                         )
 
-                    default_branch_commit = self.repo.commit(self.default_branch)
-
-                    current_commit = self.repo.head.commit
-
                     if not self.skip_default_branch_update:
                         if self.verbosity >= 2:
                             self.stdout.write(
                                 f"Fetching git remote {self.remote} changes on: {self.default_branch}"
                             )
 
-                        if current_commit == default_branch_commit:  # pragma: no cover
+                        try:
                             remote = self.repo.remotes[self.remote]
-                            remote.pull(
-                                self.default_branch,
+                            remote.fetch(
+                                f"{self.default_branch}:{self.default_branch}",
                                 force=self.force_update,
                             )
-                        else:
+                        except GitCommandError as e:  # pragma: no cover
                             try:
                                 remote = self.repo.remotes[self.remote]
-                                remote.fetch(
-                                    f"{self.default_branch}:{self.default_branch}",
+                                remote.pull(
+                                    self.default_branch,
                                     force=self.force_update,
                                 )
-                            except GitCommandError as e:  # pragma: no cover
+                            except GitCommandError as e:
                                 raise CommandError(
                                     self.style.ERROR(
-                                        f"Unable to fetch {self.remote} branch "
+                                        f"Unable to retrieve changes from {self.remote} branch "
                                         f"'{self.default_branch}': {e.stderr}",
                                     ),
                                 )
+
+                    default_branch_commit = self.repo.commit(self.default_branch)
+                    current_commit = self.repo.head.commit
 
                     if self.verbosity >= 2:
                         self.stdout.write(

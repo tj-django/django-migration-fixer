@@ -124,7 +124,7 @@ class Command(BaseCommand):
                                 f"{self.default_branch}:{self.default_branch}",
                                 force=self.force_update,
                             )
-                        except GitCommandError as e:  # pragma: no cover
+                        except GitCommandError:  # pragma: no cover
                             try:
                                 remote = self.repo.remotes[self.remote]
                                 remote.pull(

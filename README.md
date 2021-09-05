@@ -14,6 +14,7 @@ Resolve django makemigrations `multiple leaf nodes in the migration graph` by en
 
 ## Features
 
+*   Easy to use
 *   100% test coverage.
 *   Maintain a consistent migration history when conflicts occur as a result of changes made using different versions of the target branch.
 *   Resolve migration conflicts on Pull Request branches

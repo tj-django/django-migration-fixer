@@ -22,20 +22,6 @@ Resolve django makemigrations `multiple leaf nodes in the migration graph` by en
 *   Supports default migration modules i.e (`0001_....py`)
 *   Re-number all migrations using the last migration on the target branch.
 
-## Example
-
-#### After merging the default branch
-
-![Screen Shot 2021-07-06 at 2 21 46 PM](https://user-images.githubusercontent.com/17484350/124648930-d7e36800-de65-11eb-99a3-bf806ecfd32b.png)
-
-#### After running django-migration-fixer
-
-![Screen Shot 2021-07-06 at 2 22 31 PM](https://user-images.githubusercontent.com/17484350/124649105-0feaab00-de66-11eb-80f3-7987d67b361d.png)
-
-### Assumptions
-
-The final migration on the default branch would be used as the base for all subsequent migrations.
-
 ## Installation
 
 ```bash
@@ -62,6 +48,20 @@ $ python manage.py makemigrations --fix
 
 By default this uses `main` as the default branch
 
+## Example
+
+#### After merging the default branch
+
+![Screen Shot 2021-07-06 at 2 21 46 PM](https://user-images.githubusercontent.com/17484350/124648930-d7e36800-de65-11eb-99a3-bf806ecfd32b.png)
+
+#### After running django-migration-fixer
+
+![Screen Shot 2021-07-06 at 2 22 31 PM](https://user-images.githubusercontent.com/17484350/124649105-0feaab00-de66-11eb-80f3-7987d67b361d.png)
+
+### Assumptions
+
+The final migration on the default branch would be used as the base for all subsequent migrations.
+
 ### Specifying a different default branch
 
 Run:
@@ -83,6 +83,7 @@ $ python manage.py makemigrations -b master --fix
 | managepy-path |  `string`   |    `true`     | `./manage.py`                  | The location of manage.py. |
 | default-branch |  `string`  |    `false`     |  `${{ github.base_ref }}`      |  The default branch or <br> target branch of a Pull request.  |
 | force-update |  `string`  |    `false`     |        |  Force update the target branch <br> locally when git fetch fails.  |
+| skip-default-branch-update |  `string`  |    `false`     |        |  Skip pulling the latest <br> changes from the default branch.  |
 
 ```yaml
 name: Fix django migrations

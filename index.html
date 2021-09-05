@@ -251,6 +251,33 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#installation" class="md-nav__link">
+    Installation
+  </a>
+  
+    <nav class="md-nav" aria-label="Installation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#add-migration_fixer-to-your-installed_apps" class="md-nav__link">
+    Add migration_fixer to your INSTALLED_APPS
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#usage" class="md-nav__link">
+    Usage
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#example" class="md-nav__link">
     Example
   </a>
@@ -278,39 +305,6 @@
   </a>
   
 </li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#installation" class="md-nav__link">
-    Installation
-  </a>
-  
-    <nav class="md-nav" aria-label="Installation">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#add-migration_fixer-to-your-installed_apps" class="md-nav__link">
-    Add migration_fixer to your INSTALLED_APPS
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#usage" class="md-nav__link">
-    Usage
-  </a>
-  
-    <nav class="md-nav" aria-label="Usage">
-      <ul class="md-nav__list">
         
           <li class="md-nav__item">
   <a href="#specifying-a-different-default-branch" class="md-nav__link">
@@ -498,6 +492,33 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#installation" class="md-nav__link">
+    Installation
+  </a>
+  
+    <nav class="md-nav" aria-label="Installation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#add-migration_fixer-to-your-installed_apps" class="md-nav__link">
+    Add migration_fixer to your INSTALLED_APPS
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#usage" class="md-nav__link">
+    Usage
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#example" class="md-nav__link">
     Example
   </a>
@@ -525,39 +546,6 @@
   </a>
   
 </li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#installation" class="md-nav__link">
-    Installation
-  </a>
-  
-    <nav class="md-nav" aria-label="Installation">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#add-migration_fixer-to-your-installed_apps" class="md-nav__link">
-    Add migration_fixer to your INSTALLED_APPS
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#usage" class="md-nav__link">
-    Usage
-  </a>
-  
-    <nav class="md-nav" aria-label="Usage">
-      <ul class="md-nav__list">
         
           <li class="md-nav__item">
   <a href="#specifying-a-different-default-branch" class="md-nav__link">
@@ -640,13 +628,6 @@
 <li>Supports default migration modules i.e (<code>0001_....py</code>)</li>
 <li>Re-number all migrations using the last migration on the target branch.</li>
 </ul>
-<h2 id="example">Example</h2>
-<h4 id="after-merging-the-default-branch">After merging the default branch</h4>
-<p><img alt="Screen Shot 2021-07-06 at 2 21 46 PM" src="https://user-images.githubusercontent.com/17484350/124648930-d7e36800-de65-11eb-99a3-bf806ecfd32b.png" /></p>
-<h4 id="after-running-django-migration-fixer">After running django-migration-fixer</h4>
-<p><img alt="Screen Shot 2021-07-06 at 2 22 31 PM" src="https://user-images.githubusercontent.com/17484350/124649105-0feaab00-de66-11eb-80f3-7987d67b361d.png" /></p>
-<h3 id="assumptions">Assumptions</h3>
-<p>The final migration on the default branch would be used as the base for all subsequent migrations.</p>
 <h2 id="installation">Installation</h2>
 <div class="highlight"><pre><span></span><code>$ pip install django-migration-fixer
 </code></pre></div>
@@ -661,6 +642,13 @@
 <div class="highlight"><pre><span></span><code>$ python manage.py makemigrations --fix
 </code></pre></div>
 <p>By default this uses <code>main</code> as the default branch</p>
+<h2 id="example">Example</h2>
+<h4 id="after-merging-the-default-branch">After merging the default branch</h4>
+<p><img alt="Screen Shot 2021-07-06 at 2 21 46 PM" src="https://user-images.githubusercontent.com/17484350/124648930-d7e36800-de65-11eb-99a3-bf806ecfd32b.png" /></p>
+<h4 id="after-running-django-migration-fixer">After running django-migration-fixer</h4>
+<p><img alt="Screen Shot 2021-07-06 at 2 22 31 PM" src="https://user-images.githubusercontent.com/17484350/124649105-0feaab00-de66-11eb-80f3-7987d67b361d.png" /></p>
+<h3 id="assumptions">Assumptions</h3>
+<p>The final migration on the default branch would be used as the base for all subsequent migrations.</p>
 <h3 id="specifying-a-different-default-branch">Specifying a different default branch</h3>
 <p>Run:</p>
 <div class="highlight"><pre><span></span><code>$ python manage.py makemigrations -b master --fix
@@ -704,6 +692,13 @@
 <td align="center"><code>false</code></td>
 <td align="center"></td>
 <td align="center">Force update the target branch <br> locally when git fetch fails.</td>
+</tr>
+<tr>
+<td align="center">skip-default-branch-update</td>
+<td align="center"><code>string</code></td>
+<td align="center"><code>false</code></td>
+<td align="center"></td>
+<td align="center">Skip pulling the latest <br> changes from the default branch.</td>
 </tr>
 </tbody>
 </table>

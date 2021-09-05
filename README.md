@@ -132,7 +132,7 @@ jobs:
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           git add /path/to/migrations
-          git commit -m "Update migrations"
+          git commit -m "Updated migrations"
 
       - name: Push migration changes
         if: steps.verify-changed-files.outputs.files_changed == 'true'

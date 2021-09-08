@@ -44,8 +44,8 @@ INSTALLED_APPS = [
 
 Merge the changes from the default branch or the target branch of the pull request.
 
-```
-$ git checkout main # OR: [ develop | parent feature branch]
+```bash
+$ git checkout main # OR: develop, another parent feature branch
 $ git pull
 $ git checkout feature/xxxx
 $ git merge main

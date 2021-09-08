@@ -52,6 +52,7 @@ $ git merge main
 ```
 
 Fix the migration conflicts
+
 ```bash
 $ python manage.py makemigrations --fix
 ```

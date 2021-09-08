@@ -639,6 +639,13 @@
 <span class="p">]</span>
 </code></pre></div>
 <h2 id="usage">Usage</h2>
+<p>Merge the changes from the default branch or the target branch of the pull request.</p>
+<div class="highlight"><pre><span></span><code>$ git checkout main <span class="c1"># OR: develop, another parent feature branch</span>
+$ git pull
+$ git checkout feature/xxxx
+$ git merge main
+</code></pre></div>
+<p>Fix the migration conflicts</p>
 <div class="highlight"><pre><span></span><code>$ python manage.py makemigrations --fix
 </code></pre></div>
 <p>By default this uses <code>main</code> as the default branch</p>

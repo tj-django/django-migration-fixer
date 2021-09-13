@@ -78,7 +78,7 @@ jobs:
           coverage-reports: coverage.xml
 
       - name: "Upload coverage to Codecov"
-        uses: codecov/codecov-action@v2.0.3
+        uses: codecov/codecov-action@v2.1.0
         if: github.actor != 'dependabot[bot]' && github.actor != 'dependabot' && matrix.python-version == '3.9'
         with:
           token: ${{ secrets.CODECOV_TOKEN }}

@@ -34,6 +34,7 @@ test_requires = [
     "tox",
     "tox-gh-actions",
     "coverage",
+    "pip-tools",
 ]
 
 lint_requires = [

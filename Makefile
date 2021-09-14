@@ -89,7 +89,7 @@ install-wheel: clean  ## Install wheel
 install: requirements.txt install-wheel  ## install the package to the active Python's site-packages
 	@pip install -r requirements.txt
 
-install-dev: requirements_dev.txt install-wheel  ## Install local dev packages
+install-dev: install-wheel  ## Install local dev packages
 	@pip install -e .'[development]'
 
 install-docs: install-wheel
@@ -108,6 +108,9 @@ test: install-test
 	@pytest -E invalid_repo
 	@pytest -E utils
 
+update-requirements:
+	@echo "Updating requirements.txt..."
+	@pip-compile
 
 migrations:
 	@python manage.py makemigrations

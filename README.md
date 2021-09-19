@@ -1,7 +1,7 @@
 ![logo](https://user-images.githubusercontent.com/17484350/124649379-6821ad00-de66-11eb-9b0e-890913c65311.png)
 
-[![Codacy Badge](https://app.codacy.com/project/badge/Coverage/1e607eb508f64cefad18f50d6ff920cf)](https://www.codacy.com/gh/tj-django/django-migration-fixer/dashboard?utm_source=github.com\&utm_medium=referral\&utm_content=tj-django/django-migration-fixer\&utm_campaign=Badge_Coverage) [![codecov](https://codecov.io/gh/tj-django/django-migration-fixer/branch/main/graph/badge.svg?token=peNs0PpfP6)](https://codecov.io/gh/tj-django/django-migration-fixer)
-[![Total alerts](https://img.shields.io/lgtm/alerts/g/tj-django/django-migration-fixer.svg?logo=lgtm\&logoWidth=18)](https://lgtm.com/projects/g/tj-django/django-migration-fixer/alerts/) [![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/tj-django/django-migration-fixer.svg?logo=lgtm\&logoWidth=18)](https://lgtm.com/projects/g/tj-django/django-migration-fixer/context:python) [![Codacy Badge](https://app.codacy.com/project/badge/Grade/1e607eb508f64cefad18f50d6ff920cf)](https://www.codacy.com/gh/tj-django/django-migration-fixer/dashboard?utm_source=github.com\&utm_medium=referral\&utm_content=tj-django/django-migration-fixer\&utm_campaign=Badge_Grade)
+[![Codacy Badge](https://app.codacy.com/project/badge/Coverage/1e607eb508f64cefad18f50d6ff920cf)](https://www.codacy.com/gh/tj-django/django-migration-fixer/dashboard?utm\_source=github.com\&utm\_medium=referral\&utm\_content=tj-django/django-migration-fixer\&utm\_campaign=Badge\_Coverage) [![codecov](https://codecov.io/gh/tj-django/django-migration-fixer/branch/main/graph/badge.svg?token=peNs0PpfP6)](https://codecov.io/gh/tj-django/django-migration-fixer)
+[![Total alerts](https://img.shields.io/lgtm/alerts/g/tj-django/django-migration-fixer.svg?logo=lgtm\&logoWidth=18)](https://lgtm.com/projects/g/tj-django/django-migration-fixer/alerts/) [![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/tj-django/django-migration-fixer.svg?logo=lgtm\&logoWidth=18)](https://lgtm.com/projects/g/tj-django/django-migration-fixer/context:python) [![Codacy Badge](https://app.codacy.com/project/badge/Grade/1e607eb508f64cefad18f50d6ff920cf)](https://www.codacy.com/gh/tj-django/django-migration-fixer/dashboard?utm\_source=github.com\&utm\_medium=referral\&utm\_content=tj-django/django-migration-fixer\&utm\_campaign=Badge\_Grade)
 
 [![Test](https://github.com/tj-django/django-migration-fixer/actions/workflows/test.yml/badge.svg)](https://github.com/tj-django/django-migration-fixer/actions/workflows/test.yml) [![Upload Python Package](https://github.com/tj-django/django-migration-fixer/actions/workflows/deploy.yml/badge.svg)](https://github.com/tj-django/django-migration-fixer/actions/workflows/deploy.yml) [![Run linters](https://github.com/tj-django/django-migration-fixer/actions/workflows/lint.yml/badge.svg)](https://github.com/tj-django/django-migration-fixer/actions/workflows/lint.yml) [![Updates](https://pyup.io/repos/github/tj-django/django-migration-fixer/shield.svg)](https://pyup.io/repos/github/tj-django/django-migration-fixer/) [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
@@ -28,7 +28,7 @@ Resolve django makemigrations `multiple leaf nodes in the migration graph` by en
 $ pip install django-migration-fixer
 ```
 
-#### Add `migration_fixer` to your INSTALLED_APPS
+#### Add `migration_fixer` to your INSTALLED\_APPS
 
 ```python
 
@@ -157,9 +157,9 @@ See: https://github.com/tj-django/django-clone for a working example.
 
 ## Test Platforms
 
-*   [`ubuntu-*`](https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on)
-*   [`macos-*`](https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on)
-*   [`windows-*`](https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on)
+*   [`ubuntu-*`](https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob\_idruns-on)
+*   [`macos-*`](https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob\_idruns-on)
+*   [`windows-*`](https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob\_idruns-on)
 
 ## Found a Bug?
 

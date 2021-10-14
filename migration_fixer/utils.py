@@ -43,20 +43,6 @@ def _update_migration(conflict_path: Path, app_label: str, prev_migration: str) 
         raise ValueError(f'Couldn\'t find "{regex}" in {conflict_path.name}')
 
 
-def migration_sorter(path: str, app_label: str) -> int:
-    path = os.path.split(path)[-1]
-    parts = path.split("_")
-    key = parts[0]
-
-    if not str(key).isdigit():
-        raise ValueError(
-            f'Unable to fix migration for "{app_label}" app: {path}\n'
-            f"NOTE: It needs to begin with a number. eg. 0001_*",
-        )
-
-    return int(key)
-
-
 def fix_numbered_migration(
     *,
     app_label: str,

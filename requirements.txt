@@ -14,7 +14,7 @@ gitpython==3.1.24
     # via django-migration-fixer (setup.py)
 pytz==2021.3
     # via django
-smmap==4.0.0
+smmap==5.0.0
     # via gitdb
 sqlparse==0.4.2
     # via django

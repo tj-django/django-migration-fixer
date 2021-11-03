@@ -72,7 +72,7 @@ jobs:
 
       - name: Run codacy-coverage-reporter
         uses: codacy/codacy-coverage-reporter-action@v1
-        if: github.actor != 'dependabot[bot]' && github.actor != 'dependabot'
+        if: github.actor != 'dependabot[bot]' && github.actor != 'dependabot' && matrix.python-version == '3.9'
         with:
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
           coverage-reports: coverage.xml

@@ -633,13 +633,8 @@
 <p>Resolve django makemigrations <code>multiple leaf nodes in the migration graph</code> by ensuring that migration files and dependencies are always ordered regardless of remote changes, without having to run <code>python manage.py makemigrations --merge</code></p>
 <h2 id="features">Features</h2>
 <ul>
-<li>Easy to use</li>
-<li>100% test coverage.</li>
-<li>Maintain a consistent migration history when conflicts occur as a result of changes made using different versions of the target branch.</li>
 <li>Resolve migration conflicts on Pull Request branches</li>
 <li>Resolve migration conflicts on the default branch <strong>(NOT RECOMMENDED)</strong></li>
-<li>Supports default migration modules i.e (<code>0001_....py</code>)</li>
-<li>Re-number all migrations using the last migration on the target branch.</li>
 </ul>
 <h2 id="installation">Installation</h2>
 <div class="highlight"><pre><span></span><code>$ pip install django-migration-fixer

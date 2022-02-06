@@ -1,5 +1,61 @@
 # Changelog
 
+## [v1.3.5](https://github.com/tj-django/django-migration-fixer/tree/v1.3.5) (2022-02-06)
+
+[Full Changelog](https://github.com/tj-django/django-migration-fixer/compare/v1.3.4...v1.3.5)
+
+**Closed issues:**
+
+- WS-2021-0369 \(Medium\) detected in sqlparse-0.4.1-py3-none-any.whl - autoclosed [\#152](https://github.com/tj-django/django-migration-fixer/issues/152)
+- Dependency Dashboard [\#40](https://github.com/tj-django/django-migration-fixer/issues/40)
+
+**Merged pull requests:**
+
+- Update actions/setup-python action to v2.3.2 [\#196](https://github.com/tj-django/django-migration-fixer/pull/196) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency django to v4.0.2 [\#195](https://github.com/tj-django/django-migration-fixer/pull/195) ([renovate[bot]](https://github.com/apps/renovate))
+- \[pre-commit.ci\] pre-commit autoupdate [\#194](https://github.com/tj-django/django-migration-fixer/pull/194) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- Update dependency asgiref to v3.5.0 [\#193](https://github.com/tj-django/django-migration-fixer/pull/193) ([renovate[bot]](https://github.com/apps/renovate))
+- Update wearerequired/lint-action action to v1.11.1 [\#192](https://github.com/tj-django/django-migration-fixer/pull/192) ([renovate[bot]](https://github.com/apps/renovate))
+- Update wearerequired/lint-action action to v1.11.0 [\#191](https://github.com/tj-django/django-migration-fixer/pull/191) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency gitpython to v3.1.26 [\#190](https://github.com/tj-django/django-migration-fixer/pull/190) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency gitpython to v3.1.25 [\#189](https://github.com/tj-django/django-migration-fixer/pull/189) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency django to v4.0.1 [\#188](https://github.com/tj-django/django-migration-fixer/pull/188) ([renovate[bot]](https://github.com/apps/renovate))
+- Update tj-actions/remark action to v2.3 [\#187](https://github.com/tj-django/django-migration-fixer/pull/187) ([renovate[bot]](https://github.com/apps/renovate))
+- Update tj-actions/remark action to v2 [\#186](https://github.com/tj-django/django-migration-fixer/pull/186) ([renovate[bot]](https://github.com/apps/renovate))
+- Update tj-actions/github-changelog-generator action to v1.11 [\#185](https://github.com/tj-django/django-migration-fixer/pull/185) ([renovate[bot]](https://github.com/apps/renovate))
+- Update tj-actions/github-changelog-generator action to v1.10 [\#184](https://github.com/tj-django/django-migration-fixer/pull/184) ([renovate[bot]](https://github.com/apps/renovate))
+- \[pre-commit.ci\] pre-commit autoupdate [\#183](https://github.com/tj-django/django-migration-fixer/pull/183) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- Update dependency django to v4 [\#182](https://github.com/tj-django/django-migration-fixer/pull/182) ([renovate[bot]](https://github.com/apps/renovate))
+- Bump django from 3.2.9 to 3.2.10 [\#181](https://github.com/tj-django/django-migration-fixer/pull/181) ([dependabot[bot]](https://github.com/apps/dependabot))
+- \[pre-commit.ci\] pre-commit autoupdate [\#180](https://github.com/tj-django/django-migration-fixer/pull/180) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- Update dependency typing-extensions to v4.0.1 [\#179](https://github.com/tj-django/django-migration-fixer/pull/179) ([renovate[bot]](https://github.com/apps/renovate))
+- Update actions/setup-python action to v2.3.1 [\#178](https://github.com/tj-django/django-migration-fixer/pull/178) ([renovate[bot]](https://github.com/apps/renovate))
+- \[pre-commit.ci\] pre-commit autoupdate [\#177](https://github.com/tj-django/django-migration-fixer/pull/177) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- Update actions/setup-python action to v2.3.0 [\#176](https://github.com/tj-django/django-migration-fixer/pull/176) ([renovate[bot]](https://github.com/apps/renovate))
+- \[pre-commit.ci\] pre-commit autoupdate [\#175](https://github.com/tj-django/django-migration-fixer/pull/175) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- Update dependency typing-extensions to v4 [\#174](https://github.com/tj-django/django-migration-fixer/pull/174) ([renovate[bot]](https://github.com/apps/renovate))
+- \[pre-commit.ci\] pre-commit autoupdate [\#173](https://github.com/tj-django/django-migration-fixer/pull/173) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- Updated README.md [\#172](https://github.com/tj-django/django-migration-fixer/pull/172) ([jackton1](https://github.com/jackton1))
+- Update actions/checkout action to v2.4.0 [\#170](https://github.com/tj-django/django-migration-fixer/pull/170) ([renovate[bot]](https://github.com/apps/renovate))
+- \[pre-commit.ci\] pre-commit autoupdate [\#169](https://github.com/tj-django/django-migration-fixer/pull/169) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- Updated README.md [\#168](https://github.com/tj-django/django-migration-fixer/pull/168) ([jackton1](https://github.com/jackton1))
+- Update dependency django to v3.2.9 [\#167](https://github.com/tj-django/django-migration-fixer/pull/167) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency gitdb to v4.0.9 [\#166](https://github.com/tj-django/django-migration-fixer/pull/166) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency gitdb to v4.0.8 [\#165](https://github.com/tj-django/django-migration-fixer/pull/165) ([renovate[bot]](https://github.com/apps/renovate))
+- Update actions/checkout action to v2.3.5 [\#164](https://github.com/tj-django/django-migration-fixer/pull/164) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency smmap to v5 [\#163](https://github.com/tj-django/django-migration-fixer/pull/163) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency mkdocs to v1.2.3 [\#161](https://github.com/tj-django/django-migration-fixer/pull/161) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency django to v3.2.8 [\#159](https://github.com/tj-django/django-migration-fixer/pull/159) ([renovate[bot]](https://github.com/apps/renovate))
+- Update tj-actions/verify-changed-files action to v8 [\#158](https://github.com/tj-django/django-migration-fixer/pull/158) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency pytz to v2021.3 [\#157](https://github.com/tj-django/django-migration-fixer/pull/157) ([renovate[bot]](https://github.com/apps/renovate))
+- \[pre-commit.ci\] pre-commit autoupdate [\#156](https://github.com/tj-django/django-migration-fixer/pull/156) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- Updated README.md [\#155](https://github.com/tj-django/django-migration-fixer/pull/155) ([jackton1](https://github.com/jackton1))
+- Update dependency gitpython to v3.1.24 [\#154](https://github.com/tj-django/django-migration-fixer/pull/154) ([renovate[bot]](https://github.com/apps/renovate))
+- Updated requirements.txt and fixed Makefile. [\#153](https://github.com/tj-django/django-migration-fixer/pull/153) ([jackton1](https://github.com/jackton1))
+- Update codecov/codecov-action action to v2.1.0 [\#151](https://github.com/tj-django/django-migration-fixer/pull/151) ([renovate[bot]](https://github.com/apps/renovate))
+- Updated README.md [\#150](https://github.com/tj-django/django-migration-fixer/pull/150) ([jackton1](https://github.com/jackton1))
+- Upgraded v1.3.3 → v1.3.4 [\#149](https://github.com/tj-django/django-migration-fixer/pull/149) ([jackton1](https://github.com/jackton1))
+
 ## [v1.3.4](https://github.com/tj-django/django-migration-fixer/tree/v1.3.4) (2021-09-04)
 
 [Full Changelog](https://github.com/tj-django/django-migration-fixer/compare/v1.3.3...v1.3.4)
@@ -12,10 +68,6 @@
 ## [v1.3.3](https://github.com/tj-django/django-migration-fixer/tree/v1.3.3) (2021-09-03)
 
 [Full Changelog](https://github.com/tj-django/django-migration-fixer/compare/v1.3.2...v1.3.3)
-
-**Closed issues:**
-
-- Dependency Dashboard [\#40](https://github.com/tj-django/django-migration-fixer/issues/40)
 
 **Merged pull requests:**
 

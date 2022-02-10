@@ -48,7 +48,6 @@ jobs:
 
       - name: Update branches
         run: |
-          git fetch origin feature/migration-test-01:feature/migration-test-01
           git fetch origin feature/migration-test-02:feature/migration-test-02
           git fetch origin feature/migration-test-03:feature/migration-test-03
           git fetch origin feature/migration-test-04:feature/migration-test-04

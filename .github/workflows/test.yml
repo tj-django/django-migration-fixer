@@ -55,7 +55,7 @@ jobs:
           key: ${{ runner.os }}-${{ matrix.platform }}-pip-${{ matrix.python-version }}-${{ hashFiles('requirements.txt') }}
           restore-keys: |
             ${{ runner.os }}-${{ matrix.platform }}-pip-${{ matrix.python-version }}-
-      
+
       - name: Update branches
         run: |
            git fetch origin feature/migration-test-01:feature/migration-test-01

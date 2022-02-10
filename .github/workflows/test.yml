@@ -32,6 +32,16 @@ jobs:
         with:
           submodules: recursive
           fetch-depth: 0
+      
+      - name: Get changed files
+        id: changed-files
+        uses: tj-actions/changed-files@v14.5
+      
+      - name: Show output
+        run: |
+          echo "${{ toJSON(steps.changed-files.outputs) }}"
+        shell:
+          bash
 
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v2

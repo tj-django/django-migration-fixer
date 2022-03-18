@@ -13,6 +13,8 @@
 
 Resolve django makemigrations `multiple leaf nodes in the migration graph` by ensuring that migration files and dependencies are always ordered regardless of remote changes, without having to run `python manage.py makemigrations --merge`
 
+## Table of Contents
+
 ## Features
 
 *   Resolve migration conflicts on Pull Request branches

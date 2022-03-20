@@ -15,6 +15,20 @@ Resolve django makemigrations `multiple leaf nodes in the migration graph` by en
 
 ## Table of Contents
 
+*   [Features](#features)
+*   [Installation](#installation)
+    *   *   [Add `migration_fixer` to your INSTALLED\_APPS](#add-migration_fixer-to-your-installed_apps)
+*   [Usage](#usage)
+*   [Example](#example)
+    *   *   [After merging the default branch](#after-merging-the-default-branch)
+        *   [After running django-migration-fixer](#after-running-django-migration-fixer)
+    *   [Assumptions](#assumptions)
+    *   [Specifying a different default branch](#specifying-a-different-default-branch)
+*   [Setup using Github Actions](#setup-using-github-actions)
+    *   [Inputs](#inputs)
+*   [Test Platforms](#test-platforms)
+*   [Found a Bug?](#found-a-bug)
+
 ## Features
 
 *   Resolve migration conflicts on Pull Request branches

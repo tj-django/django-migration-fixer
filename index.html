@@ -249,6 +249,13 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#table-of-contents" class="md-nav__link">
+    Table of Contents
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#features" class="md-nav__link">
     Features
   </a>
@@ -498,6 +505,13 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#table-of-contents" class="md-nav__link">
+    Table of Contents
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#features" class="md-nav__link">
     Features
   </a>
@@ -632,6 +646,36 @@
 <a href="https://github.com/search?o=desc\&amp;q=tj-django+django-migration-fixer+language%3AYAML\&amp;s=\&amp;type=Code"><img alt="Public workflows that use this action." src="https://img.shields.io/endpoint?url=https%3A%2F%2Fused-by.vercel.app%2Fapi%2Fgithub-actions%2Fused-by%3Faction%3Dtj-django%2Fdjango-migration-fixer%26badge%3Dtrue" /></a></p>
 <h1 id="django-migration-fixer">django-migration-fixer</h1>
 <p>Resolve django makemigrations <code>multiple leaf nodes in the migration graph</code> by ensuring that migration files and dependencies are always ordered regardless of remote changes, without having to run <code>python manage.py makemigrations --merge</code></p>
+<h2 id="table-of-contents">Table of Contents</h2>
+<ul>
+<li><a href="#features">Features</a></li>
+<li><a href="#installation">Installation</a><ul>
+<li>
+<ul>
+<li><a href="#add-migration_fixer-to-your-installed_apps">Add <code>migration_fixer</code> to your INSTALLED_APPS</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#usage">Usage</a></li>
+<li><a href="#example">Example</a><ul>
+<li>
+<ul>
+<li><a href="#after-merging-the-default-branch">After merging the default branch</a></li>
+<li><a href="#after-running-django-migration-fixer">After running django-migration-fixer</a></li>
+</ul>
+</li>
+<li><a href="#assumptions">Assumptions</a></li>
+<li><a href="#specifying-a-different-default-branch">Specifying a different default branch</a></li>
+</ul>
+</li>
+<li><a href="#setup-using-github-actions">Setup using Github Actions</a><ul>
+<li><a href="#inputs">Inputs</a></li>
+</ul>
+</li>
+<li><a href="#test-platforms">Test Platforms</a></li>
+<li><a href="#found-a-bug">Found a Bug?</a></li>
+</ul>
 <h2 id="features">Features</h2>
 <ul>
 <li>Resolve migration conflicts on Pull Request branches</li>

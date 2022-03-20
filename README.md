@@ -40,7 +40,7 @@ Resolve django makemigrations `multiple leaf nodes in the migration graph` by en
 $ pip install django-migration-fixer
 ```
 
-#### Add `migration_fixer` to your INSTALLED\_APPS
+### Add `migration_fixer` to your INSTALLED\_APPS
 
 ```python
 

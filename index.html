@@ -311,12 +311,18 @@
   
 </li>
         
-          <li class="md-nav__item">
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#assumptions" class="md-nav__link">
     Assumptions
   </a>
   
-</li>
+    <nav class="md-nav" aria-label="Assumptions">
+      <ul class="md-nav__list">
         
           <li class="md-nav__item">
   <a href="#specifying-a-different-default-branch" class="md-nav__link">
@@ -567,12 +573,18 @@
   
 </li>
         
-          <li class="md-nav__item">
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#assumptions" class="md-nav__link">
     Assumptions
   </a>
   
-</li>
+    <nav class="md-nav" aria-label="Assumptions">
+      <ul class="md-nav__list">
         
           <li class="md-nav__item">
   <a href="#specifying-a-different-default-branch" class="md-nav__link">
@@ -650,22 +662,16 @@
 <ul>
 <li><a href="#features">Features</a></li>
 <li><a href="#installation">Installation</a><ul>
-<li>
-<ul>
 <li><a href="#add-migration_fixer-to-your-installed_apps">Add <code>migration_fixer</code> to your INSTALLED_APPS</a></li>
-</ul>
-</li>
 </ul>
 </li>
 <li><a href="#usage">Usage</a></li>
 <li><a href="#example">Example</a><ul>
-<li>
-<ul>
 <li><a href="#after-merging-the-default-branch">After merging the default branch</a></li>
 <li><a href="#after-running-django-migration-fixer">After running django-migration-fixer</a></li>
 </ul>
 </li>
-<li><a href="#assumptions">Assumptions</a></li>
+<li><a href="#assumptions">Assumptions</a><ul>
 <li><a href="#specifying-a-different-default-branch">Specifying a different default branch</a></li>
 </ul>
 </li>
@@ -684,7 +690,7 @@
 <h2 id="installation">Installation</h2>
 <div class="highlight"><pre><span></span><code>$ pip install django-migration-fixer
 </code></pre></div>
-<h4 id="add-migration_fixer-to-your-installed_apps">Add <code>migration_fixer</code> to your INSTALLED_APPS</h4>
+<h3 id="add-migration_fixer-to-your-installed_apps">Add <code>migration_fixer</code> to your INSTALLED_APPS</h3>
 <div class="highlight"><pre><span></span><code><span class="n">INSTALLED_APPS</span> <span class="o">=</span> <span class="p">[</span>
     <span class="o">...</span><span class="p">,</span>
     <span class="s2">&quot;migration_fixer&quot;</span><span class="p">,</span>
@@ -703,11 +709,11 @@ $ git merge main
 </code></pre></div>
 <p>By default this uses <code>main</code> as the default branch</p>
 <h2 id="example">Example</h2>
-<h4 id="after-merging-the-default-branch">After merging the default branch</h4>
+<h3 id="after-merging-the-default-branch">After merging the default branch</h3>
 <p><img alt="Screen Shot 2021-07-06 at 2 21 46 PM" src="https://user-images.githubusercontent.com/17484350/124648930-d7e36800-de65-11eb-99a3-bf806ecfd32b.png" /></p>
-<h4 id="after-running-django-migration-fixer">After running django-migration-fixer</h4>
+<h3 id="after-running-django-migration-fixer">After running django-migration-fixer</h3>
 <p><img alt="Screen Shot 2021-07-06 at 2 22 31 PM" src="https://user-images.githubusercontent.com/17484350/124649105-0feaab00-de66-11eb-80f3-7987d67b361d.png" /></p>
-<h3 id="assumptions">Assumptions</h3>
+<h2 id="assumptions">Assumptions</h2>
 <p>The final migration on the default branch would be used as the base for all subsequent migrations.</p>
 <h3 id="specifying-a-different-default-branch">Specifying a different default branch</h3>
 <p>Run:</p>

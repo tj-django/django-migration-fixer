@@ -21,7 +21,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = "ljq%0159d51t&5&)-*ii6dudczbu(eq(5qda7qjg(qp@#4#vun"
 
-MIDDLEWARE = [
+MIDDLEWARE = [  # lgtm [py/csrf-protection-disabled]
     "django.middleware.security.SecurityMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",

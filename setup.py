@@ -18,7 +18,7 @@ docs_requires = [
     "portray",
     "mkdocs-material-extensions>=1.0.3",
     "pygments>=2.12,<2.13",
-    "pymdown-extensions>=9.4,<9.5",
+    "pymdown-extensions>=9.0,<9.4",
 ]
 
 install_requires = [

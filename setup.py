@@ -95,7 +95,7 @@ setup(
         "migration fixer",
         "django migrations",
         "django migrations fixer",
-        "migrations auto fix",
+        "django migrations auto fix",
         "migrations fix",
         "migrations conflict resolver",
         "django migrations",

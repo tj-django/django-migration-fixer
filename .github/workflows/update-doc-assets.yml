@@ -46,7 +46,7 @@ jobs:
           cp -f CHANGELOG.md docs/CHANGELOG.md
 
       - name: Set up Python
-        uses: actions/setup-python@v3
+        uses: actions/setup-python@v4
         with:
           python-version: '3.6.x'
 

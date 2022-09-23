@@ -16,7 +16,7 @@ pytz==2022.2.1
     # via django
 smmap==5.0.0
     # via gitdb
-sqlparse==0.4.2
+sqlparse==0.4.3
     # via django
 typing-extensions==4.3.0
     # via django-migration-fixer (setup.py)

@@ -14,7 +14,7 @@ deploy_requires = [
 
 docs_requires = [
     "mkautodoc",
-    "mkdocs>=1.3.0,<1.4",
+    "mkdocs>=1.4,<1.5",
     "portray",
     "mkdocs-material-extensions>=1.0.3",
     "pygments>=2.13,<2.14",

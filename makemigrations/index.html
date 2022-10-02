@@ -38,7 +38,7 @@
         <meta name="lang:search.tokenizer" content="[\s\-]+">
       
       <link rel="shortcut icon" href="../images/logo.png">
-      <meta name="generator" content="mkdocs-1.3.0, mkdocs-material-4.6.3">
+      <meta name="generator" content="mkdocs-1.4.0, mkdocs-material-4.6.3">
     
     
       
@@ -368,9 +368,13 @@
 <div class="autodoc-members">
 <div class="autodoc-signature"><code><strong>add_arguments</strong></code><span class="autodoc-punctuation">(</span><em class="autodoc-param">self</em><span class="autodoc-punctuation">, </span><em class="autodoc-param">parser</em><span class="autodoc-punctuation">)</span></div>
 <div class="autodoc-docstring"></div>
+<div class="autodoc-signature"><code><strong>add_base_argument</strong></code><span class="autodoc-punctuation">(</span><em class="autodoc-param">self</em><span class="autodoc-punctuation">, </span><em class="autodoc-param">parser</em><span class="autodoc-punctuation">, </span><em class="autodoc-param">*args</em><span class="autodoc-punctuation">, </span><em class="autodoc-param">**kwargs</em><span class="autodoc-punctuation">)</span></div>
+<div class="autodoc-docstring"><p>Call the parser's add_argument() method, suppressing the help text
+according to BaseCommand.suppressed_base_arguments.</p></div>
 <div class="autodoc-signature"><code><strong>base_stealth_options</strong></code></div>
-<div class="autodoc-docstring"><p>tuple() -&gt; empty tuple
-tuple(iterable) -&gt; tuple initialized from iterable's items</p>
+<div class="autodoc-docstring"><p>Built-in immutable sequence.</p>
+<p>If no argument is given, the constructor returns an empty tuple.
+If iterable is specified the tuple is initialized from iterable's items.</p>
 <p>If the argument is a tuple, the return value is the same object.</p></div>
 <div class="autodoc-signature"><code><strong>check</strong></code><span class="autodoc-punctuation">(</span><em class="autodoc-param">self</em><span class="autodoc-punctuation">, </span><em class="autodoc-param">app_configs=None</em><span class="autodoc-punctuation">, </span><em class="autodoc-param">tags=None</em><span class="autodoc-punctuation">, </span><em class="autodoc-param">display_num_errors=False</em><span class="autodoc-punctuation">, </span><em class="autodoc-param">include_deployment_checks=False</em><span class="autodoc-punctuation">, </span><em class="autodoc-param">fail_level=40</em><span class="autodoc-punctuation">, </span><em class="autodoc-param">databases=None</em><span class="autodoc-punctuation">)</span></div>
 <div class="autodoc-docstring"><p>Use the system check framework to validate entire Django project.
@@ -406,6 +410,10 @@ Otherwise, returns the result of object.<strong>str</strong>() (if defined)
 or repr(object).
 encoding defaults to sys.getdefaultencoding().
 errors defaults to 'strict'.</p></div>
+<div class="autodoc-signature"><code><strong>log</strong></code><span class="autodoc-punctuation">(</span><em class="autodoc-param">self</em><span class="autodoc-punctuation">, </span><em class="autodoc-param">msg</em><span class="autodoc-punctuation">)</span></div>
+<div class="autodoc-docstring"></div>
+<div class="autodoc-signature"><code><strong>log_output</strong></code></div>
+<div class="autodoc-docstring"></div>
 <div class="autodoc-signature"><code><strong>output_transaction</strong></code></div>
 <div class="autodoc-docstring"><p>bool(x) -&gt; bool</p>
 <p>Returns True when the argument x is true, False otherwise.
@@ -436,8 +444,9 @@ command raises a <code>CommandError</code>, intercept it and print it sensibly
 to stderr. If the <code>--traceback</code> option is present or the raised
 <code>Exception</code> is not <code>CommandError</code>, raise it.</p></div>
 <div class="autodoc-signature"><code><strong>stealth_options</strong></code></div>
-<div class="autodoc-docstring"><p>tuple() -&gt; empty tuple
-tuple(iterable) -&gt; tuple initialized from iterable's items</p>
+<div class="autodoc-docstring"><p>Built-in immutable sequence.</p>
+<p>If no argument is given, the constructor returns an empty tuple.
+If iterable is specified the tuple is initialized from iterable's items.</p>
 <p>If the argument is a tuple, the return value is the same object.</p></div>
 <div class="autodoc-signature"><code><strong>success_msg</strong></code></div>
 <div class="autodoc-docstring"><p>str(object='') -&gt; str
@@ -449,6 +458,10 @@ Otherwise, returns the result of object.<strong>str</strong>() (if defined)
 or repr(object).
 encoding defaults to sys.getdefaultencoding().
 errors defaults to 'strict'.</p></div>
+<div class="autodoc-signature"><code><strong>suppressed_base_arguments</strong></code></div>
+<div class="autodoc-docstring"><p>set() -&gt; new empty set object
+set(iterable) -&gt; new set object</p>
+<p>Build an unordered collection of unique elements.</p></div>
 <div class="autodoc-signature"><code><strong>write_migration_files</strong></code><span class="autodoc-punctuation">(</span><em class="autodoc-param">self</em><span class="autodoc-punctuation">, </span><em class="autodoc-param">changes</em><span class="autodoc-punctuation">)</span></div>
 <div class="autodoc-docstring"><p>Take a changes dict and write them out as migration files.</p></div>
 </div>
@@ -529,7 +542,7 @@ errors defaults to 'strict'.</p></div>
     
       <script src="../assets/javascripts/application.c33a9706.js"></script>
       
-      <script>app.initialize({version:"1.3.0",url:{base:".."}})</script>
+      <script>app.initialize({version:"1.4.0",url:{base:".."}})</script>
       
     
   </body>

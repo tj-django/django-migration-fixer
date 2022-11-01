@@ -12,7 +12,7 @@ gitdb==4.0.9
     # via gitpython
 gitpython==3.1.29
     # via django-migration-fixer (setup.py)
-pytz==2022.5
+pytz==2022.6
     # via django
 smmap==5.0.0
     # via gitdb

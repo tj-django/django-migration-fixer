@@ -17,7 +17,7 @@ docs_requires = [
     "mkdocs>=1.4,<1.5",
     "portray",
     "mkdocs-material-extensions>=1.0.3",
-    "pygments>=2.13,<2.14",
+    "pygments>=2.15,<2.16",
     "pymdown-extensions>=9.9,<9.10",
 ]
 

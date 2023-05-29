@@ -38,7 +38,7 @@
         <meta name="lang:search.tokenizer" content="[\s\-]+">
       
       <link rel="shortcut icon" href="../images/logo.png">
-      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-4.6.3">
+      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-4.6.3">
     
     
       
@@ -391,6 +391,8 @@ parse the arguments to this command.</p></div>
 <div class="autodoc-docstring"><p>Try to execute this command, performing system checks if needed (as
 controlled by the <code>requires_system_checks</code> attribute, except if
 force-skipped).</p></div>
+<div class="autodoc-signature"><code><strong>get_relative_path</strong></code><span class="autodoc-punctuation">(</span><em class="autodoc-param">path</em><span class="autodoc-punctuation">)</span></div>
+<div class="autodoc-docstring"></div>
 <div class="autodoc-signature"><code><strong>get_version</strong></code><span class="autodoc-punctuation">(</span><em class="autodoc-param">self</em><span class="autodoc-punctuation">)</span></div>
 <div class="autodoc-docstring"><p>Return the Django version, which should be correct for all built-in
 Django commands. User-supplied commands can override this method to
@@ -462,8 +464,10 @@ errors defaults to 'strict'.</p></div>
 <div class="autodoc-docstring"><p>set() -&gt; new empty set object
 set(iterable) -&gt; new set object</p>
 <p>Build an unordered collection of unique elements.</p></div>
-<div class="autodoc-signature"><code><strong>write_migration_files</strong></code><span class="autodoc-punctuation">(</span><em class="autodoc-param">self</em><span class="autodoc-punctuation">, </span><em class="autodoc-param">changes</em><span class="autodoc-punctuation">)</span></div>
+<div class="autodoc-signature"><code><strong>write_migration_files</strong></code><span class="autodoc-punctuation">(</span><em class="autodoc-param">self</em><span class="autodoc-punctuation">, </span><em class="autodoc-param">changes</em><span class="autodoc-punctuation">, </span><em class="autodoc-param">update_previous_migration_paths=None</em><span class="autodoc-punctuation">)</span></div>
 <div class="autodoc-docstring"><p>Take a changes dict and write them out as migration files.</p></div>
+<div class="autodoc-signature"><code><strong>write_to_last_migration_files</strong></code><span class="autodoc-punctuation">(</span><em class="autodoc-param">self</em><span class="autodoc-punctuation">, </span><em class="autodoc-param">changes</em><span class="autodoc-punctuation">)</span></div>
+<div class="autodoc-docstring"></div>
 </div>
 </div>
                 
@@ -542,7 +546,7 @@ set(iterable) -&gt; new set object</p>
     
       <script src="../assets/javascripts/application.c33a9706.js"></script>
       
-      <script>app.initialize({version:"1.4.2",url:{base:".."}})</script>
+      <script>app.initialize({version:"1.4.3",url:{base:".."}})</script>
       
     
   </body>

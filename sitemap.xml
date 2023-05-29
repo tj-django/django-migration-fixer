@@ -2,32 +2,32 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://tj-django.github.io/django-migration-fixer/</loc>
-         <lastmod>2023-01-22</lastmod>
+         <lastmod>2023-05-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tj-django.github.io/django-migration-fixer/CHANGELOG/</loc>
-         <lastmod>2023-01-22</lastmod>
+         <lastmod>2023-05-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tj-django.github.io/django-migration-fixer/command-options/</loc>
-         <lastmod>2023-01-22</lastmod>
+         <lastmod>2023-05-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tj-django.github.io/django-migration-fixer/makemigrations/</loc>
-         <lastmod>2023-01-22</lastmod>
+         <lastmod>2023-05-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tj-django.github.io/django-migration-fixer/more-examples/</loc>
-         <lastmod>2023-01-22</lastmod>
+         <lastmod>2023-05-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tj-django.github.io/django-migration-fixer/utils/</loc>
-         <lastmod>2023-01-22</lastmod>
+         <lastmod>2023-05-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
 </urlset>

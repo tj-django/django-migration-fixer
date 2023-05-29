@@ -50,7 +50,6 @@ INSTALLED_APPS = [
     "migration_fixer",
     ...,
 ]
-
 ```
 
 ## Usage

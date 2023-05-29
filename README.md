@@ -166,7 +166,7 @@ jobs:
           branch: ${{ github.ref }}
 ```
 
-See: https://github.com/tj-django/django-clone for a working example.
+See: [here](https://github.com/tj-django/django-clone/blob/main/.github/workflows/migration-fixer.yml) for a working example.
 
 ## Test Platforms
 

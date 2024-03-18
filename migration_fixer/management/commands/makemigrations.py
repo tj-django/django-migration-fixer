@@ -256,9 +256,11 @@ class Command(BaseCommand):
                                         start_name=conflict_base,
                                         changed_files=sorted_changed_files,
                                         writer=(
-                                            lambda m: self.stdout.write(m)
-                                            if self.verbosity >= 2
-                                            else lambda x: x
+                                            lambda m: (
+                                                self.stdout.write(m)
+                                                if self.verbosity >= 2
+                                                else lambda x: x
+                                            )
                                         ),
                                     )
                                 else:  # pragma: no cover

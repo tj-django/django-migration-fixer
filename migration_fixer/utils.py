@@ -28,7 +28,7 @@ def _update_migration(conflict_path: Path, app_label: str, prev_migration: str) 
 
     if match:
         comma = match.group("comma")
-        replacement = f"({comma}{app_label}{comma}, {comma}{prev_migration}{comma}), "
+        replacement = f"({comma}{app_label}{comma}, {comma}{prev_migration}{comma}),"  # noqa
 
         # Update the migration
         output = re.sub(

@@ -121,7 +121,7 @@ class Command(BaseCommand):
                         try:
                             remote = self.repo.remotes[self.remote]
                             remote.fetch(
-                                f"{self.default_branch}:{self.default_branch}",
+                                f"{self.default_branch}:{self.default_branch}",  # noqa
                                 force=self.force_update,
                             )
                         except GitCommandError:  # pragma: no cover

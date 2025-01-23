@@ -10,7 +10,7 @@ django==4.2.18
     # via django-migration-fixer (setup.py)
 gitdb==4.0.12
     # via gitpython
-gitpython==3.1.41
+gitpython==3.1.44
     # via django-migration-fixer (setup.py)
 pytz==2022.7.1
     # via django

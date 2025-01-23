@@ -340,28 +340,28 @@
                 
                   <h1>Command Options</h1>
                 
-                <div class="highlight"><pre><span></span><code>python manage.py makemigrations --help
+                <div class="highlight"><pre><span></span><code>python<span class="w"> </span>manage.py<span class="w"> </span>makemigrations<span class="w"> </span>--help
 
-usage: manage.py makemigrations <span class="o">[</span>-h<span class="o">]</span> <span class="o">[</span>--fix<span class="o">]</span> <span class="o">[</span>-b DEFAULT_BRANCH<span class="o">]</span> <span class="o">[</span>-s<span class="o">]</span> <span class="o">[</span>-r REMOTE<span class="o">]</span> <span class="o">[</span>-f<span class="o">]</span> <span class="o">[</span>--dry-run<span class="o">]</span> <span class="o">[</span>--merge<span class="o">]</span> <span class="o">[</span>--empty<span class="o">]</span> <span class="o">[</span>--noinput<span class="o">]</span> <span class="o">[</span>-n NAME<span class="o">]</span> <span class="o">[</span>--no-header<span class="o">]</span> <span class="o">[</span>--check<span class="o">]</span>
-                                <span class="o">[</span>--version<span class="o">]</span> <span class="o">[</span>-v <span class="o">{</span><span class="m">0</span>,1,2,3<span class="o">}]</span> <span class="o">[</span>--settings SETTINGS<span class="o">]</span> <span class="o">[</span>--pythonpath PYTHONPATH<span class="o">]</span> <span class="o">[</span>--traceback<span class="o">]</span> <span class="o">[</span>--no-color<span class="o">]</span> <span class="o">[</span>--force-color<span class="o">]</span> <span class="o">[</span>--skip-checks<span class="o">]</span>
-                                <span class="o">[</span>app_label ...<span class="o">]</span>
+usage:<span class="w"> </span>manage.py<span class="w"> </span>makemigrations<span class="w"> </span><span class="o">[</span>-h<span class="o">]</span><span class="w"> </span><span class="o">[</span>--fix<span class="o">]</span><span class="w"> </span><span class="o">[</span>-b<span class="w"> </span>DEFAULT_BRANCH<span class="o">]</span><span class="w"> </span><span class="o">[</span>-s<span class="o">]</span><span class="w"> </span><span class="o">[</span>-r<span class="w"> </span>REMOTE<span class="o">]</span><span class="w"> </span><span class="o">[</span>-f<span class="o">]</span><span class="w"> </span><span class="o">[</span>--dry-run<span class="o">]</span><span class="w"> </span><span class="o">[</span>--merge<span class="o">]</span><span class="w"> </span><span class="o">[</span>--empty<span class="o">]</span><span class="w"> </span><span class="o">[</span>--noinput<span class="o">]</span><span class="w"> </span><span class="o">[</span>-n<span class="w"> </span>NAME<span class="o">]</span><span class="w"> </span><span class="o">[</span>--no-header<span class="o">]</span><span class="w"> </span><span class="o">[</span>--check<span class="o">]</span>
+<span class="w">                                </span><span class="o">[</span>--version<span class="o">]</span><span class="w"> </span><span class="o">[</span>-v<span class="w"> </span><span class="o">{</span><span class="m">0</span>,1,2,3<span class="o">}]</span><span class="w"> </span><span class="o">[</span>--settings<span class="w"> </span>SETTINGS<span class="o">]</span><span class="w"> </span><span class="o">[</span>--pythonpath<span class="w"> </span>PYTHONPATH<span class="o">]</span><span class="w"> </span><span class="o">[</span>--traceback<span class="o">]</span><span class="w"> </span><span class="o">[</span>--no-color<span class="o">]</span><span class="w"> </span><span class="o">[</span>--force-color<span class="o">]</span><span class="w"> </span><span class="o">[</span>--skip-checks<span class="o">]</span>
+<span class="w">                                </span><span class="o">[</span>app_label<span class="w"> </span>...<span class="o">]</span>
 
-Creates new migration<span class="o">(</span>s<span class="o">)</span> <span class="k">for</span> apps and fix conflicts.
+Creates<span class="w"> </span>new<span class="w"> </span>migration<span class="o">(</span>s<span class="o">)</span><span class="w"> </span><span class="k">for</span><span class="w"> </span>apps<span class="w"> </span>and<span class="w"> </span>fix<span class="w"> </span>conflicts.
 
-positional arguments:
-  app_label             Specify the app label<span class="o">(</span>s<span class="o">)</span> to create migrations <span class="k">for</span>.
+positional<span class="w"> </span>arguments:
+<span class="w">  </span>app_label<span class="w">             </span>Specify<span class="w"> </span>the<span class="w"> </span>app<span class="w"> </span>label<span class="o">(</span>s<span class="o">)</span><span class="w"> </span>to<span class="w"> </span>create<span class="w"> </span>migrations<span class="w"> </span><span class="k">for</span>.
 
-optional arguments:
-  -h, --help            show this <span class="nb">help</span> message and <span class="nb">exit</span>
-  --fix                 Fix migrations conflicts.
-  -b DEFAULT_BRANCH, --default-branch DEFAULT_BRANCH
-                        The name of the default branch.
-  -s, --skip-default-branch-update
-                        Skip pulling the latest changes from the default branch.
-  -r REMOTE, --remote REMOTE
-                        Git remote.
-  -f, --force-update    Force update the default branch.
-  --dry-run             Just show what migrations would be made<span class="p">;</span> don<span class="s1">&#39;t actually write them.</span>
+optional<span class="w"> </span>arguments:
+<span class="w">  </span>-h,<span class="w"> </span>--help<span class="w">            </span>show<span class="w"> </span>this<span class="w"> </span><span class="nb">help</span><span class="w"> </span>message<span class="w"> </span>and<span class="w"> </span><span class="nb">exit</span>
+<span class="w">  </span>--fix<span class="w">                 </span>Fix<span class="w"> </span>migrations<span class="w"> </span>conflicts.
+<span class="w">  </span>-b<span class="w"> </span>DEFAULT_BRANCH,<span class="w"> </span>--default-branch<span class="w"> </span>DEFAULT_BRANCH
+<span class="w">                        </span>The<span class="w"> </span>name<span class="w"> </span>of<span class="w"> </span>the<span class="w"> </span>default<span class="w"> </span>branch.
+<span class="w">  </span>-s,<span class="w"> </span>--skip-default-branch-update
+<span class="w">                        </span>Skip<span class="w"> </span>pulling<span class="w"> </span>the<span class="w"> </span>latest<span class="w"> </span>changes<span class="w"> </span>from<span class="w"> </span>the<span class="w"> </span>default<span class="w"> </span>branch.
+<span class="w">  </span>-r<span class="w"> </span>REMOTE,<span class="w"> </span>--remote<span class="w"> </span>REMOTE
+<span class="w">                        </span>Git<span class="w"> </span>remote.
+<span class="w">  </span>-f,<span class="w"> </span>--force-update<span class="w">    </span>Force<span class="w"> </span>update<span class="w"> </span>the<span class="w"> </span>default<span class="w"> </span>branch.
+<span class="w">  </span>--dry-run<span class="w">             </span>Just<span class="w"> </span>show<span class="w"> </span>what<span class="w"> </span>migrations<span class="w"> </span>would<span class="w"> </span>be<span class="w"> </span>made<span class="p">;</span><span class="w"> </span>don<span class="s1">&#39;t actually write them.</span>
 <span class="s1">  --merge               Enable fixing of migration conflicts.</span>
 <span class="s1">  --empty               Create an empty migration.</span>
 <span class="s1">  --noinput, --no-input</span>
@@ -369,17 +369,17 @@ optional arguments:
 <span class="s1">  -n NAME, --name NAME  Use this name for migration file(s).</span>
 <span class="s1">  --no-header           Do not add header comments to new migration file(s).</span>
 <span class="s1">  --check               Exit with a non-zero status if model changes are missing migrations.</span>
-<span class="s1">  --version             show program&#39;</span>s version number and <span class="nb">exit</span>
-  -v <span class="o">{</span><span class="m">0</span>,1,2,3<span class="o">}</span>, --verbosity <span class="o">{</span><span class="m">0</span>,1,2,3<span class="o">}</span>
-                        Verbosity level<span class="p">;</span> <span class="nv">0</span><span class="o">=</span>minimal output, <span class="nv">1</span><span class="o">=</span>normal output, <span class="nv">2</span><span class="o">=</span>verbose output, <span class="nv">3</span><span class="o">=</span>very verbose output
-  --settings SETTINGS   The Python path to a settings module, e.g. <span class="s2">&quot;myproject.settings.main&quot;</span>. If this isn<span class="s1">&#39;t provided, the DJANGO_SETTINGS_MODULE environment variable will</span>
+<span class="s1">  --version             show program&#39;</span>s<span class="w"> </span>version<span class="w"> </span>number<span class="w"> </span>and<span class="w"> </span><span class="nb">exit</span>
+<span class="w">  </span>-v<span class="w"> </span><span class="o">{</span><span class="m">0</span>,1,2,3<span class="o">}</span>,<span class="w"> </span>--verbosity<span class="w"> </span><span class="o">{</span><span class="m">0</span>,1,2,3<span class="o">}</span>
+<span class="w">                        </span>Verbosity<span class="w"> </span>level<span class="p">;</span><span class="w"> </span><span class="nv">0</span><span class="o">=</span>minimal<span class="w"> </span>output,<span class="w"> </span><span class="nv">1</span><span class="o">=</span>normal<span class="w"> </span>output,<span class="w"> </span><span class="nv">2</span><span class="o">=</span>verbose<span class="w"> </span>output,<span class="w"> </span><span class="nv">3</span><span class="o">=</span>very<span class="w"> </span>verbose<span class="w"> </span>output
+<span class="w">  </span>--settings<span class="w"> </span>SETTINGS<span class="w">   </span>The<span class="w"> </span>Python<span class="w"> </span>path<span class="w"> </span>to<span class="w"> </span>a<span class="w"> </span>settings<span class="w"> </span>module,<span class="w"> </span>e.g.<span class="w"> </span><span class="s2">&quot;myproject.settings.main&quot;</span>.<span class="w"> </span>If<span class="w"> </span>this<span class="w"> </span>isn<span class="s1">&#39;t provided, the DJANGO_SETTINGS_MODULE environment variable will</span>
 <span class="s1">                        be used.</span>
 <span class="s1">  --pythonpath PYTHONPATH</span>
 <span class="s1">                        A directory to add to the Python path, e.g. &quot;/home/djangoprojects/myproject&quot;.</span>
 <span class="s1">  --traceback           Raise on CommandError exceptions</span>
-<span class="s1">  --no-color            Don&#39;</span>t colorize the <span class="nb">command</span> output.
-  --force-color         Force colorization of the <span class="nb">command</span> output.
-  --skip-checks         Skip system checks.
+<span class="s1">  --no-color            Don&#39;</span>t<span class="w"> </span>colorize<span class="w"> </span>the<span class="w"> </span><span class="nb">command</span><span class="w"> </span>output.
+<span class="w">  </span>--force-color<span class="w">         </span>Force<span class="w"> </span>colorization<span class="w"> </span>of<span class="w"> </span>the<span class="w"> </span><span class="nb">command</span><span class="w"> </span>output.
+<span class="w">  </span>--skip-checks<span class="w">         </span>Skip<span class="w"> </span>system<span class="w"> </span>checks.
 </code></pre></div>
                 
                   

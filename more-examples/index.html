@@ -416,41 +416,41 @@
                 
                 <h3 id="more-examples">More Examples</h3>
 <p><strong>Branch:</strong> <code>main</code></p>
-<div class="highlight"><pre><span></span><code>├── app
-│   ├── migrations
-│   ├── 0001_initial.py
-│   ├── 0002_auto_20210521_2328.py  
+<div class="highlight"><pre><span></span><code>├──<span class="w"> </span>app
+│<span class="w">   </span>├──<span class="w"> </span>migrations
+│<span class="w">   </span>├──<span class="w"> </span>0001_initial.py
+│<span class="w">   </span>├──<span class="w"> </span>0002_auto_20210521_2328.py<span class="w">  </span>
 </code></pre></div>
 <p><strong>Branch:</strong> <code>feature/test-a</code></p>
-<div class="highlight"><pre><span></span><code>├── app
-│   ├── migrations
-│   ├── 0001_initial.py
-│   ├── 0002_auto_20210521_2328.py
-│   ├── 0003_auto_20210522_1128.py 
+<div class="highlight"><pre><span></span><code>├──<span class="w"> </span>app
+│<span class="w">   </span>├──<span class="w"> </span>migrations
+│<span class="w">   </span>├──<span class="w"> </span>0001_initial.py
+│<span class="w">   </span>├──<span class="w"> </span>0002_auto_20210521_2328.py
+│<span class="w">   </span>├──<span class="w"> </span>0003_auto_20210522_1128.py<span class="w"> </span>
 </code></pre></div>
 <p><strong>Branch:</strong><code>feature/test-b</code></p>
-<div class="highlight"><pre><span></span><code>├── app
-│   ├── migrations
-│   ├── 0001_initial.py
-│   ├── 0002_auto_20210521_2328.py
-│   ├── 0003_auto_20210522_1228.py 
+<div class="highlight"><pre><span></span><code>├──<span class="w"> </span>app
+│<span class="w">   </span>├──<span class="w"> </span>migrations
+│<span class="w">   </span>├──<span class="w"> </span>0001_initial.py
+│<span class="w">   </span>├──<span class="w"> </span>0002_auto_20210521_2328.py
+│<span class="w">   </span>├──<span class="w"> </span>0003_auto_20210522_1228.py<span class="w"> </span>
 </code></pre></div>
 <p>Both <code>feature/test-a</code> and <code>feature/test-b</code> share the last migration on <code>main</code> (<code>0002_auto_20210521_2328.py</code>)</p>
 <p>Once <code>feature/test-a</code> is merged into <code>main</code> you run into the problem of resolving migrations on <code>feature/test-b</code> which was dependent on <code>0002_auto_20210521_2328.py</code></p>
 <p><strong>Branch:</strong> <code>main</code></p>
-<div class="highlight"><pre><span></span><code>├── app
-│   ├── migrations
-│   ├── 0001_initial.py
-│   ├── 0002_auto_20210521_2328.py
-│   ├── 0003_auto_20210522_1128.py 
+<div class="highlight"><pre><span></span><code>├──<span class="w"> </span>app
+│<span class="w">   </span>├──<span class="w"> </span>migrations
+│<span class="w">   </span>├──<span class="w"> </span>0001_initial.py
+│<span class="w">   </span>├──<span class="w"> </span>0002_auto_20210521_2328.py
+│<span class="w">   </span>├──<span class="w"> </span>0003_auto_20210522_1128.py<span class="w"> </span>
 </code></pre></div>
 <p><strong>Branch:</strong> <code>feature/test-b</code></p>
-<div class="highlight"><pre><span></span><code>├── app
-│   ├── migrations
-│   ├── 0001_initial.py
-│   ├── 0002_auto_20210521_2328.py
-│   ├── 0003_auto_20210522_1128.py <span class="se">\_</span>__________________ Both dependent on 0002_auto_20210521_2328.py
-│   ├── 0003_auto_20210522_1228.py /
+<div class="highlight"><pre><span></span><code>├──<span class="w"> </span>app
+│<span class="w">   </span>├──<span class="w"> </span>migrations
+│<span class="w">   </span>├──<span class="w"> </span>0001_initial.py
+│<span class="w">   </span>├──<span class="w"> </span>0002_auto_20210521_2328.py
+│<span class="w">   </span>├──<span class="w"> </span>0003_auto_20210522_1128.py<span class="w"> </span><span class="se">\_</span>__________________<span class="w"> </span>Both<span class="w"> </span>dependent<span class="w"> </span>on<span class="w"> </span>0002_auto_20210521_2328.py
+│<span class="w">   </span>├──<span class="w"> </span>0003_auto_20210522_1228.py<span class="w"> </span>/
 </code></pre></div>
 <p>Running <a href="https://docs.djangoproject.com/en/3.2/ref/django-admin/#django-admin-makemigrations"><code>makemigrations</code></a> fails with the following error:</p>
 <div class="highlight"><pre><span></span><code>CommandError: Conflicting migrations detected; multiple leaf nodes in the migration graph: (0003_auto_20210522_1128, 0003_auto_20210522_1228 in app).
@@ -460,12 +460,12 @@ To fix them run &#39;python manage.py makemigrations --merge&#39;
 <h2 id="solution">Solution</h2>
 <p><code>django-migration-fixer</code> identifies changes between the default branch <code>main</code>, and the feature branch <code>feature/test-b</code> and maintains a consistent dependency history as shown below:</p>
 <p><strong>Branch:</strong> <code>feature/test-b</code></p>
-<div class="highlight"><pre><span></span><code>├── app
-│   ├── migrations
-│   ├── 0001_initial.py
-│   ├── 0002_auto_20210521_2328.py
-│   ├── 0003_auto_20210522_1128.py
-│   ├── 0004_auto_20210522_1228.py  <span class="c1"># Renames: &#39;0003_auto_20210522_1228.py&#39; → &#39;0004_auto_20210522_1228.py&#39;</span>
+<div class="highlight"><pre><span></span><code>├──<span class="w"> </span>app
+│<span class="w">   </span>├──<span class="w"> </span>migrations
+│<span class="w">   </span>├──<span class="w"> </span>0001_initial.py
+│<span class="w">   </span>├──<span class="w"> </span>0002_auto_20210521_2328.py
+│<span class="w">   </span>├──<span class="w"> </span>0003_auto_20210522_1128.py
+│<span class="w">   </span>├──<span class="w"> </span>0004_auto_20210522_1228.py<span class="w">  </span><span class="c1"># Renames: &#39;0003_auto_20210522_1228.py&#39; → &#39;0004_auto_20210522_1228.py&#39;</span>
 </code></pre></div>
 <p><code>0004_auto_20210522_1228.py</code></p>
 <div class="highlight"><pre><span></span><code><span class="o">...</span>

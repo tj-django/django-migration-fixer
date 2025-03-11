@@ -410,23 +410,21 @@ errors is specified, then the object must expose a data buffer
 that will be decoded using the given encoding and error handler.
 Otherwise, returns the result of object.<strong>str</strong>() (if defined)
 or repr(object).
-encoding defaults to sys.getdefaultencoding().
+encoding defaults to 'utf-8'.
 errors defaults to 'strict'.</p></div>
 <div class="autodoc-signature"><code><strong>log</strong></code><span class="autodoc-punctuation">(</span><em class="autodoc-param">self</em><span class="autodoc-punctuation">, </span><em class="autodoc-param">msg</em><span class="autodoc-punctuation">)</span></div>
 <div class="autodoc-docstring"></div>
 <div class="autodoc-signature"><code><strong>log_output</strong></code></div>
 <div class="autodoc-docstring"></div>
 <div class="autodoc-signature"><code><strong>output_transaction</strong></code></div>
-<div class="autodoc-docstring"><p>bool(x) -&gt; bool</p>
-<p>Returns True when the argument x is true, False otherwise.
+<div class="autodoc-docstring"><p>Returns True when the argument is true, False otherwise.
 The builtins True and False are the only two instances of the class bool.
 The class bool is a subclass of the class int, and cannot be subclassed.</p></div>
 <div class="autodoc-signature"><code><strong>print_help</strong></code><span class="autodoc-punctuation">(</span><em class="autodoc-param">self</em><span class="autodoc-punctuation">, </span><em class="autodoc-param">prog_name</em><span class="autodoc-punctuation">, </span><em class="autodoc-param">subcommand</em><span class="autodoc-punctuation">)</span></div>
 <div class="autodoc-docstring"><p>Print the help message for this command, derived from
 <code>self.usage()</code>.</p></div>
 <div class="autodoc-signature"><code><strong>requires_migrations_checks</strong></code></div>
-<div class="autodoc-docstring"><p>bool(x) -&gt; bool</p>
-<p>Returns True when the argument x is true, False otherwise.
+<div class="autodoc-docstring"><p>Returns True when the argument is true, False otherwise.
 The builtins True and False are the only two instances of the class bool.
 The class bool is a subclass of the class int, and cannot be subclassed.</p></div>
 <div class="autodoc-signature"><code><strong>requires_system_checks</strong></code></div>
@@ -437,7 +435,7 @@ errors is specified, then the object must expose a data buffer
 that will be decoded using the given encoding and error handler.
 Otherwise, returns the result of object.<strong>str</strong>() (if defined)
 or repr(object).
-encoding defaults to sys.getdefaultencoding().
+encoding defaults to 'utf-8'.
 errors defaults to 'strict'.</p></div>
 <div class="autodoc-signature"><code><strong>run_from_argv</strong></code><span class="autodoc-punctuation">(</span><em class="autodoc-param">self</em><span class="autodoc-punctuation">, </span><em class="autodoc-param">argv</em><span class="autodoc-punctuation">)</span></div>
 <div class="autodoc-docstring"><p>Set up any environment changes requested (e.g., Python path
@@ -458,12 +456,10 @@ errors is specified, then the object must expose a data buffer
 that will be decoded using the given encoding and error handler.
 Otherwise, returns the result of object.<strong>str</strong>() (if defined)
 or repr(object).
-encoding defaults to sys.getdefaultencoding().
+encoding defaults to 'utf-8'.
 errors defaults to 'strict'.</p></div>
 <div class="autodoc-signature"><code><strong>suppressed_base_arguments</strong></code></div>
-<div class="autodoc-docstring"><p>set() -&gt; new empty set object
-set(iterable) -&gt; new set object</p>
-<p>Build an unordered collection of unique elements.</p></div>
+<div class="autodoc-docstring"><p>Build an unordered collection of unique elements.</p></div>
 <div class="autodoc-signature"><code><strong>write_migration_files</strong></code><span class="autodoc-punctuation">(</span><em class="autodoc-param">self</em><span class="autodoc-punctuation">, </span><em class="autodoc-param">changes</em><span class="autodoc-punctuation">, </span><em class="autodoc-param">update_previous_migration_paths=None</em><span class="autodoc-punctuation">)</span></div>
 <div class="autodoc-docstring"><p>Take a changes dict and write them out as migration files.</p></div>
 <div class="autodoc-signature"><code><strong>write_to_last_migration_files</strong></code><span class="autodoc-punctuation">(</span><em class="autodoc-param">self</em><span class="autodoc-punctuation">, </span><em class="autodoc-param">changes</em><span class="autodoc-punctuation">)</span></div>

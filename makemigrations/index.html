@@ -371,6 +371,15 @@
 <div class="autodoc-signature"><code><strong>add_base_argument</strong></code><span class="autodoc-punctuation">(</span><em class="autodoc-param">self</em><span class="autodoc-punctuation">, </span><em class="autodoc-param">parser</em><span class="autodoc-punctuation">, </span><em class="autodoc-param">*args</em><span class="autodoc-punctuation">, </span><em class="autodoc-param">**kwargs</em><span class="autodoc-punctuation">)</span></div>
 <div class="autodoc-docstring"><p>Call the parser's add_argument() method, suppressing the help text
 according to BaseCommand.suppressed_base_arguments.</p></div>
+<div class="autodoc-signature"><em>class </em><code><strong>autodetector</strong></code><span class="autodoc-punctuation">(</span><em class="autodoc-param">from_state</em><span class="autodoc-punctuation">, </span><em class="autodoc-param">to_state</em><span class="autodoc-punctuation">, </span><em class="autodoc-param">questioner=None</em><span class="autodoc-punctuation">)</span></div>
+<div class="autodoc-docstring"><p>Take a pair of ProjectStates and compare them to see what the first would
+need doing to make it match the second (the second usually being the
+project's current state).</p>
+<p>Note that this naturally operates on entire projects at a time,
+as it's likely that changes interact (for example, you can't
+add a ForeignKey without having a migration to add the table it
+depends on first). A user interface may offer single-app usage
+if it wishes, with the caveat that it may not always be possible.</p></div>
 <div class="autodoc-signature"><code><strong>base_stealth_options</strong></code></div>
 <div class="autodoc-docstring"><p>Built-in immutable sequence.</p>
 <p>If no argument is given, the constructor returns an empty tuple.
@@ -391,6 +400,8 @@ parse the arguments to this command.</p></div>
 <div class="autodoc-docstring"><p>Try to execute this command, performing system checks if needed (as
 controlled by the <code>requires_system_checks</code> attribute, except if
 force-skipped).</p></div>
+<div class="autodoc-signature"><code><strong>get_check_kwargs</strong></code><span class="autodoc-punctuation">(</span><em class="autodoc-param">self</em><span class="autodoc-punctuation">, </span><em class="autodoc-param">options</em><span class="autodoc-punctuation">)</span></div>
+<div class="autodoc-docstring"></div>
 <div class="autodoc-signature"><code><strong>get_relative_path</strong></code><span class="autodoc-punctuation">(</span><em class="autodoc-param">path</em><span class="autodoc-punctuation">)</span></div>
 <div class="autodoc-docstring"></div>
 <div class="autodoc-signature"><code><strong>get_version</strong></code><span class="autodoc-punctuation">(</span><em class="autodoc-param">self</em><span class="autodoc-punctuation">)</span></div>

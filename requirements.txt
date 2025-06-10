@@ -6,7 +6,7 @@
 #
 asgiref==3.8.1
     # via django
-django==5.2.2
+django==5.2.3
     # via django-migration-fixer (setup.py)
 gitdb==4.0.12
     # via gitpython

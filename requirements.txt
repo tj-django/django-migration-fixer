@@ -4,7 +4,7 @@
 #
 #    pip-compile
 #
-asgiref==3.11.0
+asgiref==3.11.1
     # via django
 django==6.0.1
     # via django-migration-fixer (setup.py)

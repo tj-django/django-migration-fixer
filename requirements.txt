@@ -18,5 +18,5 @@ smmap==5.0.3
     # via gitdb
 sqlparse==0.5.5
     # via django
-typing-extensions==4.15.0
+typing-extensions==4.16.0
     # via django-migration-fixer (setup.py)

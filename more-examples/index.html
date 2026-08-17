@@ -454,7 +454,7 @@
 </code></pre></div>
 <p>Running <a href="https://docs.djangoproject.com/en/3.2/ref/django-admin/#django-admin-makemigrations"><code>makemigrations</code></a> fails with the following error:</p>
 <div class="highlight"><pre><span></span><code>CommandError: Conflicting migrations detected; multiple leaf nodes in the migration graph: (0003_auto_20210522_1128, 0003_auto_20210522_1228 in app).
-To fix them run &#39;python manage.py makemigrations --merge&#39;
+To fix them run 'python manage.py makemigrations --merge'
 </code></pre></div>
 <p>Using the <a href="https://docs.djangoproject.com/en/3.2/ref/django-admin/#cmdoption-makemigrations-merge"><code>--merge</code></a> option creates a new migration file which might not be desired.</p>
 <h2 id="solution">Solution</h2>
@@ -465,7 +465,7 @@ To fix them run &#39;python manage.py makemigrations --merge&#39;
 │<span class="w">   </span>├──<span class="w"> </span>0001_initial.py
 │<span class="w">   </span>├──<span class="w"> </span>0002_auto_20210521_2328.py
 │<span class="w">   </span>├──<span class="w"> </span>0003_auto_20210522_1128.py
-│<span class="w">   </span>├──<span class="w"> </span>0004_auto_20210522_1228.py<span class="w">  </span><span class="c1"># Renames: &#39;0003_auto_20210522_1228.py&#39; → &#39;0004_auto_20210522_1228.py&#39;</span>
+│<span class="w">   </span>├──<span class="w"> </span>0004_auto_20210522_1228.py<span class="w">  </span><span class="c1"># Renames: '0003_auto_20210522_1228.py' → '0004_auto_20210522_1228.py'</span>
 </code></pre></div>
 <p><code>0004_auto_20210522_1228.py</code></p>
 <div class="highlight"><pre><span></span><code><span class="o">...</span>
@@ -475,7 +475,7 @@ To fix them run &#39;python manage.py makemigrations --merge&#39;
 <span class="k">class</span><span class="w"> </span><span class="nc">Migration</span><span class="p">(</span><span class="n">migrations</span><span class="o">.</span><span class="n">Migration</span><span class="p">):</span>
 
     <span class="n">dependencies</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="p">(</span><span class="s1">&#39;app&#39;</span><span class="p">,</span> <span class="s1">&#39;0003_auto_20210522_1128&#39;</span><span class="p">),</span>  <span class="c1"># Replaced &#39;0002_auto_20210521_2328&#39; → &#39;0003_auto_20210522_1128&#39;</span>
+        <span class="p">(</span><span class="s1">'app'</span><span class="p">,</span> <span class="s1">'0003_auto_20210522_1128'</span><span class="p">),</span>  <span class="c1"># Replaced '0002_auto_20210521_2328' → '0003_auto_20210522_1128'</span>
     <span class="p">]</span>
 
     <span class="n">operations</span> <span class="o">=</span> <span class="p">[</span>

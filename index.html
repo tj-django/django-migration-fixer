@@ -681,7 +681,7 @@
 <h3 id="add-migration_fixer-to-your-installed_apps">Add <code>migration_fixer</code> to your INSTALLED_APPS</h3>
 <div class="highlight"><pre><span></span><code><span class="n">INSTALLED_APPS</span> <span class="o">=</span> <span class="p">[</span>
     <span class="o">...</span><span class="p">,</span>
-    <span class="s2">&quot;migration_fixer&quot;</span><span class="p">,</span>
+    <span class="s2">"migration_fixer"</span><span class="p">,</span>
     <span class="o">...</span><span class="p">,</span>
 <span class="p">]</span>
 </code></pre></div>
@@ -774,7 +774,7 @@ $<span class="w"> </span>git<span class="w"> </span>merge<span class="w"> </span
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Set up Python</span>
 <span class="w">        </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/setup-python@v2</span>
 <span class="w">        </span><span class="nt">with</span><span class="p">:</span>
-<span class="w">          </span><span class="nt">python-version</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;3.6.x&#39;</span>
+<span class="w">          </span><span class="nt">python-version</span><span class="p">:</span><span class="w"> </span><span class="s">'3.6.x'</span>
 
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Upgrade pip</span>
 <span class="w">        </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
@@ -797,15 +797,15 @@ $<span class="w"> </span>git<span class="w"> </span>merge<span class="w"> </span
 <span class="w">             </span><span class="no">/path/to/migrations</span>
 
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Commit migration changes</span>
-<span class="w">        </span><span class="nt">if</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">steps.verify-changed-files.outputs.files_changed == &#39;true&#39;</span>
+<span class="w">        </span><span class="nt">if</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">steps.verify-changed-files.outputs.files_changed == 'true'</span>
 <span class="w">        </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
-<span class="w">          </span><span class="no">git config --local user.email &quot;github-actions[bot]@users.noreply.github.com&quot;</span>
-<span class="w">          </span><span class="no">git config --local user.name &quot;github-actions[bot]&quot;</span>
+<span class="w">          </span><span class="no">git config --local user.email "github-actions[bot]@users.noreply.github.com"</span>
+<span class="w">          </span><span class="no">git config --local user.name "github-actions[bot]"</span>
 <span class="w">          </span><span class="no">git add /path/to/migrations</span>
-<span class="w">          </span><span class="no">git commit -m &quot;Updated migrations&quot;</span>
+<span class="w">          </span><span class="no">git commit -m "Updated migrations"</span>
 
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Push migration changes</span>
-<span class="w">        </span><span class="nt">if</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">steps.verify-changed-files.outputs.files_changed == &#39;true&#39;</span>
+<span class="w">        </span><span class="nt">if</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">steps.verify-changed-files.outputs.files_changed == 'true'</span>
 <span class="w">        </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ad-m/github-push-action@master</span>
 <span class="w">        </span><span class="nt">with</span><span class="p">:</span>
 <span class="w">          </span><span class="nt">github_token</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.GITHUB_TOKEN }}</span>
